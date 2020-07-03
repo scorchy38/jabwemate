@@ -8,6 +8,7 @@ class ProfileCard extends StatefulWidget {
   double width, height;
   int index;
   ScaffoldState state;
+  DogProfile dp;
   ProfileCard(this.height, this.width, this.index, this.state);
   @override
   _ProfileCardState createState() => _ProfileCardState();

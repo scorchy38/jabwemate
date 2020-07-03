@@ -3,7 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:jabwemate/style/theme.dart' as Theme;
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
-  CustomAppBar({Key key})
+  IconButton action;
+  CustomAppBar({Key key, this.action})
       : preferredSize = Size.fromHeight(kToolbarHeight),
         super(key: key);
 
@@ -18,6 +19,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      actions: widget.action != null ? <Widget>[widget.action] : <Widget>[],
       centerTitle: true,
       title: Text(
         'Jab We Mate',
