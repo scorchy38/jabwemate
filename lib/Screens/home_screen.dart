@@ -46,9 +46,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 maxWidth: width * 0.9,
                 maxHeight: height * 0.75,
                 minWidth: width * 0.8,
-                minHeight: height * 0.65,
+                minHeight: height * 0.74,
                 cardBuilder: (context, index) =>
-                    ProfileCard(height, width, index),
+                    ProfileCard(height, width, index, Scaffold.of(context)),
                 cardController: CardController(),
                 swipeUpdateCallback:
                     (DragUpdateDetails details, Alignment align) {
