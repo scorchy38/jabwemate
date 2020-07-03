@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jabwemate/Classes/dog_profile.dart';
 
@@ -143,6 +144,30 @@ class _ProfilePullUpState extends State<ProfilePullUp> {
                       SizedBox(
                         height: 10,
                       ),
+                      Container(
+                        height: widget.height * 0.5,
+                        width: double.infinity,
+                        child: StaggeredGridView.countBuilder(
+                          crossAxisCount: 4,
+                          itemCount: 18,
+                          itemBuilder: (BuildContext context, int index) =>
+                              new Container(
+                            child: ClipRRect(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5)),
+                              child: Image.network(
+                                widget.dp.iamgeURL,
+                                alignment: Alignment.center,
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ),
+                          staggeredTileBuilder: (int index) =>
+                              new StaggeredTile.fit(2),
+                          mainAxisSpacing: 4.0,
+                          crossAxisSpacing: 4.0,
+                        ),
+                      )
                     ],
                   ),
                 ),
