@@ -8,6 +8,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+  int number = 0;
+  int max = 10;
   List<String> welcomeImages = [
     'http://im.rediff.com/movies/2013/dec/13hrithik-sussanne-roshan1.jpg',
     'https://i.pinimg.com/originals/10/86/d8/1086d89ff82d597b945814ea6b58c595.jpg',
@@ -91,13 +93,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               swipeCompleteCallback:
                   (CardSwipeOrientation orientation, int index) {
                 /// Get orientation & index of swiped card!
+                setState(() {
+                  number = index;
+                });
                 print(orientation.toString());
                 print(index.toString());
               },
             ),
           ),
           Spacer(),
-          Text('Swipes Left-  10'),
+          Text('Swipes Left-  ${max - number}'),
           SizedBox(
             height: width * 0.1,
           )
