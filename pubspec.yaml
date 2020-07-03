@@ -33,6 +33,7 @@ dependencies:
   flutter_tindercard: ^0.1.8
   avatar_glow: ^1.2.0
   font_awesome_flutter: ^8.0.1
+  google_fonts: ^1.1.0
 
 dev_dependencies:
   flutter_test:

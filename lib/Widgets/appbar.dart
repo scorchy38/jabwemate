@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:jabwemate/style/theme.dart' as Theme;
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   CustomAppBar({Key key})
@@ -16,8 +18,22 @@ class _CustomAppBarState extends State<CustomAppBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Color(0xFF450920).withOpacity(0.85),
-      title: Text('Jab We Mate'),
+      centerTitle: true,
+      title: Text(
+        'Jab We Mate',
+        style: GoogleFonts.k2d(
+            fontWeight: FontWeight.bold, fontSize: 24, color: Colors.white),
+      ),
+      flexibleSpace: Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: <Color>[
+              Theme.MyColors.loginGradientStart,
+              Theme.MyColors.loginGradientEnd
+            ])),
+      ),
     );
   }
 }

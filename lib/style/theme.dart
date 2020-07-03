@@ -7,6 +7,7 @@ class MyColors {
 
   static const Color loginGradientEnd = const Color(0xFFf7418c);
   static const Color loginGradientStart = const Color(0xFFfbab66);
+  static const Color cardBackground = const Color(0xFFFFC3DA);
 
   static const primaryGradient = const LinearGradient(
     colors: const [loginGradientStart, loginGradientEnd],

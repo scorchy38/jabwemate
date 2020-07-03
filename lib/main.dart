@@ -9,6 +9,13 @@ import 'delayed_animation.dart';
 void main() {
   SystemChrome.setEnabledSystemUIOverlays([]);
   runApp(MyHome());
+//  runApp(MaterialApp(
+//    theme: ThemeData(
+//      scaffoldBackgroundColor: Colors.white,
+//      primaryColor: Colors.white,
+//    ),
+//    home: HomeScreen(),
+//  ));
 }
 
 class MyHome extends StatelessWidget {
