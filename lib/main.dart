@@ -85,8 +85,11 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                     child: CircleAvatar(
                       backgroundColor: Theme.MyColors.loginGradientStart,
                       child: Image.asset('assets/img/dog-2.png'),
-                      radius: 60.0,
+                      radius: 70.0,
                     )),
+              ),
+              SizedBox(
+                height: 20,
               ),
               DelayedAnimation(
                 child: Text(
