@@ -31,6 +31,8 @@ dependencies:
   firebase_auth: ^0.16.1
   cloud_firestore: ^0.13.7
   flutter_tindercard: ^0.1.8
+  avatar_glow: ^1.2.0
+  font_awesome_flutter: ^8.0.1
 
 dev_dependencies:
   flutter_test:
@@ -77,3 +79,18 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+  assets:
+    - assets/img/
+
+  fonts:
+    - family: WorkSansSemiBold
+      fonts:
+        - asset: assets/fonts/Work_Sans/WorkSans-SemiBold.ttf
+
+    - family: WorkSansBold
+      fonts:
+        - asset: assets/fonts/Work_Sans/WorkSans-Bold.ttf
+
+    - family: WorkSansMedium
+      fonts:
+        - asset: assets/fonts/Work_Sans/WorkSans-Medium.ttf
