@@ -9,7 +9,7 @@ class ProfileCard extends StatefulWidget {
   int index;
   ScaffoldState state;
   DogProfile dp;
-  ProfileCard(this.height, this.width, this.index, this.state);
+  ProfileCard(this.height, this.width, this.index, this.state, this.dp);
   @override
   _ProfileCardState createState() => _ProfileCardState();
 }
@@ -43,11 +43,7 @@ class _ProfileCardState extends State<ProfileCard> {
         widget.state.showBottomSheet((context) {
           return StatefulBuilder(
               builder: (BuildContext context, StateSetter state) {
-            return ProfilePullUp(
-                DogProfile(welcomeImages[widget.index], 'Raftaar', 'Bareilly',
-                    4, 'breed', 'gender', 'owner'),
-                widget.width,
-                widget.height);
+            return ProfilePullUp(widget.dp, widget.width, widget.height);
           });
         });
       },
@@ -73,7 +69,7 @@ class _ProfileCardState extends State<ProfileCard> {
                   topLeft: Radius.circular(15),
                 ),
                 child: Image.network(
-                  '${welcomeImages[widget.index]}',
+                  '${widget.dp.iamgeURL}',
                   fit: BoxFit.fill,
                 ),
               ),
@@ -90,7 +86,7 @@ class _ProfileCardState extends State<ProfileCard> {
                     child: Padding(
                       padding: EdgeInsets.only(left: widget.width * 0.05),
                       child: Text(
-                        'Raftaar',
+                        widget.dp.name,
                         style: GoogleFonts.k2d(
                             color: Color(0xFF5F2D40),
                             fontSize: 30,
@@ -109,7 +105,7 @@ class _ProfileCardState extends State<ProfileCard> {
                       ),
                       FittedBox(
                         child: Text(
-                          'Bareilly',
+                          widget.dp.name,
                           style: GoogleFonts.k2d(
                               color: Color(0xFF5F2D40).withOpacity(0.5),
                               fontSize: 24,

@@ -15,7 +15,7 @@ class HomeScreen extends StatefulWidget {
 
 final FirebaseAuth auth = FirebaseAuth.instance;
 String uid;
-List dogList = new List();
+List<DogProfile> dogList = new List<DogProfile>();
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   int number = 0;
@@ -29,32 +29,33 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   final databaseReference = Firestore.instance;
 
-  void getData() {
+  void getData() async {
     dogList.clear();
-    databaseReference
+    await databaseReference
         .collection("Dogs")
         .getDocuments()
         .then((QuerySnapshot snapshot) {
       snapshot.documents.forEach((f) {
-        dogList.add(DogProfile(f['imageURL'], f['name'], f['city'], f['age'],
-            f['breed'], f['gender'], f['owner']));
-        print('Dogs added');
-        print(dogList.length.toString());
-        print(snapshot.documents.length);
+        dogList.add(DogProfile(f['profileImage'], f['name'], f['city'],
+            f['age'], f['breed'], f['gender'], f['owner']));
+        print('Dog added');
+        print(f['profileImage'].toString());
       });
+    });
+    setState(() {
+      print(dogList.length.toString());
     });
   }
 
   @override
   void initState() {
     getUser();
-
+    getData();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    getData();
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
@@ -75,41 +76,43 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 fontWeight: FontWeight.bold,
                 color: Colors.black.withOpacity(0.5)),
           ),
-          Expanded(
-            child: Container(
-              child: new TinderSwapCard(
-                orientation: AmassOrientation.TOP,
-                totalNum: 11,
-                stackNum: 3,
-                swipeEdge: 4.0,
-                maxWidth: width * 0.9,
-                maxHeight: height * 0.75,
-                minWidth: width * 0.8,
-                minHeight: height * 0.74,
-                cardBuilder: (context, index) =>
-                    ProfileCard(height, width, index, Scaffold.of(context)),
-                cardController: CardController(),
-                swipeUpdateCallback:
-                    (DragUpdateDetails details, Alignment align) {
-                  /// Get swiping card's alignment
-                  if (align.x < 0) {
-                    //Card is LEFT swiping
-                  } else if (align.x > 0) {
-                    //Card is RIGHT swiping
-                  }
-                },
-                swipeCompleteCallback:
-                    (CardSwipeOrientation orientation, int index) {
-                  /// Get orientation & index of swiped card!
-                  setState(() {
-                    number = index;
-                  });
-                  print(orientation.toString());
-                  print(index.toString());
-                },
-              ),
-            ),
-          ),
+          dogList.length != 0
+              ? Expanded(
+                  child: Container(
+                    child: new TinderSwapCard(
+                      orientation: AmassOrientation.TOP,
+                      totalNum: dogList.length,
+                      stackNum: 3,
+                      swipeEdge: 4.0,
+                      maxWidth: width * 0.9,
+                      maxHeight: height * 0.75,
+                      minWidth: width * 0.8,
+                      minHeight: height * 0.74,
+                      cardBuilder: (context, index) => ProfileCard(height,
+                          width, index, Scaffold.of(context), dogList[index]),
+                      cardController: CardController(),
+                      swipeUpdateCallback:
+                          (DragUpdateDetails details, Alignment align) {
+                        /// Get swiping card's alignment
+                        if (align.x < 0) {
+                          //Card is LEFT swiping
+                        } else if (align.x > 0) {
+                          //Card is RIGHT swiping
+                        }
+                      },
+                      swipeCompleteCallback:
+                          (CardSwipeOrientation orientation, int index) {
+                        /// Get orientation & index of swiped card!
+                        setState(() {
+                          number = index;
+                        });
+                        print(orientation.toString());
+                        print(index.toString());
+                      },
+                    ),
+                  ),
+                )
+              : CircularProgressIndicator()
         ],
       ),
     );
