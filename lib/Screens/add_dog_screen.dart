@@ -1,7 +1,16 @@
+import 'dart:io';
+import 'package:path/path.dart' as p;
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jabwemate/Screens/home_screen.dart';
+import 'package:jabwemate/Screens/pick_image_screen.dart';
 import 'package:jabwemate/Widgets/appbar.dart';
 import 'package:jabwemate/Widgets/custom_text_field.dart';
 import 'package:random_string/random_string.dart';
@@ -26,6 +35,55 @@ class _AddDogScreenState extends State<AddDogScreen> {
     super.initState();
   }
 
+  String url;
+  void _uploadFile(File file, String filename) async {
+    final FirebaseStorage _storage =
+        FirebaseStorage(storageBucket: 'gs://jab-we-mate-ef838.appspot.com/');
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+
+    StorageReference storageReference;
+    storageReference = _storage.ref().child("Dogs/$key/profileImage");
+
+    final StorageUploadTask uploadTask = storageReference.putFile(file);
+    final StorageTaskSnapshot downloadUrl = (await uploadTask.onComplete);
+    url = (await downloadUrl.ref.getDownloadURL());
+    print("URL is $url");
+    Fluttertoast.showToast(
+        msg: 'Upload Complete', gravity: ToastGravity.CENTER);
+    setState(() {});
+  }
+
+  File file;
+  String fileName = '';
+
+  Future filePicker(BuildContext context) async {
+    try {
+      file = await FilePicker.getFile(type: FileType.image);
+      setState(() {
+        fileName = p.basename(file.path);
+      });
+      print(fileName);
+      _uploadFile(file, fileName);
+    } on PlatformException catch (e) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Sorry...'),
+              content: Text('Unsupported exception: $e'),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            );
+          });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,6 +96,29 @@ class _AddDogScreenState extends State<AddDogScreen> {
           CustomTextField('Enter Breed', breed),
           CustomTextField('Enter Gender', gender),
           CustomTextField('Enter Owner', owner),
+          InkWell(
+            onTap: () {
+              filePicker(context);
+            },
+            child: Container(
+              alignment: Alignment.center,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  color: Color(0xFF2E294E),
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
+              margin: EdgeInsets.fromLTRB(20, 20, 20, 5),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Text(
+                  'Upload',
+                  style: GoogleFonts.k2d(
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+            ),
+          ),
           InkWell(
             onTap: () {
               saveData();
@@ -65,22 +146,21 @@ class _AddDogScreenState extends State<AddDogScreen> {
       ),
     );
   }
-}
 
-final databaseReference = Firestore.instance;
-saveData() async {
-  int keyLength = randomBetween(10, 20);
+  static int keyLength = randomBetween(10, 20);
   String key = randomAlpha(keyLength);
-  await databaseReference.collection('Dogs').document(key).setData({
-    'name': name.text,
-    'city': city.text,
-    'age': int.parse(age.text),
-    'breed': breed.text,
-    'gender': gender.text,
-    'owner': owner.text,
-    'ownerID': uid,
-    'profileImage':
-        'https://www.nationalgeographic.com/content/dam/photography/PROOF/2018/February/musi-dog-portraits/05-dog-portraits-FP-Jpegs-5.jpg',
-  });
-  print(name.text.toString());
+  final databaseReference = Firestore.instance;
+  saveData() async {
+    await databaseReference.collection('Dogs').document(key).setData({
+      'name': name.text,
+      'city': city.text,
+      'age': int.parse(age.text),
+      'breed': breed.text,
+      'gender': gender.text,
+      'owner': owner.text,
+      'ownerID': uid,
+      'profileImage': url,
+    });
+    print(name.text.toString());
+  }
 }
