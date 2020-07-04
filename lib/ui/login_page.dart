@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jabwemate/Screens/home_screen.dart';
 import 'package:jabwemate/style/theme.dart' as Theme;
+import 'package:jabwemate/ui/ForgotPassword.dart';
 import 'package:jabwemate/utils/bubble_indication_painter.dart';
 
 class LoginPage extends StatefulWidget {
@@ -341,7 +342,12 @@ class _LoginPageState extends State<LoginPage>
           Padding(
             padding: EdgeInsets.only(top: 10.0),
             child: FlatButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ForgotPassword()),
+                  );
+                },
                 child: Text(
                   "Forgot Password?",
                   style: TextStyle(
