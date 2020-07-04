@@ -10,7 +10,6 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jabwemate/Screens/home_screen.dart';
-import 'package:jabwemate/Screens/pick_image_screen.dart';
 import 'package:jabwemate/Widgets/appbar.dart';
 import 'package:jabwemate/Widgets/custom_text_field.dart';
 import 'package:random_string/random_string.dart';
