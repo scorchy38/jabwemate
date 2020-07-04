@@ -55,14 +55,10 @@ class _AddDogScreenState extends State<AddDogScreen> {
       context,
       type: ProgressDialogType.Download,
       textDirection: TextDirection.rtl,
-      isDismissible: true,
-//      customBody: LinearProgressIndicator(
-//        valueColor: AlwaysStoppedAnimation<Color>(Colors.blueAccent),
-//        backgroundColor: Colors.white,
-//      ),
+      isDismissible: false,
     );
     pr.style(
-      message: 'Uploading file...',
+      message: 'Uploading photo...',
       borderRadius: 10.0,
       backgroundColor: Colors.white,
       elevation: 10.0,

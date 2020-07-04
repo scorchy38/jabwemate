@@ -29,6 +29,7 @@ dependencies:
   fluttertoast: ^4.0.0
   google_sign_in: ^4.5.1
   progress_dialog: ^1.2.4
+  getflutter: ^1.0.11
 
 dev_dependencies:
   flutter_test:
