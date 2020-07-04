@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:path/path.dart' as p;
 
@@ -12,6 +13,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:jabwemate/Screens/home_screen.dart';
 import 'package:jabwemate/Widgets/appbar.dart';
 import 'package:jabwemate/Widgets/custom_text_field.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:random_string/random_string.dart';
 
 class AddDogScreen extends StatefulWidget {
@@ -34,6 +36,11 @@ class _AddDogScreenState extends State<AddDogScreen> {
     super.initState();
   }
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  ProgressDialog pr;
+
+  bool _isLoading = false;
+  double _progress = 0;
   String url;
   void _uploadFile(File file, String filename) async {
     final FirebaseStorage _storage =
@@ -44,14 +51,83 @@ class _AddDogScreenState extends State<AddDogScreen> {
     storageReference = _storage.ref().child("Dogs/$key/profileImage");
 
     final StorageUploadTask uploadTask = storageReference.putFile(file);
+    pr = ProgressDialog(
+      context,
+      type: ProgressDialogType.Download,
+      textDirection: TextDirection.rtl,
+      isDismissible: true,
+//      customBody: LinearProgressIndicator(
+//        valueColor: AlwaysStoppedAnimation<Color>(Colors.blueAccent),
+//        backgroundColor: Colors.white,
+//      ),
+    );
+    pr.style(
+      message: 'Uploading file...',
+      borderRadius: 10.0,
+      backgroundColor: Colors.white,
+      elevation: 10.0,
+      insetAnimCurve: Curves.easeInOut,
+      progress: 0.0,
+      progressWidgetAlignment: Alignment.center,
+      maxProgress: 100.0,
+      progressTextStyle: TextStyle(
+          color: Colors.black, fontSize: 13.0, fontWeight: FontWeight.w400),
+      messageTextStyle: TextStyle(
+          color: Colors.black, fontSize: 19.0, fontWeight: FontWeight.w600),
+    );
+    await pr.show();
+    uploadTask.events.listen((event) {
+      setState(() {
+        _isLoading = true;
+        _progress = (event.snapshot.bytesTransferred.toDouble() /
+                event.snapshot.totalByteCount.toDouble()) *
+            100;
+        print('${_progress.toStringAsFixed(2)}%');
+        pr.update(
+          progress: double.parse(_progress.toStringAsFixed(2)),
+          maxProgress: 100.0,
+        );
+      });
+    }).onError((error) {
+      _scaffoldKey.currentState.showSnackBar(new SnackBar(
+        content: new Text(error.toString()),
+        backgroundColor: Colors.red,
+      ));
+    });
+
     final StorageTaskSnapshot downloadUrl = (await uploadTask.onComplete);
     url = (await downloadUrl.ref.getDownloadURL());
+
     print("URL is $url");
     Fluttertoast.showToast(
-        msg: 'Upload Complete', gravity: ToastGravity.CENTER);
-    setState(() {});
+        msg: 'Upload Complete', gravity: ToastGravity.BOTTOM);
+    setState(() async {
+      await pr.hide();
+    });
   }
 
+//  showDialog(
+//  context: context,
+//  builder: (BuildContext context) {
+//  return AlertDialog(
+//  title: Text("Uploading"),
+//  content: Text("Progress: ${_progress.toStringAsFixed(2)}%"),
+//  actions: [
+//  FlatButton(
+//  child: Text("Cancel Upload"),
+//  onPressed: () {
+//  Navigator.of(context).pop();
+//  uploadTask.cancel();
+//  },
+//  ),
+//  ],
+//  );
+//  // ignore: unnecessary_statements
+//  });
+//  _scaffoldKey.currentState.showSnackBar(new SnackBar(
+//  content: new Text("Uploaded"),
+//  backgroundColor: Colors.red,
+//  ));
   File file;
   String fileName = '';
 
@@ -86,6 +162,7 @@ class _AddDogScreenState extends State<AddDogScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: CustomAppBar(),
       body: Column(
         children: <Widget>[
