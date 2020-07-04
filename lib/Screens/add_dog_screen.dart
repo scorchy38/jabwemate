@@ -57,12 +57,70 @@ class _AddDogScreenState extends State<AddDogScreen> {
 
   Future filePicker(BuildContext context) async {
     try {
-      file = await FilePicker.getFile(type: FileType.image);
+      file = await FilePicker.getFile(type: FileType.any);
       setState(() {
         fileName = p.basename(file.path);
       });
       print(fileName);
+      Fluttertoast.showToast(msg: 'Uploading...', gravity: ToastGravity.BOTTOM);
+      setState(() {});
       _uploadFile(file, fileName);
+    } on PlatformException catch (e) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Sorry...'),
+              content: Text('Unsupported exception: $e'),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            );
+          });
+    }
+  }
+
+  List urls = new List();
+  void _uploadFileMultiple(
+      File file, String filename, String key, int i) async {
+    final FirebaseStorage _storage =
+        FirebaseStorage(storageBucket: 'gs://jab-we-mate-ef838.appspot.com/');
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+
+    StorageReference storageReference;
+    storageReference = _storage.ref().child("Dogs/$key/otherImages");
+
+    final StorageUploadTask uploadTask = storageReference.putFile(file);
+    final StorageTaskSnapshot downloadUrl = (await uploadTask.onComplete);
+    urls.add(await downloadUrl.ref.getDownloadURL());
+    print("URL is ${urls[i]}");
+
+    Fluttertoast.showToast(
+        msg: 'Upload Complete', gravity: ToastGravity.CENTER);
+    setState(() {
+      print(key);
+    });
+  }
+
+  List<File> files = new List();
+  Future filePickerMultiple(BuildContext context) async {
+    try {
+      files = await FilePicker.getMultiFile(
+          type: FileType.custom,
+          allowedExtensions: ['jpeg', 'jpg', 'png', 'mp4', 'mov']);
+      urls.clear();
+      for (int i = 0; i < files.length; i++) {
+        setState(() {
+          fileName = p.basename(files[i].path);
+        });
+        print(fileName);
+        _uploadFileMultiple(files[i], fileName, key, i);
+      }
     } on PlatformException catch (e) {
       showDialog(
           context: context,
@@ -109,7 +167,30 @@ class _AddDogScreenState extends State<AddDogScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Text(
-                  'Upload',
+                  'Upload Profile Image',
+                  style: GoogleFonts.k2d(
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              filePickerMultiple(context);
+            },
+            child: Container(
+              alignment: Alignment.center,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  color: Color(0xFF2E294E),
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
+              margin: EdgeInsets.fromLTRB(20, 20, 20, 5),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Text(
+                  'Upload other images',
                   style: GoogleFonts.k2d(
                     color: Colors.white,
                     fontSize: 18,
@@ -159,7 +240,10 @@ class _AddDogScreenState extends State<AddDogScreen> {
       'owner': owner.text,
       'ownerID': uid,
       'profileImage': url,
+      'imageLinks': urls
     });
     print(name.text.toString());
+    Fluttertoast.showToast(msg: 'Dog added', gravity: ToastGravity.BOTTOM);
+    Navigator.pop(context);
   }
 }
