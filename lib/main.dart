@@ -1,6 +1,8 @@
 import 'package:avatar_glow/avatar_glow.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:jabwemate/Screens/home_screen.dart';
 import 'package:jabwemate/style/theme.dart' as Theme;
 import 'package:jabwemate/ui/login_page.dart';
 
@@ -33,6 +35,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
+  FirebaseAuth mAuth = FirebaseAuth.instance;
+
   final int delayedAmount = 500;
   double _scale;
   AnimationController _controller;
@@ -184,9 +188,17 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
   }
 
   Widget get _animatedButtonUI => InkWell(
-        onTap: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => LoginPage()));
+        onTap: () async {
+          FirebaseUser user = await mAuth.currentUser();
+          if (user == null) {
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => LoginPage()));
+          } else {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => HomeScreen()),
+            );
+          }
         },
         child: Container(
           height: 60,
