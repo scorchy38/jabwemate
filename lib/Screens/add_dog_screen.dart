@@ -313,10 +313,22 @@ class _AddDogScreenState extends State<AddDogScreen> {
       'owner': owner.text,
       'ownerID': uid,
       'profileImage': url,
-      'imageLinks': urls
+      'imageLinks': urls,
+      "nameSearch": setSearchParam(name.text),
+      "breedSearch": setSearchParam(breed.text)
     });
     print(name.text.toString());
     Fluttertoast.showToast(msg: 'Dog added', gravity: ToastGravity.BOTTOM);
     Navigator.pop(context);
+  }
+
+  setSearchParam(String caseString) {
+    List<String> caseSearchList = List();
+    String temp = "";
+    for (int i = 0; i < caseString.length; i++) {
+      temp = temp + caseString[i];
+      caseSearchList.add(temp);
+    }
+    return caseSearchList;
   }
 }
