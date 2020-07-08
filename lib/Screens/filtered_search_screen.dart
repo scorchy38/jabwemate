@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:jabwemate/Classes/dog_profile.dart';
 import 'package:jabwemate/Widgets/custom_drawer.dart';
 import 'package:jabwemate/Widgets/profile_card.dart';
+import 'package:jabwemate/Widgets/profile_pull_up.dart';
 import 'package:jabwemate/style/theme.dart' as Theme;
 
 class FilteredSearch extends StatefulWidget {
@@ -15,6 +16,7 @@ class FilteredSearch extends StatefulWidget {
 class _FilteredSearchState extends State<FilteredSearch> {
   List<DocumentSnapshot> docList = [];
   List<DogProfile> dogList = [];
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   TextEditingController searchController = TextEditingController(text: "");
   Widget appBarTitle = Text(
@@ -28,10 +30,16 @@ class _FilteredSearchState extends State<FilteredSearch> {
   int max = 10;
 
   @override
+  void initState() {
+    getData();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
+      key: _scaffoldKey,
       drawer: CustomDrawer(),
       appBar: AppBar(
         actions: <Widget>[
@@ -53,7 +61,11 @@ class _FilteredSearchState extends State<FilteredSearch> {
                           textStyle: TextStyle(color: Colors.white)),
                     ),
                     onChanged: (String query) {
-                      getCaseDetails(query);
+                      if (query != null) {
+                        getCaseDetails(query);
+                      } else {
+                        getData();
+                      }
                     },
                   );
                 } else {
@@ -83,57 +95,110 @@ class _FilteredSearchState extends State<FilteredSearch> {
               ])),
         ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          SizedBox(
-            height: height * 0.03,
-          ),
-          Text(
-            'Latest Profiles',
-            style: GoogleFonts.k2d(
-                fontSize: height * 0.035,
-                fontWeight: FontWeight.bold,
-                color: Colors.black.withOpacity(0.5)),
-          ),
-          dogList.length != 0
-              ? Expanded(
-                  child: Container(
-                    child: new TinderSwapCard(
-                      orientation: AmassOrientation.TOP,
-                      totalNum: dogList.length,
-                      stackNum: 3,
-                      swipeEdge: 4.0,
-                      maxWidth: width * 0.9,
-                      maxHeight: height * 0.75,
-                      minWidth: width * 0.8,
-                      minHeight: height * 0.74,
-                      cardBuilder: (context, index) => ProfileCard(height,
-                          width, index, Scaffold.of(context), dogList[index]),
-                      cardController: CardController(),
-                      swipeUpdateCallback:
-                          (DragUpdateDetails details, Alignment align) {
-                        /// Get swiping card's alignment
-                        if (align.x < 0) {
-                          //Card is LEFT swiping
-                        } else if (align.x > 0) {
-                          //Card is RIGHT swiping
-                        }
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              'Search Results',
+              style: GoogleFonts.k2d(
+                  fontSize: height * 0.03,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                height: height * 0.85,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  itemCount: dogList.length,
+                  itemBuilder: (BuildContext, index) {
+                    var item = dogList[index];
+                    return InkWell(
+                      onTap: () {
+                        print('Tapped');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfilePullUp(
+                                  item, width * 0.9, height * 0.9)),
+                        );
                       },
-                      swipeCompleteCallback:
-                          (CardSwipeOrientation orientation, int index) {
-                        /// Get orientation & index of swiped card!
-                        setState(() {
-                          number = index;
-                        });
-                        print(orientation.toString());
-                        print(index.toString());
-                      },
-                    ),
-                  ),
-                )
-              : CircularProgressIndicator()
-        ],
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: <Color>[
+                                  Theme.MyColors.loginGradientStart,
+                                  Theme.MyColors.loginGradientEnd
+                                ],
+                              ),
+                              borderRadius: BorderRadius.circular(8)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: <Widget>[
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: <Widget>[
+                                    Text(
+                                      'Dog\'s Name',
+                                      style: GoogleFonts.k2d(
+                                        fontSize: height * 0.02,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Text(
+                                      item.name,
+                                      style: GoogleFonts.k2d(
+                                        fontSize: height * 0.02,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: <Widget>[
+                                    Text(
+                                      'Dog\'s Breed',
+                                      style: GoogleFonts.k2d(
+                                        fontSize: height * 0.02,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Text(
+                                      item.breed,
+                                      style: GoogleFonts.k2d(
+                                        fontSize: height * 0.02,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -174,6 +239,25 @@ class _FilteredSearchState extends State<FilteredSearch> {
           });
         }
       });
+    });
+  }
+
+  final databaseReference = Firestore.instance;
+
+  void getData() async {
+    await databaseReference
+        .collection("Dogs")
+        .getDocuments()
+        .then((QuerySnapshot snapshot) {
+      snapshot.documents.forEach((f) {
+        dogList.add(DogProfile(f['profileImage'], f['name'], f['city'],
+            f['age'], f['breed'], f['gender'], f['owner']));
+        print('Dog added');
+        print(f['profileImage'].toString());
+      });
+    });
+    setState(() {
+      print(dogList.length.toString());
     });
   }
 }
