@@ -96,10 +96,12 @@ class _FilteredSearchState extends State<FilteredSearch> {
     setState(() {
       print('Updated');
     });
+
     await Firestore.instance
         .collection('Dogs')
         .getDocuments()
         .then((QuerySnapshot snapshot) {
+      docList.clear();
       snapshot.documents.forEach((f) {
         List<String> dogName = List<String>.from(f['nameSearch']);
         List<String> dogBreed = List<String>.from(f['breedSearch']);
