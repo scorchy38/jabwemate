@@ -101,8 +101,18 @@ class _FilteredSearchState extends State<FilteredSearch> {
         .getDocuments()
         .then((QuerySnapshot snapshot) {
       snapshot.documents.forEach((f) {
-        if (f['nameSearch'].contains(query) ||
-            f['breedSearch'].contains(query)) {
+        List<String> dogName = List<String>.from(f['nameSearch']);
+        List<String> dogBreed = List<String>.from(f['breedSearch']);
+        List<String> dogLowerCase = [];
+        List<String> breedLowerCase = [];
+        for (var dog in dogName) {
+          dogLowerCase.add(dog.toLowerCase());
+        }
+        for (var breed in dogBreed) {
+          breedLowerCase.add(breed.toLowerCase());
+        }
+        if (dogLowerCase.contains(query.toLowerCase()) ||
+            breedLowerCase.contains(query.toLowerCase())) {
           print('Match found ${f['name']}');
           docList.add(f);
           setState(() {
