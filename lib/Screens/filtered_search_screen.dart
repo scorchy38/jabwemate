@@ -61,11 +61,7 @@ class _FilteredSearchState extends State<FilteredSearch> {
                           textStyle: TextStyle(color: Colors.white)),
                     ),
                     onChanged: (String query) {
-                      if (query != null) {
-                        getCaseDetails(query);
-                      } else {
-                        getData();
-                      }
+                      getCaseDetails(query);
                     },
                   );
                 } else {
@@ -209,6 +205,12 @@ class _FilteredSearchState extends State<FilteredSearch> {
     setState(() {
       print('Updated');
     });
+
+    if (query == '') {
+      print(query);
+      getData();
+      return;
+    }
 
     await Firestore.instance
         .collection('Dogs')
