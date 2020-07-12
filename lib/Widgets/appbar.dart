@@ -19,6 +19,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      elevation: 0,
       actions: widget.action != null ? <Widget>[widget.action] : <Widget>[],
       centerTitle: true,
       title: Text(

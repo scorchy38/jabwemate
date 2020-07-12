@@ -49,20 +49,6 @@ class _AdoptionState extends State<Adoption> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: CustomDrawer(),
-      appBar: CustomAppBar(
-        action: IconButton(
-          onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => AddDogAdopt()));
-          },
-          icon: Icon(
-            Icons.add,
-            color: Colors.white,
-          ),
-        ),
-      ),
-    );
+    return Scaffold();
   }
 }

@@ -6,6 +6,7 @@ import 'package:jabwemate/Screens/home_screen.dart';
 import 'package:jabwemate/Widgets/appbar.dart';
 import 'package:jabwemate/Widgets/custom_drawer.dart';
 import 'package:jabwemate/adoption_sell_module/add_adoption.dart';
+import 'package:jabwemate/adoption_sell_module/add_sell.dart';
 
 class Sell extends StatefulWidget {
   @override
@@ -50,18 +51,10 @@ class _SellState extends State<Sell> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: CustomDrawer(),
-      appBar: CustomAppBar(
-        action: IconButton(
-          onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => AddDogAdopt()));
-          },
-          icon: Icon(
-            Icons.add,
-            color: Colors.white,
-          ),
-        ),
+      backgroundColor: Colors.white,
+      body: Container(
+        color: Colors.black87,
+        height: MediaQuery.of(context).size.height,
       ),
     );
   }
