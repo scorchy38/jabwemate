@@ -14,32 +14,12 @@ class ProfileCard extends StatefulWidget {
   _ProfileCardState createState() => _ProfileCardState();
 }
 
-List<String> welcomeImages = [
-  'https://www.nationalgeographic.com/content/dam/photography/PROOF/2018/February/musi-dog-portraits/05-dog-portraits-FP-Jpegs-5.jpg',
-  'https://i1.wp.com/jimharrisphoto.com/wp-content/uploads/2014/06/pet-photography.jpg?ssl=1',
-  'https://images.unsplash.com/photo-1535745049887-3cd1c8aef237?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=900&q=60',
-  'https://images.unsplash.com/photo-1518700445284-c7212fa9ab88?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=900&q=60',
-  'https://images.unsplash.com/photo-1531842477197-54acf89bff98?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=900&q=60',
-  'https://images.unsplash.com/photo-1585060423772-a39f0b543c61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=900&q=60',
-  'https://images.unsplash.com/photo-1536524293309-dec90390d9fd?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=900&q=60',
-  'https://images.unsplash.com/photo-1581179222927-277438492810?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=900&q=60',
-  'https://images.unsplash.com/photo-1550165298-543077a40399?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=900&q=60',
-  'https://images.unsplash.com/photo-1582001961959-aa434d61c708?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=900&q=60',
-  'https://images.unsplash.com/photo-1527272786992-a70c29447012?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=900&q=60',
-  'https://images.unsplash.com/photo-1555557135-0971899f7e3c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=900&q=60',
-  'https://images.unsplash.com/photo-1593620659530-7f98c53de278?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=900&q=60',
-  'https://images.unsplash.com/photo-1583421291124-1dbd783be565?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=900&q=60',
-  'https://images.unsplash.com/photo-1513688365525-03a864e341a1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=900&q=60',
-  'https://images.unsplash.com/photo-1543702303-71766260f6d3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=900&q=60',
-  'https://images.unsplash.com/photo-1552257524-66af6dc9e77c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=900&q=60',
-  'https://images.unsplash.com/photo-1583555338180-5c68ea04312d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=900&q=60'
-];
-
 class _ProfileCardState extends State<ProfileCard> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        print(widget.dp.otherImages);
         widget.state.showBottomSheet((context) {
           return StatefulBuilder(
               builder: (BuildContext context, StateSetter state) {

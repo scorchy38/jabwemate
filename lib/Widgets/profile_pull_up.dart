@@ -152,14 +152,14 @@ class _ProfilePullUpState extends State<ProfilePullUp> {
                             width: double.infinity,
                             child: StaggeredGridView.countBuilder(
                               crossAxisCount: 4,
-                              itemCount: 18,
+                              itemCount: widget.dp.otherImages.length,
                               itemBuilder: (BuildContext context, int index) =>
                                   new Container(
                                 child: ClipRRect(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(5)),
                                   child: Image.network(
-                                    widget.dp.iamgeURL,
+                                    widget.dp.otherImages[index],
                                     alignment: Alignment.center,
                                     fit: BoxFit.fill,
                                   ),

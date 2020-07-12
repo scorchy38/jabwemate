@@ -31,15 +31,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   void getData() async {
     dogList.clear();
+    print('stsrted loading');
     await databaseReference
         .collection("Dogs")
         .getDocuments()
         .then((QuerySnapshot snapshot) {
-      snapshot.documents.forEach((f) {
-        dogList.add(DogProfile(f['profileImage'], f['name'], f['city'],
-            f['age'], f['breed'], f['gender'], f['owner']));
+      snapshot.documents.forEach((f) async {
+        await dogList.add(DogProfile(f['profileImage'], f['name'], f['city'],
+            f['age'], f['breed'], f['gender'], f['owner'],
+            otherImages: f['imageLinks']));
         print('Dog added');
-        print(f['profileImage'].toString());
+        print(f['imageLinks'].toString());
       });
     });
     setState(() {

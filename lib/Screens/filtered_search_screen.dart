@@ -234,7 +234,8 @@ class _FilteredSearchState extends State<FilteredSearch> {
           print('Match found ${f['name']}');
           docList.add(f);
           DogProfile dog = DogProfile(f['profileImage'], f['name'], f['city'],
-              f['age'], f['breed'], f['gender'], f['owner']);
+              f['age'], f['breed'], f['gender'], f['owner'],
+              otherImages: f['imageLinks']);
           dogList.add(dog);
           setState(() {
             print('Updated');
@@ -253,7 +254,8 @@ class _FilteredSearchState extends State<FilteredSearch> {
         .then((QuerySnapshot snapshot) {
       snapshot.documents.forEach((f) {
         dogList.add(DogProfile(f['profileImage'], f['name'], f['city'],
-            f['age'], f['breed'], f['gender'], f['owner']));
+            f['age'], f['breed'], f['gender'], f['owner'],
+            otherImages: f['imageLinks']));
         print('Dog added');
         print(f['profileImage'].toString());
       });
