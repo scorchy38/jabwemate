@@ -1,9 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:getflutter/components/avatar/gf_avatar.dart';
+import 'package:getflutter/components/drawer/gf_drawer.dart';
+import 'package:jabwemate/Screens/favourites_screen.dart';
 import 'package:jabwemate/Screens/filtered_search_screen.dart';
-import 'package:jabwemate/Screens/home_screen.dart';
+import 'package:jabwemate/Screens/requests_screen.dart';
 import 'package:jabwemate/Screens/your_dogs.dart';
-import 'package:jabwemate/ui/login_page.dart';
+import 'package:jabwemate/style/theme.dart' as Theme;
+import 'package:jabwemate/adoption_sell_module/adopt.dart';
+import 'package:jabwemate/main.dart';
 
 class CustomDrawer extends StatefulWidget {
   @override
@@ -11,63 +17,240 @@ class CustomDrawer extends StatefulWidget {
 }
 
 class _CustomDrawerState extends State<CustomDrawer> {
+  Future<void> signOut() async {
+    await FirebaseAuth.instance.signOut();
+    print('out');
+  }
+
   FirebaseAuth mAuth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(
+    return GFDrawer(
       child: ListView(
+        padding: EdgeInsets.zero,
         children: <Widget>[
-          ListTile(
-            title: Text("Home"),
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => HomeScreen()));
-            },
+          SizedBox(
+            height: 50,
+            child: Container(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: [
+                Theme.MyColors.loginGradientStart,
+                Theme.MyColors.loginGradientEnd
+              ])),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [
+              Theme.MyColors.loginGradientStart,
+              Theme.MyColors.loginGradientEnd
+            ])),
+            height: 150,
+            alignment: Alignment.center,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: GFAvatar(
+                    size: 65,
+                    backgroundColor: Theme.MyColors.loginGradientStart,
+                    backgroundImage: AssetImage('assets/img/dog-2.png'),
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'JabWeMate',
+                      style: TextStyle(
+                          fontFamily: 'nunito',
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),
+                    ),
+                    Text(
+                      'support@jwm.com',
+                      style: TextStyle(
+                          fontFamily: 'nunito',
+                          fontSize: 12,
+                          color: Color(0xFFFFE600)),
+                    )
+                  ],
+                )
+              ],
+            ),
           ),
           ListTile(
-            title: Text("Filtered Search"),
+            title: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
+              child: Text(
+                'Home',
+                style: TextStyle(
+                    fontSize: 24,
+                    fontFamily: 'nunito',
+                    fontWeight: FontWeight.w600),
+              ),
+            ),
             onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => FilteredSearch()));
+              Navigator.of(context).pop(true);
             },
           ),
-          ListTile(
-            title: Text("Your Dogs"),
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => YourDogs()));
-            },
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            height: 0.5,
+            color: Colors.black26,
           ),
           ListTile(
-            title: Text("Your Favourites"),
+            title: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
+              child: Text(
+                'Filtered Search',
+                style: TextStyle(
+                    fontSize: 24,
+                    fontFamily: 'nunito',
+                    fontWeight: FontWeight.w600),
+              ),
+            ),
             onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => FilteredSearch()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => FilteredSearch(),
+                  ));
             },
           ),
-          ListTile(
-            title: Text("Requests"),
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => FilteredSearch()));
-            },
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            height: 0.5,
+            color: Colors.black26,
           ),
           ListTile(
-            title: Text("Sign Out"),
+            title: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
+              child: Text(
+                'Your Dogs',
+                style: TextStyle(
+                    fontSize: 24,
+                    fontFamily: 'nunito',
+                    fontWeight: FontWeight.w600),
+              ),
+            ),
             onTap: () {
-              Navigator.of(context).pop();
-              mAuth.signOut();
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                    builder: (BuildContext context) => LoginPage()),
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => YourDogs()),
               );
             },
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            height: 0.5,
+            color: Colors.black26,
+          ),
+          ListTile(
+            title: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
+              child: Text(
+                'Your Favourites',
+                style: TextStyle(
+                    fontSize: 24,
+                    fontFamily: 'nunito',
+                    fontWeight: FontWeight.w600),
+              ),
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Favourites()),
+              );
+            },
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            height: 0.5,
+            color: Colors.black26,
+          ),
+          ListTile(
+            title: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
+              child: Text(
+                'Requests',
+                style: TextStyle(
+                    fontSize: 24,
+                    fontFamily: 'nunito',
+                    fontWeight: FontWeight.w600),
+              ),
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Requests()),
+              );
+            },
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            height: 0.5,
+            color: Colors.black26,
+          ),
+          ListTile(
+            title: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
+              child: Text(
+                'Adopt/Sell',
+                style: TextStyle(
+                    fontSize: 24,
+                    fontFamily: 'nunito',
+                    fontWeight: FontWeight.w600),
+              ),
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Adoption()),
+              );
+            },
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            height: 0.5,
+            color: Colors.black26,
+          ),
+          ListTile(
+            title: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
+              child: Text(
+                'Log Out',
+                style: TextStyle(
+                    fontSize: 24,
+                    fontFamily: 'nunito',
+                    fontWeight: FontWeight.w600),
+              ),
+            ),
+            onTap: () async {
+              await signOut();
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MyApp(),
+                  ));
+            },
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            height: 0.5,
+            color: Colors.black26,
           ),
         ],
       ),
