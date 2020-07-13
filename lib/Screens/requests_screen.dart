@@ -11,7 +11,6 @@ class _RequestsState extends State<Requests> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: CustomDrawer(),
       appBar: CustomAppBar(),
       body: Center(
           child: Container(

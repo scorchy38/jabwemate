@@ -16,12 +16,13 @@ class YourDogs extends StatefulWidget {
 final databaseReference = Firestore.instance;
 List dogList = [];
 FirebaseAuth mAuth;
+bool loading = true;
+Widget loader = CircularProgressIndicator();
 
 class _YourDogsState extends State<YourDogs> {
   @override
   void initState() {
     getData();
-
     super.initState();
   }
 
@@ -59,11 +60,17 @@ class _YourDogsState extends State<YourDogs> {
   List<Widget> dogCardsList = [];
   @override
   Widget build(BuildContext context) {
+    Future.delayed(Duration(seconds: 10), () {
+      setState(() {
+        loader = Center(child: Text('No dogs'));
+      });
+
+      //pop dialog
+    });
     BuildContext cxt = context;
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
     return Scaffold(
-      drawer: CustomDrawer(),
       appBar: CustomAppBar(
         action: IconButton(
           onPressed: () {
@@ -81,7 +88,7 @@ class _YourDogsState extends State<YourDogs> {
               ? ListView(
                   children: dogCardsList,
                 )
-              : CircularProgressIndicator()),
+              : loader),
     );
   }
 }

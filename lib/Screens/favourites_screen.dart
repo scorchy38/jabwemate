@@ -11,7 +11,6 @@ class _FavouritesState extends State<Favourites> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: CustomDrawer(),
       appBar: CustomAppBar(),
       body: Center(
           child: Container(

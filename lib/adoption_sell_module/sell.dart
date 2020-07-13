@@ -5,6 +5,7 @@ import 'package:jabwemate/Classes/dog_profile.dart';
 import 'package:jabwemate/Screens/home_screen.dart';
 import 'package:jabwemate/Widgets/appbar.dart';
 import 'package:jabwemate/Widgets/custom_drawer.dart';
+import 'package:jabwemate/Widgets/my_dog_card.dart';
 import 'package:jabwemate/adoption_sell_module/add_adoption.dart';
 import 'package:jabwemate/adoption_sell_module/add_sell.dart';
 
@@ -21,6 +22,8 @@ class _SellState extends State<Sell> {
     // here you write the codes to input the data into firestore
   }
 
+  double width, height;
+  List<Widget> dogCardsList = [];
   final databaseReference = Firestore.instance;
 
   void getData() async {
@@ -32,6 +35,13 @@ class _SellState extends State<Sell> {
       snapshot.documents.forEach((f) {
         dogList.add(DogProfile(f['profileImage'], f['name'], f['city'],
             f['age'], f['breed'], f['gender'], f['owner']));
+        dogCardsList.add(MyDogCard(
+            DogProfile(f['profileImage'], f['name'], f['city'], f['age'],
+                f['breed'], f['gender'], f['owner'],
+                otherImages: f['imageLinks']),
+            Scaffold.of(context),
+            width,
+            height));
         print('Dog added');
         print(f['profileImage'].toString());
       });
@@ -50,12 +60,17 @@ class _SellState extends State<Sell> {
 
   @override
   Widget build(BuildContext context) {
+    BuildContext cxt = context;
+    width = MediaQuery.of(context).size.width;
+    height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Container(
-        color: Colors.black87,
-        height: MediaQuery.of(context).size.height,
-      ),
+      body: Center(
+          child: dogCardsList.length != 0
+              ? ListView(
+                  children: dogCardsList,
+                )
+              : CircularProgressIndicator()),
     );
   }
 }

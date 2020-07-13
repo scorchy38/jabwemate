@@ -40,7 +40,6 @@ class _FilteredSearchState extends State<FilteredSearch> {
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
       key: _scaffoldKey,
-      drawer: CustomDrawer(),
       appBar: AppBar(
         actions: <Widget>[
           IconButton(
