@@ -7,6 +7,7 @@ import 'package:jabwemate/Widgets/custom_drawer.dart';
 import 'package:jabwemate/Widgets/profile_card.dart';
 import 'package:jabwemate/Widgets/profile_pull_up.dart';
 import 'package:jabwemate/style/theme.dart' as Theme;
+import 'package:jabwemate/style/theme.dart';
 
 class FilteredSearch extends StatefulWidget {
   @override
@@ -111,79 +112,64 @@ class _FilteredSearchState extends State<FilteredSearch> {
                   itemCount: dogList.length,
                   itemBuilder: (BuildContext, index) {
                     var item = dogList[index];
-                    return InkWell(
-                      onTap: () {
-                        print('Tapped');
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ProfilePullUp(
-                                  item, width * 0.9, height * 0.9)),
-                        );
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: <Color>[
-                                  Theme.MyColors.loginGradientStart,
-                                  Theme.MyColors.loginGradientEnd
-                                ],
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: MyColors.loginGradientStart.withOpacity(0.6),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
+                        width: width * 0.8,
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Row(
+                            children: <Widget>[
+                              Container(
+                                height: 50,
+                                width: 50,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(25),
+                                  ),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                  child: Image.network(
+                                    item.iamgeURL,
+                                    height: 50,
+                                    width: 50,
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
                               ),
-                              borderRadius: BorderRadius.circular(8)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: <Widget>[
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: <Widget>[
-                                    Text(
-                                      'Dog\'s Name',
-                                      style: GoogleFonts.k2d(
-                                        fontSize: height * 0.02,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    Text(
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  child: Container(
+                                    child: Text(
                                       item.name,
-                                      style: GoogleFonts.k2d(
-                                        fontSize: height * 0.02,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      ),
+                                      style: GoogleFonts.k2d(fontSize: 24),
                                     ),
-                                  ],
+                                  ),
                                 ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: <Widget>[
-                                    Text(
-                                      'Dog\'s Breed',
-                                      style: GoogleFonts.k2d(
-                                        fontSize: height * 0.02,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    Text(
-                                      item.breed,
-                                      style: GoogleFonts.k2d(
-                                        fontSize: height * 0.02,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ],
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  _scaffoldKey.currentState
+                                      .showBottomSheet((context) {
+                                    return StatefulBuilder(
+                                        builder: (context, StateSetter state) {
+                                      return ProfilePullUp(item, width, height);
+                                    });
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.info_outline,
+                                  color: Colors.black,
                                 ),
-                              ],
-                            ),
+                              )
+                            ],
                           ),
                         ),
                       ),

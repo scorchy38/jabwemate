@@ -38,7 +38,6 @@ class _AdoptionState extends State<Adoption> {
             DogProfile(f['profileImage'], f['name'], f['city'], f['age'],
                 f['breed'], f['gender'], f['owner'],
                 otherImages: f['imageLinks']),
-            Scaffold.of(context),
             width,
             height));
         print('Dog added');

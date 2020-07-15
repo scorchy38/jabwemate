@@ -9,7 +9,8 @@ class MyDogCard extends StatefulWidget {
   DogProfile dp;
   double width, height;
   ScaffoldState state;
-  MyDogCard(this.dp, this.state, this.width, this.height);
+  BuildContext context;
+  MyDogCard(this.dp, this.width, this.height, {this.context});
   @override
   _MyDogCardState createState() => _MyDogCardState();
 }
@@ -30,19 +31,23 @@ class _MyDogCardState extends State<MyDogCard> {
           child: Row(
             children: <Widget>[
               Container(
-                  height: 50,
-                  width: 50,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(25))),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(25.0),
-                    child: Image.network(
-                      widget.dp.iamgeURL,
-                      height: 50,
-                      width: 50,
-                      fit: BoxFit.fill,
-                    ),
-                  )),
+                height: 50,
+                width: 50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(25),
+                  ),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(25.0),
+                  child: Image.network(
+                    widget.dp.iamgeURL,
+                    height: 50,
+                    width: 50,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              ),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -56,13 +61,13 @@ class _MyDogCardState extends State<MyDogCard> {
               ),
               IconButton(
                 onPressed: () {
-                  widget.state.showBottomSheet((context) {
-                    return StatefulBuilder(
-                        builder: (BuildContext context, StateSetter state) {
-                      return ProfilePullUp(
-                          widget.dp, widget.width, widget.height);
-                    });
-                  });
+//                  widget.state.showBottomSheet((context) {
+//                    return StatefulBuilder(
+//                        builder: (BuildContext context, StateSetter state) {
+//                      return ProfilePullUp(
+//                          widget.dp, widget.width, widget.height);
+//                    });
+//                  });
                 },
                 icon: Icon(
                   Icons.info_outline,

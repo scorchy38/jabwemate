@@ -86,10 +86,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       totalNum: dogList.length,
                       stackNum: 3,
                       swipeEdge: 4.0,
-                      maxWidth: width * 0.9,
-                      maxHeight: height * 0.75,
-                      minWidth: width * 0.8,
-                      minHeight: height * 0.74,
+                      maxWidth: width,
+                      maxHeight: height * 0.65,
+                      minWidth: width * 0.95,
+                      minHeight: height * 0.60,
                       cardBuilder: (context, index) => ProfileCard(height,
                           width, index, Scaffold.of(context), dogList[index]),
                       cardController: CardController(),
@@ -114,7 +114,47 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     ),
                   ),
                 )
-              : CircularProgressIndicator()
+              : CircularProgressIndicator(),
+          Container(
+            alignment: Alignment.topCenter,
+            height: height * 0.15,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    child: Image.asset('assets/img/left_arrow.png'),
+                    height: 40,
+                  ),
+                ),
+                Container(
+                  width: width * 0.3,
+                  child: Text(
+                    'Swipe left to reject',
+                    style: GoogleFonts.k2d(
+                        fontSize: 24, color: Colors.black.withOpacity(0.7)),
+                  ),
+                ),
+                Spacer(),
+                Container(
+                  width: width * 0.3,
+                  child: Text(
+                    'Swipe right to request',
+                    style: GoogleFonts.k2d(
+                        fontSize: 24, color: Colors.black.withOpacity(0.7)),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    child: Image.asset('assets/img/right_arrow.png'),
+                    height: 40,
+                  ),
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );
