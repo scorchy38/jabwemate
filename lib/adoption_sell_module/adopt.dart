@@ -1,17 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:jabwemate/Classes/dog_profile.dart';
 import 'package:jabwemate/Screens/home_screen.dart';
 import 'package:jabwemate/Widgets/appbar.dart';
 import 'package:jabwemate/Widgets/custom_drawer.dart';
 import 'package:jabwemate/Widgets/my_dog_card.dart';
+import 'package:jabwemate/Widgets/profile_pull_up.dart';
 import 'package:jabwemate/adoption_sell_module/add_adoption.dart';
+import 'package:jabwemate/style/theme.dart';
 
 class Adoption extends StatefulWidget {
   @override
   _AdoptionState createState() => _AdoptionState();
 }
+
+final _scaffoldKey = GlobalKey<ScaffoldState>();
 
 class _AdoptionState extends State<Adoption> {
   void getUser() async {
@@ -39,7 +44,8 @@ class _AdoptionState extends State<Adoption> {
                 f['breed'], f['gender'], f['owner'],
                 otherImages: f['imageLinks']),
             width,
-            height));
+            height,
+            context: context));
         print('Dog added');
         print(f['imageLinks'].toString());
         print('Dog added');
@@ -64,13 +70,79 @@ class _AdoptionState extends State<Adoption> {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.white,
-      body: Center(
-          child: dogCardsList.length != 0
-              ? ListView(
-                  children: dogCardsList,
-                )
-              : CircularProgressIndicator()),
+      body: dogCardsList.length != 0
+          ? ListView.builder(
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              itemCount: dogList.length,
+              itemBuilder: (BuildContext, index) {
+                var item = dogList[index];
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: MyColors.loginGradientStart.withOpacity(0.6),
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    width: width * 0.8,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        children: <Widget>[
+                          Container(
+                            height: 50,
+                            width: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(25),
+                              ),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(25.0),
+                              child: Image.network(
+                                item.iamgeURL,
+                                height: 50,
+                                width: 50,
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              child: Container(
+                                child: Text(
+                                  item.name,
+                                  style: GoogleFonts.k2d(fontSize: 24),
+                                ),
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              _scaffoldKey.currentState
+                                  .showBottomSheet((context) {
+                                return StatefulBuilder(
+                                    builder: (context, StateSetter state) {
+                                  return ProfilePullUp(item, width, height);
+                                });
+                              });
+                            },
+                            icon: Icon(
+                              Icons.info_outline,
+                              color: Colors.black,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
+            )
+          : Center(child: CircularProgressIndicator()),
     );
   }
 }
