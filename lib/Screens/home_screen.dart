@@ -38,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         .then((QuerySnapshot snapshot) {
       snapshot.documents.forEach((f) async {
         await dogList.add(DogProfile(f['profileImage'], f['name'], f['city'],
-            f['age'], f['breed'], f['gender'], f['owner'],
+            f['age'], f['breed'], f['gender'], f['owner'], f['ownerID'],
             otherImages: f['imageLinks']));
         print('Dog added');
         print(f['imageLinks'].toString());

@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jabwemate/Classes/dog_profile.dart';
+import 'package:jabwemate/Screens/home_screen.dart';
+import 'package:jabwemate/Widgets/my_dog_card.dart';
 import 'package:jabwemate/Widgets/profile_pull_up.dart';
 import 'package:jabwemate/style/theme.dart' as Theme;
 import 'package:jabwemate/style/theme.dart';
@@ -11,9 +13,13 @@ class FilteredSearch extends StatefulWidget {
   _FilteredSearchState createState() => _FilteredSearchState();
 }
 
+List<DogProfile> dogList1 = [];
+List<Widget> dogCardsList1 = [];
+
 class _FilteredSearchState extends State<FilteredSearch> {
   List<DocumentSnapshot> docList = [];
   List<DogProfile> dogList = [];
+
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   TextEditingController searchController = TextEditingController(text: "");
@@ -30,7 +36,37 @@ class _FilteredSearchState extends State<FilteredSearch> {
   @override
   void initState() {
     getData();
+    getData1();
   }
+
+  void getData1() async {
+    dogCardsList1.clear();
+    dogList1.clear();
+    print('started loading');
+    await databaseReference
+        .collection("Dogs")
+        .getDocuments()
+        .then((QuerySnapshot snapshot) {
+      snapshot.documents.forEach((f) async {
+        if (f['ownerID'] == uid) {
+          DogProfile dp = DogProfile(f['profileImage'], f['name'], f['city'],
+              f['age'], f['breed'], f['gender'], f['owner'], f['ownerID'],
+              otherImages: f['imageLinks']);
+          await dogList1.add(dp);
+          await dogCardsList1.add(MyDogCard(dp, width, height));
+          print('Dog added');
+          print(f['imageLinks'].toString());
+        }
+      });
+    });
+    setState(() {
+      print(dogList1.length.toString());
+      print(dogCardsList1.length.toString());
+    });
+  }
+
+  double width, height;
+  List<Widget> dogCardsList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -220,7 +256,7 @@ class _FilteredSearchState extends State<FilteredSearch> {
           print('Match found ${f['name']}');
           docList.add(f);
           DogProfile dog = DogProfile(f['profileImage'], f['name'], f['city'],
-              f['age'], f['breed'], f['gender'], f['owner'],
+              f['age'], f['breed'], f['gender'], f['owner'], f['ownerID'],
               otherImages: f['imageLinks']);
           dogList.add(dog);
           setState(() {
@@ -240,7 +276,7 @@ class _FilteredSearchState extends State<FilteredSearch> {
         .then((QuerySnapshot snapshot) {
       snapshot.documents.forEach((f) {
         dogList.add(DogProfile(f['profileImage'], f['name'], f['city'],
-            f['age'], f['breed'], f['gender'], f['owner'],
+            f['age'], f['breed'], f['gender'], f['owner'], f['ownerID'],
             otherImages: f['imageLinks']));
         print('Dog added');
         print(f['profileImage'].toString());

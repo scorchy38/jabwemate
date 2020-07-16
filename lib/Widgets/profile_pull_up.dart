@@ -1,20 +1,29 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jabwemate/Classes/dog_profile.dart';
+import 'package:jabwemate/Screens/filtered_search_screen.dart';
+import 'package:jabwemate/Screens/your_dogs.dart';
+import 'package:jabwemate/style/theme.dart';
+import 'package:random_string/random_string.dart';
 
 class ProfilePullUp extends StatefulWidget {
   double height, width;
   DogProfile dp;
   ProfilePullUp(this.dp, this.width, this.height);
+
   @override
   _ProfilePullUpState createState() => _ProfilePullUpState();
 }
 
 class _ProfilePullUpState extends State<ProfilePullUp> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: SafeArea(
         child: Container(
           decoration: BoxDecoration(
@@ -124,7 +133,16 @@ class _ProfilePullUpState extends State<ProfilePullUp> {
                             height: 30,
                           ),
                           InkWell(
-                            onTap: null,
+                            onTap: () {
+                              _scaffoldKey.currentState
+                                  .showBottomSheet((context) {
+                                return StatefulBuilder(
+                                    builder: (context, StateSetter state) {
+                                  return PullUp(dogList1, dogCardsList1,
+                                      widget.dp.name, widget.dp.ownerId);
+                                });
+                              });
+                            },
                             child: Card(
                               color: Color(0xFF5F2D40).withOpacity(0.8),
                               shape: RoundedRectangleBorder(
@@ -182,5 +200,105 @@ class _ProfilePullUpState extends State<ProfilePullUp> {
         ),
       ),
     );
+  }
+}
+
+class PullUp extends StatefulWidget {
+  final receiveDog, receiveID;
+  final dogList1;
+  final dogs;
+  PullUp(this.dogList1, this.dogs, this.receiveDog, this.receiveID);
+
+  @override
+  _PullUpState createState() => _PullUpState();
+}
+
+class _PullUpState extends State<PullUp> {
+  double height, width;
+  @override
+  Widget build(BuildContext context) {
+    BuildContext cxt = context;
+    width = MediaQuery.of(context).size.width;
+    height = MediaQuery.of(context).size.height;
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: widget.dogs.length != 0
+          ? ListView.builder(
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              itemCount: widget.dogList1.length,
+              itemBuilder: (BuildContext, index) {
+                var item = widget.dogList1[index];
+
+                return InkWell(
+                  onTap: () {
+                    makeRequest(item.name, item.ownerId, widget.receiveDog,
+                        widget.receiveID);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: MyColors.loginGradientStart.withOpacity(0.6),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      width: width * 0.8,
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              height: 50,
+                              width: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(25),
+                                ),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(25.0),
+                                child: Image.network(
+                                  item.iamgeURL,
+                                  height: 50,
+                                  width: 50,
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: Container(
+                                  child: Text(
+                                    item.name,
+                                    style: GoogleFonts.k2d(fontSize: 24),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            )
+          : Center(child: CircularProgressIndicator()),
+    );
+  }
+
+  static int keyLength = randomBetween(10, 20);
+  String key = randomAlpha(keyLength);
+  final databaseReference1 = Firestore.instance;
+  makeRequest(sendDog, sendID, receiveDog, receiveID) async {
+    await databaseReference1.collection('Requests').document(key).setData({
+      'senderDog': sendDog,
+      'senderID': sendID,
+      'receiverDog': receiveDog,
+      'receiverID': receiveID
+    });
+    Navigator.pop(context);
+    Fluttertoast.showToast(msg: 'Request Sent', gravity: ToastGravity.BOTTOM);
   }
 }

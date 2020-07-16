@@ -41,7 +41,7 @@ class _YourDogsState extends State<YourDogs> {
       snapshot.documents.forEach((f) async {
         if (f['ownerID'] == uid) {
           DogProfile dp = DogProfile(f['profileImage'], f['name'], f['city'],
-              f['age'], f['breed'], f['gender'], f['owner'],
+              f['age'], f['breed'], f['gender'], f['owner'], f['ownerID'],
               otherImages: f['imageLinks']);
           await dogList.add(dp);
           await dogCardsList.add(MyDogCard(dp, width, height));

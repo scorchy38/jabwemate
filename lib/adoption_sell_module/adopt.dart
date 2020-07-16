@@ -37,11 +37,19 @@ class _AdoptionState extends State<Adoption> {
         .getDocuments()
         .then((QuerySnapshot snapshot) {
       snapshot.documents.forEach((f) {
-        dogList.add(DogProfile(f['profileImage'], f['name'], f['city'],
-            f['age'], f['breed'], f['gender'], f['owner']));
+        dogList.add(DogProfile(
+          f['profileImage'],
+          f['name'],
+          f['city'],
+          f['age'],
+          f['breed'],
+          f['gender'],
+          f['owner'],
+          f['ownerID'],
+        ));
         dogCardsList.add(MyDogCard(
             DogProfile(f['profileImage'], f['name'], f['city'], f['age'],
-                f['breed'], f['gender'], f['owner'],
+                f['breed'], f['gender'], f['owner'], f['ownerID'],
                 otherImages: f['imageLinks']),
             width,
             height,
