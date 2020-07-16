@@ -102,28 +102,6 @@ class _AddDogScreenState extends State<AddDogScreen> {
     });
   }
 
-//  showDialog(
-//  context: context,
-//  builder: (BuildContext context) {
-//  return AlertDialog(
-//  title: Text("Uploading"),
-//  content: Text("Progress: ${_progress.toStringAsFixed(2)}%"),
-//  actions: [
-//  FlatButton(
-//  child: Text("Cancel Upload"),
-//  onPressed: () {
-//  Navigator.of(context).pop();
-//  uploadTask.cancel();
-//  },
-//  ),
-//  ],
-//  );
-//  // ignore: unnecessary_statements
-//  });
-//  _scaffoldKey.currentState.showSnackBar(new SnackBar(
-//  content: new Text("Uploaded"),
-//  backgroundColor: Colors.red,
-//  ));
   File file;
   String fileName = '';
 
@@ -225,7 +203,7 @@ class _AddDogScreenState extends State<AddDogScreen> {
           CustomTextField('Enter Age', age),
           CustomTextField('Enter Breed', breed),
           CustomTextField('Enter Gender', gender),
-          CustomTextField('Enter Owner', owner),
+          CustomTextField('Enter Owner Name', owner),
           InkWell(
             onTap: () {
               filePicker(context);

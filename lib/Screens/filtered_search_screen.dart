@@ -1,10 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_tindercard/flutter_tindercard.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jabwemate/Classes/dog_profile.dart';
-import 'package:jabwemate/Widgets/custom_drawer.dart';
-import 'package:jabwemate/Widgets/profile_card.dart';
 import 'package:jabwemate/Widgets/profile_pull_up.dart';
 import 'package:jabwemate/style/theme.dart' as Theme;
 import 'package:jabwemate/style/theme.dart';
@@ -50,6 +47,7 @@ class _FilteredSearchState extends State<FilteredSearch> {
                 if (this.actionIcon.icon == Icons.search) {
                   this.actionIcon = new Icon(Icons.close);
                   this.appBarTitle = new TextFormField(
+                    style: TextStyle(color: Colors.white),
                     controller: searchController,
                     decoration: new InputDecoration(
                       prefixIcon: Icon(
@@ -95,12 +93,15 @@ class _FilteredSearchState extends State<FilteredSearch> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Text(
-              'Search Results',
-              style: GoogleFonts.k2d(
-                  fontSize: height * 0.03,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black),
+            Padding(
+              padding: const EdgeInsets.all(18.0),
+              child: Text(
+                'Search Results',
+                style: GoogleFonts.k2d(
+                    fontSize: height * 0.03,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black.withOpacity(0.5)),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),

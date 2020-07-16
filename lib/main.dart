@@ -5,19 +5,11 @@ import 'package:flutter/services.dart';
 import 'package:jabwemate/Screens/home_screen.dart';
 import 'package:jabwemate/style/theme.dart' as Theme;
 import 'package:jabwemate/ui/login_page.dart';
-
 import 'delayed_animation.dart';
 
 void main() {
   SystemChrome.setEnabledSystemUIOverlays([]);
   runApp(MyHome());
-//  runApp(MaterialApp(
-//    theme: ThemeData(
-//      scaffoldBackgroundColor: Colors.white,
-//      primaryColor: Colors.white,
-//    ),
-//    home: HomeScreen(),
-//  ));
 }
 
 class MyHome extends StatelessWidget {

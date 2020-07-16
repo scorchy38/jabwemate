@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jabwemate/style/theme.dart' as Theme;
 
+// ignore: must_be_immutable
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   IconButton action;
   CustomAppBar({Key key, this.action})
@@ -19,6 +20,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      iconTheme: IconThemeData(color: Colors.white),
       elevation: 0,
       actions: widget.action != null ? <Widget>[widget.action] : <Widget>[],
       centerTitle: true,
