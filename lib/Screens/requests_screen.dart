@@ -43,13 +43,15 @@ class _RequestsState extends State<Requests> {
                     itemBuilder: (BuildContext, index) {
                       var item = dogList[index];
                       return notificationCard(
-                          item, width, height, _scaffoldKey);
+                          item, width, height, _scaffoldKey, index);
                     })
                 : Text('No Requests')));
   }
 
   List dogList = [];
   String dogID, dogName;
+  List state = [];
+  List pay = [];
   getRequests() async {
     dogList.clear();
     print('started loading');
@@ -58,36 +60,41 @@ class _RequestsState extends State<Requests> {
         .getDocuments()
         .then((QuerySnapshot snapshot) {
       snapshot.documents.forEach((f) async {
-        if (f['receiverID'] == uid && f['status'] == 'sent') {
-          dogID = f['senderID'];
-          dogName = f['senderDog'];
-          dogList.clear();
-          print('started loading');
-          await databaseReference
-              .collection("Dogs")
-              .getDocuments()
-              .then((QuerySnapshot snapshot) {
-            snapshot.documents.forEach((f) async {
-              if (f['ownerID'] == dogID && f['name'] == dogName) {
-                DogProfile dp = DogProfile(
-                    f['profileImage'],
-                    f['name'],
-                    f['city'],
-                    f['age'],
-                    f['breed'],
-                    f['gender'],
-                    f['owner'],
-                    f['ownerID'],
-                    otherImages: f['imageLinks']);
-                await dogList.add(dp);
-                print('Dog added');
-                print(f['imageLinks'].toString());
-              }
+        if (f['receiverID'] == uid) {
+          if (f['status'] == 'sent') {
+            dogID = f['senderID'];
+            dogName = f['senderDog'];
+            state.add(f['status']);
+            pay.add(f['senderPayment']);
+            print(state);
+            dogList.clear();
+            print('started loading');
+            await databaseReference
+                .collection("Dogs")
+                .getDocuments()
+                .then((QuerySnapshot snapshot) {
+              snapshot.documents.forEach((f) async {
+                if (f['ownerID'] == dogID && f['name'] == dogName) {
+                  DogProfile dp = DogProfile(
+                      f['profileImage'],
+                      f['name'],
+                      f['city'],
+                      f['age'],
+                      f['breed'],
+                      f['gender'],
+                      f['owner'],
+                      f['ownerID'],
+                      otherImages: f['imageLinks']);
+                  await dogList.add(dp);
+                  print('Dog added');
+                  print(f['imageLinks'].toString());
+                }
+              });
             });
-          });
-          setState(() {
-            print(dogList.length.toString());
-          });
+            setState(() {
+              print(dogList.length.toString());
+            });
+          }
         }
       });
     });
@@ -96,7 +103,7 @@ class _RequestsState extends State<Requests> {
     });
   }
 
-  notificationCard(item, width, height, scaffoldKey) {
+  notificationCard(item, width, height, scaffoldKey, index) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -143,7 +150,11 @@ class _RequestsState extends State<Requests> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  InkWell(child: Text('Accept')),
+                  InkWell(
+                      onTap: () {
+                        accept(item.ownerId, item.name);
+                      },
+                      child: Text('Accept')),
                   Container(
                     color: Colors.black.withOpacity(0.2),
                     height: 30,
@@ -151,7 +162,7 @@ class _RequestsState extends State<Requests> {
                   ),
                   InkWell(
                       onTap: () {
-                        remove(item.ownerId, item.name);
+                        reject(item.ownerId, item.name);
                       },
                       child: Text('Reject')),
                 ],
@@ -163,7 +174,7 @@ class _RequestsState extends State<Requests> {
     );
   }
 
-  remove(dogID, dogName) async {
+  reject(dogID, dogName) async {
     print('started loading');
     await databaseReference
         .collection("Requests")
@@ -173,6 +184,25 @@ class _RequestsState extends State<Requests> {
         if (f['receiverID'] == uid) {
           if (f['senderDog'] == dogName && f['senderID'] == dogID) {
             f.reference.updateData({'status': 'Rejected'});
+          }
+        }
+      });
+    });
+    setState(() {
+      getRequests();
+    });
+  }
+
+  accept(dogID, dogName) async {
+    print('started loading');
+    await databaseReference
+        .collection("Requests")
+        .getDocuments()
+        .then((QuerySnapshot snapshot) {
+      snapshot.documents.forEach((f) async {
+        if (f['receiverID'] == uid) {
+          if (f['senderDog'] == dogName && f['senderID'] == dogID) {
+            f.reference.updateData({'status': 'Accepted'});
           }
         }
       });

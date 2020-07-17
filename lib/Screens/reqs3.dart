@@ -22,6 +22,7 @@ class _RecentsState extends State<Recents> {
   @override
   void initState() {
     getRequests();
+    getAccepted();
     super.initState();
   }
 
@@ -33,21 +34,42 @@ class _RecentsState extends State<Recents> {
         key: _scaffoldKey,
         body: Container(
             height: height,
-            child: dogList.length != 0
-                ? ListView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
-                    itemCount: dogList.length,
-                    itemBuilder: (BuildContext, index) {
-                      var item = dogList[index];
-                      return notificationCard(
-                          item, width, height, _scaffoldKey, state);
-                    })
-                : Text('No Recent Requests')));
+            child: Column(
+              children: [
+                dogList.length != 0
+                    ? ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        itemCount: dogList.length,
+                        itemBuilder: (BuildContext, index) {
+                          var item = dogList[index];
+                          return notificationCard(
+                              item, width, height, _scaffoldKey, state, index);
+                        })
+                    : Text('No Recent Requests'),
+                dogList1.length != 0
+                    ? ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        itemCount: dogList1.length,
+                        itemBuilder: (BuildContext, index) {
+                          var item = dogList1[index];
+                          return notificationCard(
+                              item, width, height, _scaffoldKey, state1, index);
+                        })
+                    : Container(),
+              ],
+            )));
   }
 
   List dogList = [];
-  String dogID, dogName, state;
+  List dogList1 = [];
+  List dogName = [];
+  List dogID = [];
+  List state = [];
+  List dogName1 = [];
+  List dogID1 = [];
+  List state1 = [];
   getRequests() async {
     dogList.clear();
     print('started loading');
@@ -56,20 +78,21 @@ class _RecentsState extends State<Recents> {
         .getDocuments()
         .then((QuerySnapshot snapshot) {
       snapshot.documents.forEach((f) async {
-        if (f['senderID'] == uid || f['receiverID'] == uid) {
+        if (f['senderID'] == uid) {
           if (f['status'] == 'Rejected') {
-            dogID = f['senderID'] == uid ? f['senderID'] : f['receiverID'];
-            dogName = f['senderID'] == uid ? f['senderDog'] : f['receiverDog'];
-            print(dogName);
-            state = f['status'];
+            dogID.add(f['senderID']);
+            dogName.add(f['senderDog']);
+            print(dogName[0]);
+            state.add(f['status']);
             dogList.clear();
             print('started loading');
             await databaseReference
                 .collection("Dogs")
                 .getDocuments()
                 .then((QuerySnapshot snapshot) {
+              int i = 0;
               snapshot.documents.forEach((f) async {
-                if (f['ownerID'] == dogID && f['name'] == dogName) {
+                if (f['ownerID'] == dogID[i] && f['name'] == dogName[i]) {
                   DogProfile dp = DogProfile(
                       f['profileImage'],
                       f['name'],
@@ -83,6 +106,7 @@ class _RecentsState extends State<Recents> {
                   await dogList.add(dp);
                   print('Dog added');
                   print(f['imageLinks'].toString());
+                  i++;
                 }
               });
             });
@@ -94,11 +118,62 @@ class _RecentsState extends State<Recents> {
       });
     });
     setState(() {
-      print(dogList.length.toString());
+      print(dogList);
     });
   }
 
-  notificationCard(item, width, height, scaffoldKey, status) {
+  getAccepted() async {
+    dogList1.clear();
+    print('started loading');
+    await databaseReference
+        .collection("Requests")
+        .getDocuments()
+        .then((QuerySnapshot snapshot) {
+      snapshot.documents.forEach((f) async {
+        if (f['senderID'] == uid) {
+          if (f['status'] == 'Accepted') {
+            dogID1.add(f['senderID']);
+            dogName1.add(f['senderDog']);
+            state1.add(f['status']);
+            dogList1.clear();
+            print('started loading');
+            await databaseReference
+                .collection("Dogs")
+                .getDocuments()
+                .then((QuerySnapshot snapshot) {
+              int i = 0;
+              snapshot.documents.forEach((f) async {
+                if (f['ownerID'] == dogID1[i] && f['name'] == dogName1[i]) {
+                  DogProfile dp = DogProfile(
+                      f['profileImage'],
+                      f['name'],
+                      f['city'],
+                      f['age'],
+                      f['breed'],
+                      f['gender'],
+                      f['owner'],
+                      f['ownerID'],
+                      otherImages: f['imageLinks']);
+                  await dogList1.add(dp);
+                  print('Dog added');
+                  print(f['imageLinks'].toString());
+                  i++;
+                }
+              });
+            });
+            setState(() {
+              print(dogList1.length.toString());
+            });
+          }
+        }
+      });
+    });
+    setState(() {
+      print('This is $dogList1');
+    });
+  }
+
+  notificationCard(item, width, height, scaffoldKey, status, index) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -117,7 +192,7 @@ class _RecentsState extends State<Recents> {
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Container(
                         child: Text(
-                          'Recent Request- ${item.name}\nStatus- $status',
+                          'Recent Request- ${item.name}\nStatus- ${status[index]}',
                           style: GoogleFonts.k2d(fontSize: 20),
                         ),
                       ),
