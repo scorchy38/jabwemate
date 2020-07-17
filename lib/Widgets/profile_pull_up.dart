@@ -261,7 +261,6 @@ class PullUp extends StatefulWidget {
 class _PullUpState extends State<PullUp> {
   double height, width;
 
-
   @override
   Widget build(BuildContext context) {
     print(widget.dogs.length);
@@ -280,7 +279,6 @@ class _PullUpState extends State<PullUp> {
 
                 return InkWell(
                   onTap: () {
-
                     makeRequest(item.name, item.ownerId, widget.receiveDog,
                         widget.receiveID);
                   },
@@ -352,6 +350,4 @@ class _PullUpState extends State<PullUp> {
     Navigator.pop(context);
     Fluttertoast.showToast(msg: 'Request Sent', gravity: ToastGravity.BOTTOM);
   }
-
-
 }

@@ -430,10 +430,6 @@ PODS:
   - path_provider_macos (0.0.1):
     - Flutter
   - PromisesObjC (1.2.8)
-  - razorpay-pod (1.1.5)
-  - razorpay_flutter (1.1.4):
-    - Flutter
-    - razorpay-pod
   - SDWebImage (5.8.3):
     - SDWebImage/Core (= 5.8.3)
   - SDWebImage/Core (5.8.3)
@@ -458,7 +454,6 @@ DEPENDENCIES:
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - path_provider_linux (from `.symlinks/plugins/path_provider_linux/ios`)
   - path_provider_macos (from `.symlinks/plugins/path_provider_macos/ios`)
-  - razorpay_flutter (from `.symlinks/plugins/razorpay_flutter/ios`)
 
 SPEC REPOS:
   trunk:
@@ -490,7 +485,6 @@ SPEC REPOS:
     - leveldb-library
     - nanopb
     - PromisesObjC
-    - razorpay-pod
     - SDWebImage
     - SDWebImageFLPlugin
 
@@ -527,8 +521,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/path_provider_linux/ios"
   path_provider_macos:
     :path: ".symlinks/plugins/path_provider_macos/ios"
-  razorpay_flutter:
-    :path: ".symlinks/plugins/razorpay_flutter/ios"
 
 SPEC CHECKSUMS:
   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
@@ -575,8 +567,6 @@ SPEC CHECKSUMS:
   path_provider_linux: 4d630dc393e1f20364f3e3b4a2ff41d9674a84e4
   path_provider_macos: f760a3c5b04357c380e2fddb6f9db6f3015897e0
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
-  razorpay-pod: 31dd24ddb70275d82be12527b45001f9bc9f1be2
-  razorpay_flutter: 4587d9b2970328d06dffa09cf72d79c5eac9b77f
   SDWebImage: 112503ec94a5a2a41869503844a15e8d8f1ead5c
   SDWebImageFLPlugin: 6c2295fb1242d44467c6c87dc5db6b0a13228fd8
 

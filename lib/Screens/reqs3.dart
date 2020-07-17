@@ -355,7 +355,7 @@ class _RecentsState extends State<Recents> {
               ),
               InkWell(
                   onTap: () {
-                    openCheckout();
+                    //   openCheckout();
                     paid(myDogName[index], item.ownerId);
                   },
                   child: payState[index] == 'notDone'
