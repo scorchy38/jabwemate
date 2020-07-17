@@ -31,6 +31,7 @@ class _RecentsState extends State<Recents> {
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
     super.initState();
   }
+
   @override
   void dispose() {
     super.dispose();
@@ -71,6 +72,7 @@ class _RecentsState extends State<Recents> {
     Fluttertoast.showToast(
         msg: "EXTERNAL_WALLET: " + response.walletName, timeInSecForIosWeb: 4);
   }
+
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(milliseconds: 10000), () {
@@ -306,7 +308,6 @@ class _RecentsState extends State<Recents> {
     );
   }
 
-
   notificationCard1(item, width, height, scaffoldKey, status, pay, index) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -352,7 +353,6 @@ class _RecentsState extends State<Recents> {
               SizedBox(
                 height: 10,
               ),
-
               InkWell(
                   onTap: () {
                     openCheckout();
@@ -360,7 +360,7 @@ class _RecentsState extends State<Recents> {
                   },
                   child: payState[index] == 'notDone'
                       ? InkWell(
-                        child: Padding(
+                          child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: Container(
                               child: Text(
@@ -373,7 +373,7 @@ class _RecentsState extends State<Recents> {
                               ),
                             ),
                           ),
-                      )
+                        )
                       : Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: Container(
