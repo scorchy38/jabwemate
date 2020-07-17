@@ -5,6 +5,7 @@ import 'package:getflutter/components/avatar/gf_avatar.dart';
 import 'package:getflutter/components/drawer/gf_drawer.dart';
 import 'package:jabwemate/Screens/favourites_screen.dart';
 import 'package:jabwemate/Screens/filtered_search_screen.dart';
+import 'package:jabwemate/Screens/request_landing.dart';
 import 'package:jabwemate/Screens/requests_screen.dart';
 import 'package:jabwemate/Screens/your_dogs.dart';
 import 'package:jabwemate/adoption_sell_module/landing.dart';
@@ -194,7 +195,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Requests()),
+                MaterialPageRoute(builder: (context) => Reqs()),
               );
             },
           ),

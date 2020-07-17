@@ -17,6 +17,7 @@ class YourDogs extends StatefulWidget {
 
 final databaseReference = Firestore.instance;
 List dogList = [];
+List<Widget> dogCardsList = [];
 
 FirebaseAuth mAuth;
 bool loading = true;
@@ -57,7 +58,7 @@ class _YourDogsState extends State<YourDogs> {
   }
 
   double width, height;
-  List<Widget> dogCardsList = [];
+
   @override
   Widget build(BuildContext context) {
     Future.delayed(Duration(seconds: 10), () {

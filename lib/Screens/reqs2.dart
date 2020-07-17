@@ -1,23 +1,180 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jabwemate/Classes/dog_profile.dart';
-import 'package:jabwemate/Screens/filtered_search_screen.dart';
+import 'package:jabwemate/Screens/your_dogs.dart';
 import 'package:jabwemate/style/theme.dart';
-import 'package:random_string/random_string.dart';
 
-class ProfilePullUp extends StatefulWidget {
-  double height, width;
-  DogProfile dp;
-  ProfilePullUp(this.dp, this.width, this.height);
+import 'home_screen.dart';
 
+class Sent extends StatefulWidget {
   @override
-  _ProfilePullUpState createState() => _ProfilePullUpState();
+  _SentState createState() => _SentState();
 }
 
-class _ProfilePullUpState extends State<ProfilePullUp> {
+class _SentState extends State<Sent> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  double height, width;
+
+  @override
+  void initState() {
+    getRequests();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    width = MediaQuery.of(context).size.width;
+    height = MediaQuery.of(context).size.height;
+    return Scaffold(
+        key: _scaffoldKey,
+        body: Container(
+            height: height,
+            child: dogList.length != 0
+                ? ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    itemCount: dogList.length,
+                    itemBuilder: (BuildContext, index) {
+                      var item = dogList[index];
+                      return notificationCard(
+                          item, width, height, _scaffoldKey);
+                    })
+                : Text('No Sent Requests')));
+  }
+
+  List dogList = [];
+  String dogID, dogName;
+  getRequests() async {
+    dogList.clear();
+    print('started loading');
+    await databaseReference
+        .collection("Requests")
+        .getDocuments()
+        .then((QuerySnapshot snapshot) {
+      snapshot.documents.forEach((f) async {
+        if (f['senderID'] == uid && f['status'] == 'sent') {
+          dogID = f['receiverID'];
+          dogName = f['receiverDog'];
+          dogList.clear();
+          print('started loading');
+          await databaseReference
+              .collection("Dogs")
+              .getDocuments()
+              .then((QuerySnapshot snapshot) {
+            snapshot.documents.forEach((f) async {
+              if (f['ownerID'] == dogID && f['name'] == dogName) {
+                DogProfile dp = DogProfile(
+                    f['profileImage'],
+                    f['name'],
+                    f['city'],
+                    f['age'],
+                    f['breed'],
+                    f['gender'],
+                    f['owner'],
+                    f['ownerID'],
+                    otherImages: f['imageLinks']);
+                await dogList.add(dp);
+                print('Dog added');
+                print(f['imageLinks'].toString());
+              }
+            });
+          });
+          setState(() {
+            print(dogList.length.toString());
+          });
+        }
+      });
+    });
+    setState(() {
+      print(dogList.length.toString());
+    });
+  }
+
+  notificationCard(item, width, height, scaffoldKey) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        decoration: BoxDecoration(
+            color: MyColors.loginGradientStart.withOpacity(0.6),
+            borderRadius: BorderRadius.all(Radius.circular(10))),
+        width: width * 0.8,
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            children: [
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Container(
+                        child: Text(
+                          'You sent a request to ${item.name} for your pet\'s mating.',
+                          style: GoogleFonts.k2d(fontSize: 20),
+                        ),
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      scaffoldKey.currentState.showBottomSheet((context) {
+                        return StatefulBuilder(
+                            builder: (context, StateSetter state) {
+                          return NewPullUp(item, width, height);
+                        });
+                      });
+                    },
+                    icon: Icon(
+                      Icons.info_outline,
+                      color: Colors.black,
+                    ),
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  remove(dogID, dogName) async {
+    print('started loading');
+    await databaseReference
+        .collection("Requests")
+        .getDocuments()
+        .then((QuerySnapshot snapshot) {
+      snapshot.documents.forEach((f) async {
+        if (f['receiverID'] == uid) {
+          if (f['senderDog'] == dogName && f['senderID'] == dogID) {
+            f.reference.delete();
+          }
+        }
+      });
+    });
+    setState(() {
+      getRequests();
+    });
+  }
+}
+
+class NewPullUp extends StatefulWidget {
+  double height, width;
+  DogProfile dp;
+  NewPullUp(this.dp, this.width, this.height);
+
+  @override
+  _NewPullUpState createState() => _NewPullUpState();
+}
+
+class _NewPullUpState extends State<NewPullUp> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
@@ -131,36 +288,6 @@ class _ProfilePullUpState extends State<ProfilePullUp> {
                           SizedBox(
                             height: 30,
                           ),
-                          InkWell(
-                            onTap: () {
-                              _scaffoldKey.currentState
-                                  .showBottomSheet((context) {
-                                return StatefulBuilder(
-                                    builder: (context, StateSetter state) {
-                                  return PullUp(dogList1, dogCardsList1,
-                                      widget.dp.name, widget.dp.ownerId);
-                                });
-                              });
-                            },
-                            child: Card(
-                              color: Color(0xFF5F2D40).withOpacity(0.8),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10))),
-                              child: Padding(
-                                padding: EdgeInsets.all(10),
-                                child: Text(
-                                  'Make a request',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: 'nunito',
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ),
-                          ),
                           SizedBox(
                             height: 10,
                           ),
@@ -199,107 +326,5 @@ class _ProfilePullUpState extends State<ProfilePullUp> {
         ),
       ),
     );
-  }
-}
-
-class PullUp extends StatefulWidget {
-  final receiveDog, receiveID;
-  final dogList1;
-  final dogs;
-  PullUp(this.dogList1, this.dogs, this.receiveDog, this.receiveID);
-
-  @override
-  _PullUpState createState() => _PullUpState();
-}
-
-class _PullUpState extends State<PullUp> {
-  double height, width;
-  @override
-  Widget build(BuildContext context) {
-    BuildContext cxt = context;
-    width = MediaQuery.of(context).size.width;
-    height = MediaQuery.of(context).size.height;
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: widget.dogs.length != 0
-          ? ListView.builder(
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              itemCount: widget.dogList1.length,
-              itemBuilder: (BuildContext, index) {
-                var item = widget.dogList1[index];
-
-                return InkWell(
-                  onTap: () {
-                    makeRequest(item.name, item.ownerId, widget.receiveDog,
-                        widget.receiveID);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: MyColors.loginGradientStart.withOpacity(0.6),
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      width: width * 0.8,
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Row(
-                          children: <Widget>[
-                            Container(
-                              height: 50,
-                              width: 50,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(25),
-                                ),
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(25.0),
-                                child: Image.network(
-                                  item.iamgeURL,
-                                  height: 50,
-                                  width: 50,
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
-                                child: Container(
-                                  child: Text(
-                                    item.name,
-                                    style: GoogleFonts.k2d(fontSize: 24),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            )
-          : Center(child: CircularProgressIndicator()),
-    );
-  }
-
-  static int keyLength = randomBetween(10, 20);
-  String key = randomAlpha(keyLength);
-  final databaseReference1 = Firestore.instance;
-  makeRequest(sendDog, sendID, receiveDog, receiveID) async {
-    await databaseReference1.collection('Requests').document(key).setData({
-      'senderDog': sendDog,
-      'senderID': sendID,
-      'receiverDog': receiveDog,
-      'receiverID': receiveID,
-      'senderPayment': 'notDone',
-      'status': 'sent'
-    });
-    Navigator.pop(context);
-    Fluttertoast.showToast(msg: 'Request Sent', gravity: ToastGravity.BOTTOM);
   }
 }
