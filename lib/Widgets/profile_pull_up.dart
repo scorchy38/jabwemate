@@ -7,6 +7,7 @@ import 'package:jabwemate/Classes/dog_profile.dart';
 import 'package:jabwemate/Screens/filtered_search_screen.dart';
 import 'package:jabwemate/style/theme.dart';
 import 'package:random_string/random_string.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class ProfilePullUp extends StatefulWidget {
   double height, width;
@@ -214,6 +215,8 @@ class PullUp extends StatefulWidget {
 
 class _PullUpState extends State<PullUp> {
   double height, width;
+
+
   @override
   Widget build(BuildContext context) {
     BuildContext cxt = context;
@@ -231,6 +234,7 @@ class _PullUpState extends State<PullUp> {
 
                 return InkWell(
                   onTap: () {
+
                     makeRequest(item.name, item.ownerId, widget.receiveDog,
                         widget.receiveID);
                   },
@@ -302,4 +306,6 @@ class _PullUpState extends State<PullUp> {
     Navigator.pop(context);
     Fluttertoast.showToast(msg: 'Request Sent', gravity: ToastGravity.BOTTOM);
   }
+
+
 }

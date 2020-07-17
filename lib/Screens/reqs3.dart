@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jabwemate/Classes/dog_profile.dart';
 import 'package:jabwemate/Screens/your_dogs.dart';
 import 'package:jabwemate/style/theme.dart';
-
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'home_screen.dart';
 
 class Recents extends StatefulWidget {
@@ -18,14 +18,56 @@ class _RecentsState extends State<Recents> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   double height, width;
-
+  Razorpay _razorpay;
   @override
   void initState() {
     getRequests();
     getAccepted();
+    _razorpay = Razorpay();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
     super.initState();
   }
+  @override
+  void dispose() {
+    super.dispose();
+    _razorpay.clear();
+  }
 
+  void openCheckout() async {
+    var options = {
+      'key': 'rzp_test_uqORQiidCVwzWI',
+      'amount': 2000,
+      'name': 'Jab We Mate',
+      'description': 'Make Request',
+      'external': {
+        'wallets': ['paytm']
+      }
+    };
+
+    try {
+      _razorpay.open(options);
+    } catch (e) {
+      debugPrint(e);
+    }
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    Fluttertoast.showToast(
+        msg: "SUCCESS: " + response.paymentId, timeInSecForIosWeb: 4);
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    Fluttertoast.showToast(
+        msg: "ERROR: " + response.code.toString() + " - " + response.message,
+        timeInSecForIosWeb: 4);
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    Fluttertoast.showToast(
+        msg: "EXTERNAL_WALLET: " + response.walletName, timeInSecForIosWeb: 4);
+  }
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
@@ -243,6 +285,7 @@ class _RecentsState extends State<Recents> {
     );
   }
 
+
   notificationCard1(item, width, height, scaffoldKey, status, pay, index) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -288,24 +331,28 @@ class _RecentsState extends State<Recents> {
               SizedBox(
                 height: 20,
               ),
+
               InkWell(
                   onTap: () {
+                    openCheckout();
                     paid(myDogName[index], item.ownerId);
                   },
                   child: payState[index] == 'notDone'
-                      ? Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Container(
-                            child: Text(
-                              'Pay to get contact details',
-                              style: GoogleFonts.k2d(
-                                  textStyle: TextStyle(
-                                      color: Colors.blue,
-                                      decoration: TextDecoration.underline),
-                                  fontSize: 20),
+                      ? InkWell(
+                        child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Container(
+                              child: Text(
+                                'Pay to get contact details',
+                                style: GoogleFonts.k2d(
+                                    textStyle: TextStyle(
+                                        color: Colors.blue,
+                                        decoration: TextDecoration.underline),
+                                    fontSize: 20),
+                              ),
                             ),
                           ),
-                        )
+                      )
                       : Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: Container(
