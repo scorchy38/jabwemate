@@ -21,7 +21,15 @@ class AddDogScreen extends StatefulWidget {
   _AddDogScreenState createState() => _AddDogScreenState();
 }
 
-TextEditingController name, city, age, breed, gender, owner;
+TextEditingController name,
+    city,
+    age,
+    breed,
+    gender,
+    owner,
+    address1,
+    address2,
+    phone;
 
 class _AddDogScreenState extends State<AddDogScreen> {
   @override
@@ -32,6 +40,9 @@ class _AddDogScreenState extends State<AddDogScreen> {
     breed = new TextEditingController();
     gender = new TextEditingController();
     owner = new TextEditingController();
+    address1 = TextEditingController();
+    address2 = TextEditingController();
+    phone = TextEditingController();
 
     super.initState();
   }
@@ -196,9 +207,12 @@ class _AddDogScreenState extends State<AddDogScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: CustomAppBar(),
-      body: Column(
+      body: ListView(
         children: <Widget>[
           CustomTextField('Enter Name', name),
+          CustomTextField('Address line 1', address1),
+          CustomTextField('Address line 2', address2),
+          CustomTextField('Active Phone Number', phone),
           CustomTextField('Enter City', city),
           CustomTextField('Enter Age', age),
           CustomTextField('Enter Breed', breed),
@@ -285,6 +299,8 @@ class _AddDogScreenState extends State<AddDogScreen> {
     await databaseReference.collection('Dogs').document(key).setData({
       'name': name.text,
       'city': city.text,
+      'address': address1.text + ' ${address2.text}',
+      'phone': phone.text,
       'age': int.parse(age.text),
       'breed': breed.text,
       'gender': gender.text,

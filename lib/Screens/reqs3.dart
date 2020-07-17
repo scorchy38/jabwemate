@@ -54,8 +54,8 @@ class _RecentsState extends State<Recents> {
                         itemCount: dogList1.length,
                         itemBuilder: (BuildContext, index) {
                           var item = dogList1[index];
-                          return notificationCard(
-                              item, width, height, _scaffoldKey, state1, index);
+                          return notificationCard1(item, width, height,
+                              _scaffoldKey, state1, payState, index);
                         })
                     : Container(),
               ],
@@ -70,8 +70,15 @@ class _RecentsState extends State<Recents> {
   List dogName1 = [];
   List dogID1 = [];
   List state1 = [];
+  List payState = [];
   getRequests() async {
     dogList.clear();
+    dogID.clear();
+
+    state.clear();
+    dogName.clear();
+    dogList.clear();
+
     print('started loading');
     await databaseReference
         .collection("Requests")
@@ -80,8 +87,8 @@ class _RecentsState extends State<Recents> {
       snapshot.documents.forEach((f) async {
         if (f['senderID'] == uid) {
           if (f['status'] == 'Rejected') {
-            dogID.add(f['senderID']);
-            dogName.add(f['senderDog']);
+            dogID.add(f['receiverID']);
+            dogName.add(f['receiverDog']);
             print(dogName[0]);
             state.add(f['status']);
             dogList.clear();
@@ -102,6 +109,8 @@ class _RecentsState extends State<Recents> {
                       f['gender'],
                       f['owner'],
                       f['ownerID'],
+                      f['address'],
+                      f['phone'],
                       otherImages: f['imageLinks']);
                   await dogList.add(dp);
                   print('Dog added');
@@ -118,12 +127,18 @@ class _RecentsState extends State<Recents> {
       });
     });
     setState(() {
-      print(dogList);
+      print('getAccepted();');
     });
   }
 
+  List myDogName = [];
   getAccepted() async {
+    dogID1.clear();
+    myDogName.clear();
+    state1.clear();
+    dogName1.clear();
     dogList1.clear();
+    payState.clear();
     print('started loading');
     await databaseReference
         .collection("Requests")
@@ -132,9 +147,11 @@ class _RecentsState extends State<Recents> {
       snapshot.documents.forEach((f) async {
         if (f['senderID'] == uid) {
           if (f['status'] == 'Accepted') {
-            dogID1.add(f['senderID']);
-            dogName1.add(f['senderDog']);
+            dogID1.add(f['receiverID']);
+            myDogName.add(f['senderDog']);
+            dogName1.add(f['receiverDog']);
             state1.add(f['status']);
+            payState.add(f['senderPayment']);
             dogList1.clear();
             print('started loading');
             await databaseReference
@@ -153,6 +170,8 @@ class _RecentsState extends State<Recents> {
                       f['gender'],
                       f['owner'],
                       f['ownerID'],
+                      f['address'],
+                      f['phone'],
                       otherImages: f['imageLinks']);
                   await dogList1.add(dp);
                   print('Dog added');
@@ -169,7 +188,7 @@ class _RecentsState extends State<Recents> {
       });
     });
     setState(() {
-      print('This is $dogList1');
+      print(payState[0]);
     });
   }
 
@@ -224,22 +243,108 @@ class _RecentsState extends State<Recents> {
     );
   }
 
-  remove(dogID, dogName) async {
+  notificationCard1(item, width, height, scaffoldKey, status, pay, index) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        height: 150,
+        decoration: BoxDecoration(
+            color: MyColors.loginGradientStart.withOpacity(0.6),
+            borderRadius: BorderRadius.all(Radius.circular(10))),
+        width: width * 0.8,
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            children: [
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Container(
+                        child: Text(
+                          'Recent Request- ${item.name}\nStatus- ${status[index]}',
+                          style: GoogleFonts.k2d(fontSize: 20),
+                        ),
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      scaffoldKey.currentState.showBottomSheet((context) {
+                        return StatefulBuilder(
+                            builder: (context, StateSetter state) {
+                          return NewPullUp(item, width, height);
+                        });
+                      });
+                    },
+                    icon: Icon(
+                      Icons.info_outline,
+                      color: Colors.black,
+                    ),
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              InkWell(
+                  onTap: () {
+                    paid(myDogName[index], item.ownerId);
+                  },
+                  child: payState[index] == 'notDone'
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Container(
+                            child: Text(
+                              'Pay to get contact details',
+                              style: GoogleFonts.k2d(
+                                  textStyle: TextStyle(
+                                      color: Colors.blue,
+                                      decoration: TextDecoration.underline),
+                                  fontSize: 20),
+                            ),
+                          ),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Container(
+                            child: Text(
+                              '${item.address}, ${item.city}, ${item.phone}',
+                              style: GoogleFonts.k2d(
+                                  textStyle: TextStyle(
+                                    color: Colors.blue,
+                                  ),
+                                  fontSize: 20),
+                            ),
+                          ),
+                        )),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  paid(dog, id) async {
     print('started loading');
     await databaseReference
         .collection("Requests")
         .getDocuments()
         .then((QuerySnapshot snapshot) {
       snapshot.documents.forEach((f) async {
-        if (f['receiverID'] == uid) {
-          if (f['senderDog'] == dogName && f['senderID'] == dogID) {
-            f.reference.delete();
+        print(uid);
+        print(id);
+        if (f['receiverID'] == id) {
+          if (f['senderDog'] == dog && f['senderID'] == uid) {
+            f.reference.updateData({'senderPayment': 'done'});
           }
         }
       });
     });
     setState(() {
       getRequests();
+      getAccepted();
     });
   }
 }

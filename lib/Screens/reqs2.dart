@@ -76,6 +76,8 @@ class _SentState extends State<Sent> {
                     f['gender'],
                     f['owner'],
                     f['ownerID'],
+                    f['address'],
+                    f['phone'],
                     otherImages: f['imageLinks']);
                 await dogList.add(dp);
                 print('Dog added');

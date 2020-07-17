@@ -84,6 +84,8 @@ class _RequestsState extends State<Requests> {
                       f['gender'],
                       f['owner'],
                       f['ownerID'],
+                      f['address'],
+                      f['phone'],
                       otherImages: f['imageLinks']);
                   await dogList.add(dp);
                   print('Dog added');

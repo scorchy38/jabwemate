@@ -46,10 +46,21 @@ class _AdoptionState extends State<Adoption> {
           f['gender'],
           f['owner'],
           f['ownerID'],
+          f['address'],
+          f['phone'],
         ));
         dogCardsList.add(MyDogCard(
-            DogProfile(f['profileImage'], f['name'], f['city'], f['age'],
-                f['breed'], f['gender'], f['owner'], f['ownerID'],
+            DogProfile(
+                f['profileImage'],
+                f['name'],
+                f['city'],
+                f['age'],
+                f['breed'],
+                f['gender'],
+                f['owner'],
+                f['ownerID'],
+                f['address'],
+                f['phone'],
                 otherImages: f['imageLinks']),
             width,
             height,

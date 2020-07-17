@@ -49,8 +49,17 @@ class _FilteredSearchState extends State<FilteredSearch> {
         .then((QuerySnapshot snapshot) {
       snapshot.documents.forEach((f) async {
         if (f['ownerID'] == uid) {
-          DogProfile dp = DogProfile(f['profileImage'], f['name'], f['city'],
-              f['age'], f['breed'], f['gender'], f['owner'], f['ownerID'],
+          DogProfile dp = DogProfile(
+              f['profileImage'],
+              f['name'],
+              f['city'],
+              f['age'],
+              f['breed'],
+              f['gender'],
+              f['owner'],
+              f['ownerID'],
+              f['address'],
+              f['phone'],
               otherImages: f['imageLinks']);
           await dogList1.add(dp);
           await dogCardsList1.add(MyDogCard(dp, width, height));
@@ -255,8 +264,17 @@ class _FilteredSearchState extends State<FilteredSearch> {
             breedLowerCase.contains(query.toLowerCase())) {
           print('Match found ${f['name']}');
           docList.add(f);
-          DogProfile dog = DogProfile(f['profileImage'], f['name'], f['city'],
-              f['age'], f['breed'], f['gender'], f['owner'], f['ownerID'],
+          DogProfile dog = DogProfile(
+              f['profileImage'],
+              f['name'],
+              f['city'],
+              f['age'],
+              f['breed'],
+              f['gender'],
+              f['owner'],
+              f['ownerID'],
+              f['address'],
+              f['phone'],
               otherImages: f['imageLinks']);
           dogList.add(dog);
           setState(() {
@@ -275,8 +293,17 @@ class _FilteredSearchState extends State<FilteredSearch> {
         .getDocuments()
         .then((QuerySnapshot snapshot) {
       snapshot.documents.forEach((f) {
-        dogList.add(DogProfile(f['profileImage'], f['name'], f['city'],
-            f['age'], f['breed'], f['gender'], f['owner'], f['ownerID'],
+        dogList.add(DogProfile(
+            f['profileImage'],
+            f['name'],
+            f['city'],
+            f['age'],
+            f['breed'],
+            f['gender'],
+            f['owner'],
+            f['ownerID'],
+            f['address'],
+            f['phone'],
             otherImages: f['imageLinks']));
         print('Dog added');
         print(f['profileImage'].toString());
