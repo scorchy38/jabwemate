@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -9,6 +10,8 @@ import 'package:jabwemate/style/theme.dart';
 import 'package:random_string/random_string.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
+import 'my_dog_card.dart';
+
 class ProfilePullUp extends StatefulWidget {
   double height, width;
   DogProfile dp;
@@ -17,6 +20,10 @@ class ProfilePullUp extends StatefulWidget {
   @override
   _ProfilePullUpState createState() => _ProfilePullUpState();
 }
+
+var databaseReference = Firestore.instance;
+List dogList = new List();
+List dogCardsList = new List();
 
 class _ProfilePullUpState extends State<ProfilePullUp> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -133,12 +140,50 @@ class _ProfilePullUpState extends State<ProfilePullUp> {
                             height: 30,
                           ),
                           InkWell(
-                            onTap: () {
+                            onTap: () async {
+                              FirebaseUser user =
+                                  await FirebaseAuth.instance.currentUser();
+                              var uid = user.uid;
+                              dogCardsList.clear();
+                              dogList.clear();
+                              print('started loading');
+                              await databaseReference
+                                  .collection("Dogs")
+                                  .getDocuments()
+                                  .then((QuerySnapshot snapshot) {
+                                snapshot.documents.forEach((f) async {
+                                  if (f['ownerID'] == uid) {
+                                    DogProfile dp = DogProfile(
+                                        f['profileImage'],
+                                        f['name'],
+                                        f['city'],
+                                        f['age'],
+                                        f['breed'],
+                                        f['gender'],
+                                        f['owner'],
+                                        f['ownerID'],
+                                        f['address'],
+                                        f['phone'],
+                                        otherImages: f['imageLinks']);
+                                    await dogList.add(dp);
+                                    await dogCardsList.add(MyDogCard(
+                                        dp,
+                                        MediaQuery.of(context).size.width,
+                                        MediaQuery.of(context).size.height));
+                                    print('Dog added');
+                                    print(f['imageLinks'].toString());
+                                  }
+                                });
+                              });
+                              setState(() {
+                                print(dogList.length.toString());
+                                print(dogCardsList.length.toString());
+                              });
                               _scaffoldKey.currentState
                                   .showBottomSheet((context) {
                                 return StatefulBuilder(
                                     builder: (context, StateSetter state) {
-                                  return PullUp(dogList1, dogCardsList1,
+                                  return PullUp(dogList, dogCardsList,
                                       widget.dp.name, widget.dp.ownerId);
                                 });
                               });
@@ -219,6 +264,7 @@ class _PullUpState extends State<PullUp> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.dogs.length);
     BuildContext cxt = context;
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;

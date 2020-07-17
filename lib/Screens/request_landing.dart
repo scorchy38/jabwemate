@@ -22,51 +22,54 @@ class _ReqsState extends State<Reqs> {
       appBar: CustomAppBar(),
       backgroundColor: Colors.white,
       body: SafeArea(
-          child: GFTabs(
-        tabBarColor: Color(0xFFf7418c),
-        tabBarHeight: 70,
-        indicatorColor: Colors.white,
+          child: Container(
+        height: double.infinity,
+        child: GFTabs(
+          tabBarColor: Color(0xFFf7418c),
+          tabBarHeight: 70,
+          indicatorColor: Colors.white,
 
-        initialIndex: 0,
-        length: 3,
+          initialIndex: 0,
+          length: 3,
 //      shape: RoundedRectangleBorder(
 //          borderRadius: BorderRadius.only(
 //              bottomRight: Radius.circular(10),
 //              bottomLeft: Radius.circular(10))),
-        tabs: <Widget>[
-          Tab(
-            child: Text(
-              "Incoming",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                fontFamily: "nunito",
+          tabs: <Widget>[
+            Tab(
+              child: Text(
+                "Incoming",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "nunito",
+                ),
               ),
             ),
-          ),
-          Tab(
-            child: Text(
-              "Recent",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                fontFamily: "nunito",
+            Tab(
+              child: Text(
+                "Recent",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "nunito",
+                ),
               ),
             ),
-          ),
-          Tab(
-            child: Text(
-              "Sent",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                fontFamily: "nunito",
+            Tab(
+              child: Text(
+                "Sent",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "nunito",
+                ),
               ),
             ),
+          ],
+          tabBarView: GFTabBarView(
+            children: <Widget>[Requests(), Recents(), Sent()],
           ),
-        ],
-        tabBarView: GFTabBarView(
-          children: <Widget>[Requests(), Recents(), Sent()],
         ),
       )),
     );

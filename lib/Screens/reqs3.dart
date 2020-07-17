@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:getflutter/components/loader/gf_loader.dart';
+import 'package:getflutter/getflutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jabwemate/Classes/dog_profile.dart';
 import 'package:jabwemate/Screens/your_dogs.dart';
@@ -58,6 +60,7 @@ class _RecentsState extends State<Recents> {
         msg: "SUCCESS: " + response.paymentId, timeInSecForIosWeb: 4);
   }
 
+  String status = "Loading";
   void _handlePaymentError(PaymentFailureResponse response) {
     Fluttertoast.showToast(
         msg: "ERROR: " + response.code.toString() + " - " + response.message,
@@ -70,6 +73,14 @@ class _RecentsState extends State<Recents> {
   }
   @override
   Widget build(BuildContext context) {
+    Future.delayed(const Duration(milliseconds: 10000), () {
+// Here you can write your code
+      status = "No Recent Requests";
+      setState(() {
+        // Here you can write your code for open new view
+      });
+    });
+
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -77,29 +88,39 @@ class _RecentsState extends State<Recents> {
         body: Container(
             height: height,
             child: Column(
+              mainAxisAlignment: (dogList.length != 0 || dogList1.length != 0)
+                  ? MainAxisAlignment.start
+                  : MainAxisAlignment.center,
               children: [
-                dogList.length != 0
-                    ? ListView.builder(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.vertical,
-                        itemCount: dogList.length,
-                        itemBuilder: (BuildContext, index) {
-                          var item = dogList[index];
-                          return notificationCard(
-                              item, width, height, _scaffoldKey, state, index);
-                        })
-                    : Text('No Recent Requests'),
-                dogList1.length != 0
-                    ? ListView.builder(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.vertical,
-                        itemCount: dogList1.length,
-                        itemBuilder: (BuildContext, index) {
-                          var item = dogList1[index];
-                          return notificationCard1(item, width, height,
-                              _scaffoldKey, state1, payState, index);
-                        })
-                    : Container(),
+                (dogList.length != 0 || dogList1.length != 0)
+                    ? Column(
+                        children: <Widget>[
+                          ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              itemCount: dogList.length,
+                              itemBuilder: (BuildContext, index) {
+                                var item = dogList[index];
+                                return notificationCard(item, width, height,
+                                    _scaffoldKey, state, index);
+                              }),
+                          ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              itemCount: dogList1.length,
+                              itemBuilder: (BuildContext, index) {
+                                var item = dogList1[index];
+                                return notificationCard1(item, width, height,
+                                    _scaffoldKey, state1, payState, index);
+                              }),
+                        ],
+                      )
+                    : status == "Loading"
+                        ? Center(
+                            child: GFLoader(
+                            type: GFLoaderType.ios,
+                          ))
+                        : Center(child: Text(status))
               ],
             )));
   }
@@ -290,7 +311,7 @@ class _RecentsState extends State<Recents> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        height: 150,
+        padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
             color: MyColors.loginGradientStart.withOpacity(0.6),
             borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -329,7 +350,7 @@ class _RecentsState extends State<Recents> {
                 ],
               ),
               SizedBox(
-                height: 20,
+                height: 10,
               ),
 
               InkWell(

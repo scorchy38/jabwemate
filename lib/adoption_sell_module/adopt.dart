@@ -29,7 +29,7 @@ class _AdoptionState extends State<Adoption> {
   final databaseReference = Firestore.instance;
   double width, height;
   List<Widget> dogCardsList = [];
-
+  List dogList = [];
   void getData() async {
     dogList.clear();
     await databaseReference

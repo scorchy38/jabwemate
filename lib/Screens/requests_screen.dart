@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:getflutter/components/loader/gf_loader.dart';
+import 'package:getflutter/types/gf_loader_type.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jabwemate/Classes/dog_profile.dart';
 import 'package:jabwemate/Screens/your_dogs.dart';
@@ -27,13 +29,23 @@ class _RequestsState extends State<Requests> {
     super.initState();
   }
 
+  String status = "Loading";
   @override
   Widget build(BuildContext context) {
+    Future.delayed(const Duration(milliseconds: 10000), () {
+// Here you can write your code
+      status = "No Requests";
+      setState(() {
+        // Here you can write your code for open new view
+      });
+    });
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
     return Scaffold(
         key: _scaffoldKey,
         body: Container(
+            alignment:
+                dogList.length == 0 ? Alignment.center : Alignment.topCenter,
             height: height,
             child: dogList.length != 0
                 ? ListView.builder(
@@ -45,7 +57,12 @@ class _RequestsState extends State<Requests> {
                       return notificationCard(
                           item, width, height, _scaffoldKey, index);
                     })
-                : Text('No Requests')));
+                : status == "Loading"
+                    ? Center(
+                        child: GFLoader(
+                        type: GFLoaderType.ios,
+                      ))
+                    : Center(child: Text(status))));
   }
 
   List dogList = [];

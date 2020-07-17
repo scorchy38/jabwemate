@@ -29,6 +29,7 @@ class _SellState extends State<Sell> {
 
   double width, height;
   List<Widget> dogCardsList = [];
+  List dogList = [];
   final databaseReference = Firestore.instance;
 
   void getData() async {
