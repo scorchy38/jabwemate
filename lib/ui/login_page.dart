@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:jabwemate/Screens/home_screen.dart';
@@ -674,16 +675,25 @@ class _LoginPageState extends State<LoginPage>
   void _signIn(String email, String pw) {
     _auth
         .signInWithEmailAndPassword(email: email, password: pw)
-        .then((authResult) {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return new MaterialApp(
-          theme: ThemeData(
-            scaffoldBackgroundColor: Colors.white,
-            primaryColor: Colors.white,
-          ),
-          home: HomeScreen(),
-        );
-      }));
+        .then((authResult) async {
+      FirebaseUser user = await FirebaseAuth.instance.currentUser();
+
+      if (user.isEmailVerified) {
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) {
+          return new MaterialApp(
+            theme: ThemeData(
+              scaffoldBackgroundColor: Colors.white,
+              primaryColor: Colors.white,
+            ),
+            home: HomeScreen(),
+          );
+        }));
+      } else {
+        Fluttertoast.showToast(
+            msg: 'Please verify your email to sign in',
+            toastLength: Toast.LENGTH_SHORT);
+      }
     }).catchError(
       (err) {
         print(err);
@@ -750,16 +760,22 @@ class _LoginPageState extends State<LoginPage>
   void _createUser(String email, String pw) {
     _auth
         .createUserWithEmailAndPassword(email: email, password: pw)
-        .then((authResult) {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return new MaterialApp(
-          theme: ThemeData(
-            scaffoldBackgroundColor: Colors.white,
-            primaryColor: Colors.white,
-          ),
-          home: HomeScreen(),
-        );
-      }));
+        .then((authResult) async {
+      FirebaseUser user = await FirebaseAuth.instance.currentUser();
+      user.sendEmailVerification();
+
+      _pageController.animateToPage(0,
+          duration: Duration(milliseconds: 500), curve: Curves.decelerate);
+
+//      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+//        return new MaterialApp(
+//          theme: ThemeData(
+//            scaffoldBackgroundColor: Colors.white,
+//            primaryColor: Colors.white,
+//          ),
+//          home: HomeScreen(),
+//        );
+//      }));
     }).catchError((err) {
       print(err);
       if (err.code == 'ERROR_EMAIL_ALREADY_IN_USE') {
