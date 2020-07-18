@@ -2,10 +2,12 @@ import 'package:avatar_glow/avatar_glow.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:jabwemate/Screens/FirstScreen.dart';
 import 'package:jabwemate/Screens/home_screen.dart';
 import 'package:jabwemate/style/theme.dart' as Theme;
 import 'package:jabwemate/ui/login_page.dart';
 import 'delayed_animation.dart';
+import 'e-commerce_module/Classes/Constants.dart';
 
 void main() {
   SystemChrome.setEnabledSystemUIOverlays([]);
@@ -16,7 +18,22 @@ class MyHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: MyApp(),
+      theme: ThemeData(
+        fontFamily: 'Cabin',
+        scaffoldBackgroundColor: kWhiteColor,
+        primaryColor: kPrimaryColor,
+        // ignore: deprecated_member_use
+        textTheme: TextTheme(
+          // ignore: deprecated_member_use
+          headline: TextStyle(fontWeight: FontWeight.bold),
+          button: TextStyle(fontWeight: FontWeight.bold),
+          // ignore: deprecated_member_use
+          title: TextStyle(fontWeight: FontWeight.bold),
+          // ignore: deprecated_member_use
+          body1: TextStyle(color: kTextColor),
+        ),
+      ),
+      home: FirstScreen(),
     );
   }
 }
