@@ -118,7 +118,7 @@ class _PhoneLoginState extends State<PhoneLogin> {
                               ),
                               onPressed: () {
                                 if (isValid) {
-                                  Navigator.push(
+                                  Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => OTPScreen(

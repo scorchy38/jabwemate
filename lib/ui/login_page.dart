@@ -495,7 +495,7 @@ class _LoginPageState extends State<LoginPage>
               ),
             ],
           ),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.08),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.3),
         ],
       ),
     );
@@ -664,25 +664,31 @@ class _LoginPageState extends State<LoginPage>
                             fontFamily: "WorkSansBold"),
                       ),
                     ),
-                    onPressed: () => signupConfirmPasswordController.text ==
-                            signupPasswordController.text
-                        ? _createUser(signupEmailController.text,
-                            signupPasswordController.text)
-                        : showCupertinoDialog(
-                            context: context,
-                            builder: (context) {
-                              return CupertinoAlertDialog(
-                                title: Text('Passwords don\'t match.'),
-                                actions: <Widget>[
-                                  CupertinoDialogAction(
-                                    child: Text('OK'),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                  )
-                                ],
-                              );
-                            })),
+                    onPressed: () {
+                      Fluttertoast.showToast(
+                          msg: 'Please wait while we create your account.',
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.CENTER);
+                      signupConfirmPasswordController.text ==
+                              signupPasswordController.text
+                          ? _createUser(signupEmailController.text,
+                              signupPasswordController.text)
+                          : showCupertinoDialog(
+                              context: context,
+                              builder: (context) {
+                                return CupertinoAlertDialog(
+                                  title: Text('Passwords don\'t match.'),
+                                  actions: <Widget>[
+                                    CupertinoDialogAction(
+                                      child: Text('OK'),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    )
+                                  ],
+                                );
+                              });
+                    }),
               ),
             ],
           ),
@@ -806,11 +812,12 @@ class _LoginPageState extends State<LoginPage>
     _auth
         .createUserWithEmailAndPassword(email: email, password: pw)
         .then((authResult) async {
-      Fluttertoast.showToast(
-          msg: 'Verify your email and then sign in',
-          toastLength: Toast.LENGTH_SHORT);
       FirebaseUser user = await FirebaseAuth.instance.currentUser();
       user.sendEmailVerification();
+      Fluttertoast.showToast(
+          msg: 'Verify your email and then sign in',
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER);
 
       signupEmailController.clear();
       signupPhoneController.clear();
