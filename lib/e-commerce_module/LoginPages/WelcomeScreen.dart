@@ -115,11 +115,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   }
 
   void goToLogin() {
-    Navigator.push(context, SlideUpRoute(nextPage: PhoneLogin()));
+    Navigator.pushReplacement(context, SlideUpRoute(nextPage: PhoneLogin()));
   }
 
   void goToHomePage1() {
-    Navigator.push(context, SlideUpRoute(nextPage: NavBar()));
+    Navigator.pushReplacement(context, SlideUpRoute(nextPage: NavBar()));
   }
 }
 

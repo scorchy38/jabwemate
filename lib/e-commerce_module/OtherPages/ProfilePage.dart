@@ -39,6 +39,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   @override
+  // ignore: must_call_super
   void initState() {
     getUserData();
   }
@@ -165,6 +166,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           userData.name,
                                           style: Theme.of(context)
                                               .textTheme
+                                              // ignore: deprecated_member_use
                                               .title
                                               .copyWith(
                                                   color: kPrimaryColor,
@@ -205,6 +207,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           userData.phNo,
                                           style: Theme.of(context)
                                               .textTheme
+                                              // ignore: deprecated_member_use
                                               .title
                                               .copyWith(
                                                   color: kPrimaryColor,
@@ -248,6 +251,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           userData.add1,
                                           style: Theme.of(context)
                                               .textTheme
+                                              // ignore: deprecated_member_use
                                               .title
                                               .copyWith(
                                                   color: kPrimaryColor,
@@ -288,6 +292,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           userData.add2,
                                           style: Theme.of(context)
                                               .textTheme
+                                              // ignore: deprecated_member_use
                                               .title
                                               .copyWith(
                                                   color: kPrimaryColor,
@@ -303,6 +308,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                 height: size.height * 0.025,
                               ),
                               Container(
+                                margin:
+                                    EdgeInsets.only(bottom: size.height * 0.1),
                                 width: size.width * 0.9,
                                 decoration: BoxDecoration(
                                   color: kWhiteColor,
@@ -328,6 +335,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           userData.pin,
                                           style: Theme.of(context)
                                               .textTheme
+                                              // ignore: deprecated_member_use
                                               .title
                                               .copyWith(
                                                   color: kPrimaryColor,

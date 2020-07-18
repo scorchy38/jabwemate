@@ -148,7 +148,6 @@ class _MainHomeState extends State<MainHome> {
                     var item = items[index];
                     _query(item.name).then((value) {
                       item.isCart = value;
-                      print('${item.name} ${item.isCart}');
                       setState(() {
                         item.isCart;
                       });
@@ -156,7 +155,8 @@ class _MainHomeState extends State<MainHome> {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
-                        margin: EdgeInsets.only(bottom: 10),
+                        margin: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).size.height * 0.01),
                         decoration: BoxDecoration(
                           color: kWhiteColor,
                           borderRadius: BorderRadius.circular(10),
@@ -303,6 +303,9 @@ class _MainHomeState extends State<MainHome> {
                     );
                   },
                 ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.1,
               ),
             ],
           ),

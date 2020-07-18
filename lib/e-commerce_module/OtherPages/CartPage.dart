@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jabwemate/e-commerce_module/Classes/Cart.dart';
 import 'package:jabwemate/e-commerce_module/Classes/Constants.dart';
 import 'package:jabwemate/e-commerce_module/Classes/DatabaseHelper.dart';
+import 'package:jabwemate/e-commerce_module/OtherPages/ProfilePage.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:intl/intl.dart';
@@ -406,7 +407,14 @@ class _CartPageState extends State<CartPage> {
                         height: MediaQuery.of(context).size.height / 80,
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ProfilePage(),
+                            ),
+                          );
+                        },
                         child: Container(
                           width: MediaQuery.of(context).size.height - 20,
                           height: MediaQuery.of(context).size.height * 0.05,
@@ -496,7 +504,7 @@ class _CartPageState extends State<CartPage> {
           onPressed: () => Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => OrdersPage(),
+              builder: (BuildContext context) => OrdersPage(),
             ),
           ),
           width: 120,
