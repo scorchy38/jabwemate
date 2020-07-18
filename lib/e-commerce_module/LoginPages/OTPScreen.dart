@@ -39,6 +39,9 @@ class _OTPScreenState extends State<OTPScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final pHeight = MediaQuery.of(context).size.height;
+
+    final pWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: kWhiteColor,
@@ -56,98 +59,105 @@ class _OTPScreenState extends State<OTPScreen> {
           )),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 30),
-        child: Column(
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(left: 16.0, bottom: 16, top: 4),
-              color: kWhiteColor,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  SvgPicture.asset(
-                    'images/loginjwm3.svg',
-                    height: 250,
-                  ),
-                  Text(
-                    "The best care you pet can get",
-                    style: Theme.of(context).textTheme.title.copyWith(
-                        color: kTextColor.withOpacity(0.75), fontSize: 25.0),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(5, 10, 16, 0),
-                    child: Text(
-                      "OTP sent to ${widget.mobileNumber}",
-                      style: Theme.of(context).textTheme.body1.copyWith(
-                            color: kTextColor.withOpacity(0.6),
-                          ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                  color: kPrimaryColor,
-                  borderRadius: BorderRadius.circular(25.0),
-                  border: Border.all(color: kBorderColor, width: 2.0)),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
+        child: Container(
+          height: pHeight,
+          width: pWidth,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(left: 16.0, bottom: 16, top: 4),
+                color: kWhiteColor,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: PinInputTextField(
-                        pinLength: 6,
-                        decoration: _pinDecoration,
-                        controller: _pinEditingController,
-                        autoFocus: true,
-                        textInputAction: TextInputAction.done,
-                        onSubmit: (pin) {
-                          if (pin.length == 6) {
-                            _onFormSubmitted();
-                          } else {
-                            showToast("Invalid OTP", Colors.red);
-                          }
-                        },
-                      ),
+                    SvgPicture.asset(
+                      'images/loginjwm3.svg',
+                      height: pHeight * 0.3,
                     ),
-                    Container(
-                      padding:
-                          const EdgeInsets.only(top: 10, left: 16, right: 16),
-                      child: Center(
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.8,
-                          child: RaisedButton(
-                            color: kPrimaryColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15.0),
-                              side: BorderSide(color: kBorderColor, width: 2.0),
+                    Text(
+                      "The best care you pet can get",
+                      style: Theme.of(context).textTheme.title.copyWith(
+                          color: kTextColor.withOpacity(0.75), fontSize: 25.0),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(5, 10, 16, 0),
+                      child: Text(
+                        "OTP sent to ${widget.mobileNumber}",
+                        style: Theme.of(context).textTheme.body1.copyWith(
+                              color: kTextColor.withOpacity(0.6),
                             ),
-                            child: Text(
-                              "ENTER OTP",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .button
-                                  .copyWith(fontSize: 20.0),
-                            ),
-                            onPressed: () {
-                              if (_pinEditingController.text.length == 6) {
-                                _onFormSubmitted();
-                              } else {
-                                showToast("Invalid OTP", Colors.white);
-                              }
-                            },
-                            padding: EdgeInsets.all(16.0),
-                          ),
-                        ),
                       ),
                     ),
                   ],
                 ),
               ),
-            ),
-          ],
+              Container(
+                decoration: BoxDecoration(
+                    color: kPrimaryColor,
+                    borderRadius: BorderRadius.circular(25.0),
+                    border: Border.all(color: kBorderColor, width: 2.0)),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: PinInputTextField(
+                          pinLength: 6,
+                          decoration: _pinDecoration,
+                          controller: _pinEditingController,
+                          autoFocus: true,
+                          textInputAction: TextInputAction.done,
+                          onSubmit: (pin) {
+                            if (pin.length == 6) {
+                              _onFormSubmitted();
+                            } else {
+                              showToast("Invalid OTP", Colors.red);
+                            }
+                          },
+                        ),
+                      ),
+                      Container(
+                        padding:
+                            const EdgeInsets.only(top: 10, left: 16, right: 16),
+                        child: Center(
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            child: RaisedButton(
+                              color: kPrimaryColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                                side:
+                                    BorderSide(color: kBorderColor, width: 2.0),
+                              ),
+                              child: Text(
+                                "ENTER OTP",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .button
+                                    .copyWith(fontSize: 20.0),
+                              ),
+                              onPressed: () {
+                                if (_pinEditingController.text.length == 6) {
+                                  _onFormSubmitted();
+                                } else {
+                                  showToast("Invalid OTP", Colors.white);
+                                }
+                              },
+                              padding: EdgeInsets.all(16.0),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -176,12 +186,13 @@ class _OTPScreenState extends State<OTPScreen> {
           .then((AuthResult value) async {
         print(widget.mobileNumber);
         Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => SignedIn(
-                phNo: widget.mobileNumber,
-              ),
-            ));
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => SignedIn(
+              phNo: widget.mobileNumber,
+            ),
+          ),
+        );
 //        if (value.user != null) {
 //          FirebaseUser user = await FirebaseAuth.instance.currentUser();
 //          DatabaseReference useraddressref = FirebaseDatabase
@@ -260,12 +271,13 @@ class _OTPScreenState extends State<OTPScreen> {
         .signInWithCredential(_authCredential)
         .then((AuthResult value) async {
       Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => SignedIn(
-              phNo: widget.mobileNumber,
-            ),
-          ));
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => SignedIn(
+            phNo: widget.mobileNumber,
+          ),
+        ),
+      );
 
 //      if (value.user != null) {
 //        FirebaseUser user = await FirebaseAuth.instance.currentUser();

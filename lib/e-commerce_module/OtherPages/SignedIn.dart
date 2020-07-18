@@ -47,16 +47,19 @@ class _SignedInState extends State<SignedIn> {
       if (isStored) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => NavBar()),
+          MaterialPageRoute(
+            builder: (context) => NavBar(),
+          ),
         );
       } else {
         print(widget.phNo);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (context) => AddressFrame(
-                    phno: widget.phNo,
-                  )),
+            builder: (context) => AddressFrame(
+              phno: widget.phNo,
+            ),
+          ),
         );
       }
     });
