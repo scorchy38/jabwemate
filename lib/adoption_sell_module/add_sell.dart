@@ -21,7 +21,7 @@ class AddDogSell extends StatefulWidget {
   _AddDogSellState createState() => _AddDogSellState();
 }
 
-TextEditingController name, city, age, breed, gender, owner;
+TextEditingController name, city, age, breed, gender, owner, address1, address2, phone;
 
 class _AddDogSellState extends State<AddDogSell> {
   @override
@@ -32,6 +32,9 @@ class _AddDogSellState extends State<AddDogSell> {
     breed = new TextEditingController();
     gender = new TextEditingController();
     owner = new TextEditingController();
+    address1 = TextEditingController();
+    address2 = TextEditingController();
+    phone = TextEditingController();
 
     super.initState();
   }
@@ -201,6 +204,9 @@ class _AddDogSellState extends State<AddDogSell> {
           CustomTextField('Enter Name', name),
           CustomTextField('Enter City', city),
           CustomTextField('Enter Age', age),
+          CustomTextField('Address line 1', address1),
+          CustomTextField('Address line 2', address2),
+          CustomTextField('Active Phone Number', phone),
           CustomTextField('Enter Breed', breed),
           CustomTextField('Enter Gender', gender),
           CustomTextField('Enter Owner', owner),
