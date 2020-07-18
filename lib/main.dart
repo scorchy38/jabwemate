@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jabwemate/Screens/FirstScreen.dart';
+import 'package:jabwemate/Screens/SplashScreen.dart';
 import 'package:jabwemate/Screens/home_screen.dart';
 import 'package:jabwemate/style/theme.dart' as Theme;
 import 'package:jabwemate/ui/login_page.dart';
@@ -33,7 +34,7 @@ class MyHome extends StatelessWidget {
           body1: TextStyle(color: kTextColor),
         ),
       ),
-      home: FirstScreen(),
+      home: SplashScreen(),
     );
   }
 }

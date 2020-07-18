@@ -6,7 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jabwemate/e-commerce_module/Classes/Constants.dart';
 import 'package:jabwemate/e-commerce_module/Classes/User.dart';
 import 'package:jabwemate/e-commerce_module/Drawer/support_page_main.dart';
-import 'package:jabwemate/e-commerce_module/LoginPages/PhoneLogin.dart';
+import 'package:jabwemate/ui/login_page.dart';
 
 import '../NavBar.dart';
 import 'ProfilePage.dart';
@@ -203,7 +203,7 @@ class _MorePageState extends State<MorePage> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => PhoneLogin(),
+                            builder: (context) => LoginPage(),
                           ),
                         );
                       },

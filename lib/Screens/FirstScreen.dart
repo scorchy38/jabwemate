@@ -4,8 +4,13 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jabwemate/adoption_sell_module/landing.dart';
 import 'package:jabwemate/delayed_animation.dart';
+import 'package:jabwemate/e-commerce_module/Drawer/MainHome.dart';
 import 'package:jabwemate/e-commerce_module/LoginPages/WelcomeScreen.dart';
+import 'package:jabwemate/e-commerce_module/NavBar.dart';
 import 'package:jabwemate/main.dart';
+import 'package:jabwemate/style/theme.dart' as Theme;
+
+import 'home_screen.dart';
 
 class FirstScreen extends StatefulWidget {
   @override
@@ -29,23 +34,29 @@ class _FirstScreenState extends State<FirstScreen> {
               width: pWidth,
               decoration: BoxDecoration(
                 gradient: new LinearGradient(
-                  colors: [Colors.deepOrange, Colors.orangeAccent],
+                  colors: [
+                    Theme.MyColors.loginGradientStart,
+                    Theme.MyColors.loginGradientEnd
+                  ],
                 ),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  DelayedAnimation(
-                    child: Text("Welcome to Jab We Mate.",
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.k2d(
-                          textStyle: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 30.0,
-                              color: Colors.white),
-                        )),
-                    delay: delayedAmount + 500,
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: DelayedAnimation(
+                      child: Text("Welcome to Jab We Mate.",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.k2d(
+                            textStyle: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 30.0,
+                                color: Colors.white),
+                          )),
+                      delay: delayedAmount + 500,
+                    ),
                   ),
                   SizedBox(
                     height: pHeight * 0.04,
@@ -56,13 +67,17 @@ class _FirstScreenState extends State<FirstScreen> {
             position: Position.BOTTOM_LEFT,
             clipHeight: pHeight * 0.075,
           ),
-          Text(
-            'What do you wish to do for your pet?',
-            style: GoogleFonts.k2d(
-                textStyle: TextStyle(
-              fontSize: 24,
-              color: Colors.black.withOpacity(0.7),
-            )),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'What do you wish to do for your pet?',
+              textAlign: TextAlign.center,
+              style: GoogleFonts.k2d(
+                  textStyle: TextStyle(
+                fontSize: 24,
+                color: Colors.black.withOpacity(0.7),
+              )),
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -70,10 +85,10 @@ class _FirstScreenState extends State<FirstScreen> {
             children: <Widget>[
               InkWell(
                 onTap: () {
-                  Navigator.pushReplacement(
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => MyApp(),
+                      builder: (context) => HomeScreen(),
                     ),
                   );
                 },
@@ -91,13 +106,16 @@ class _FirstScreenState extends State<FirstScreen> {
                           height: pHeight * 0.2,
                           width: pWidth * 0.4,
                         ),
-                        Text(
-                          'Find a mate',
-                          style: GoogleFonts.k2d(
-                              textStyle: TextStyle(
-                            fontSize: pHeight * 0.025,
-                            color: Colors.black.withOpacity(0.6),
-                          )),
+                        Padding(
+                          padding: const EdgeInsets.all(6.0),
+                          child: Text(
+                            'Find a mate',
+                            style: GoogleFonts.k2d(
+                                textStyle: TextStyle(
+                              fontSize: pHeight * 0.025,
+                              color: Colors.black.withOpacity(0.6),
+                            )),
+                          ),
                         )
                       ],
                     ),
@@ -106,10 +124,10 @@ class _FirstScreenState extends State<FirstScreen> {
               ),
               InkWell(
                 onTap: () {
-                  Navigator.pushReplacement(
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => WelcomeScreen(),
+                      builder: (context) => NavBar(),
                     ),
                   );
                 },
@@ -127,13 +145,16 @@ class _FirstScreenState extends State<FirstScreen> {
                           height: pHeight * 0.2,
                           width: pWidth * 0.4,
                         ),
-                        Text(
-                          'Buy essentials',
-                          style: GoogleFonts.k2d(
-                              textStyle: TextStyle(
-                            fontSize: pHeight * 0.025,
-                            color: Colors.black.withOpacity(0.6),
-                          )),
+                        Padding(
+                          padding: const EdgeInsets.all(6.0),
+                          child: Text(
+                            'Buy essentials',
+                            style: GoogleFonts.k2d(
+                                textStyle: TextStyle(
+                              fontSize: pHeight * 0.025,
+                              color: Colors.black.withOpacity(0.6),
+                            )),
+                          ),
                         )
                       ],
                     ),
@@ -148,7 +169,7 @@ class _FirstScreenState extends State<FirstScreen> {
             children: <Widget>[
               InkWell(
                 onTap: () {
-                  Navigator.pushReplacement(
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => IdeasPage(),
@@ -169,13 +190,16 @@ class _FirstScreenState extends State<FirstScreen> {
                           height: pHeight * 0.2,
                           width: pWidth * 0.4,
                         ),
-                        Text(
-                          'Adopt a Dog',
-                          style: GoogleFonts.k2d(
-                              textStyle: TextStyle(
-                            fontSize: pHeight * 0.025,
-                            color: Colors.black.withOpacity(0.6),
-                          )),
+                        Padding(
+                          padding: const EdgeInsets.all(6.0),
+                          child: Text(
+                            'Adopt a Dog',
+                            style: GoogleFonts.k2d(
+                                textStyle: TextStyle(
+                              fontSize: pHeight * 0.025,
+                              color: Colors.black.withOpacity(0.6),
+                            )),
+                          ),
                         )
                       ],
                     ),
@@ -203,13 +227,16 @@ class _FirstScreenState extends State<FirstScreen> {
                           height: pHeight * 0.2,
                           width: pWidth * 0.4,
                         ),
-                        Text(
-                          'Doctor appointment',
-                          style: GoogleFonts.k2d(
-                              textStyle: TextStyle(
-                            fontSize: pHeight * 0.025,
-                            color: Colors.black.withOpacity(0.6),
-                          )),
+                        Padding(
+                          padding: const EdgeInsets.all(6.0),
+                          child: Text(
+                            'Doctor appointment',
+                            style: GoogleFonts.k2d(
+                                textStyle: TextStyle(
+                              fontSize: pHeight * 0.025,
+                              color: Colors.black.withOpacity(0.6),
+                            )),
+                          ),
                         )
                       ],
                     ),
