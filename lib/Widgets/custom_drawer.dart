@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:getflutter/components/avatar/gf_avatar.dart';
 import 'package:getflutter/components/drawer/gf_drawer.dart';
+import 'package:jabwemate/Screens/FirstScreen.dart';
 import 'package:jabwemate/Screens/favourites_screen.dart';
 import 'package:jabwemate/Screens/filtered_search_screen.dart';
 import 'package:jabwemate/Screens/request_landing.dart';
@@ -92,6 +93,30 @@ class _CustomDrawerState extends State<CustomDrawer> {
               padding:
                   const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
               child: Text(
+                'Main Home',
+                style: TextStyle(
+                    fontSize: 24,
+                    fontFamily: 'nunito',
+                    fontWeight: FontWeight.w600),
+              ),
+            ),
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => FirstScreen()),
+              );
+            },
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            height: 0.5,
+            color: Colors.black26,
+          ),
+          ListTile(
+            title: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
+              child: Text(
                 'Home',
                 style: TextStyle(
                     fontSize: 24,
@@ -149,30 +174,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => YourDogs()),
-              );
-            },
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 20),
-            height: 0.5,
-            color: Colors.black26,
-          ),
-          ListTile(
-            title: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
-              child: Text(
-                'Your Favourites',
-                style: TextStyle(
-                    fontSize: 24,
-                    fontFamily: 'nunito',
-                    fontWeight: FontWeight.w600),
-              ),
-            ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Favourites()),
               );
             },
           ),

@@ -495,6 +495,7 @@ class _LoginPageState extends State<LoginPage>
               ),
             ],
           ),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.08),
         ],
       ),
     );
@@ -805,12 +806,18 @@ class _LoginPageState extends State<LoginPage>
     _auth
         .createUserWithEmailAndPassword(email: email, password: pw)
         .then((authResult) async {
-      FirebaseUser user = await FirebaseAuth.instance.currentUser();
-      user.sendEmailVerification();
-
       Fluttertoast.showToast(
           msg: 'Verify your email and then sign in',
           toastLength: Toast.LENGTH_SHORT);
+      FirebaseUser user = await FirebaseAuth.instance.currentUser();
+      user.sendEmailVerification();
+
+      signupEmailController.clear();
+      signupPhoneController.clear();
+      signupPasswordController.clear();
+      signupConfirmPasswordController.clear();
+
+      FirebaseAuth.instance.signOut();
 
       _pageController.animateToPage(0,
           duration: Duration(milliseconds: 500), curve: Curves.decelerate);
