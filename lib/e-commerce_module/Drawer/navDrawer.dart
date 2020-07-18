@@ -1,30 +1,83 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:getflutter/components/avatar/gf_avatar.dart';
 import 'package:getflutter/components/drawer/gf_drawer.dart';
-import 'package:jabwemate/Screens/favourites_screen.dart';
-import 'package:jabwemate/Screens/filtered_search_screen.dart';
-import 'package:jabwemate/Screens/request_landing.dart';
-import 'package:jabwemate/Screens/requests_screen.dart';
-import 'package:jabwemate/Screens/your_dogs.dart';
-import 'package:jabwemate/adoption_sell_module/landing.dart';
-import 'package:jabwemate/style/theme.dart' as Theme;
-import 'package:jabwemate/adoption_sell_module/adopt.dart';
-import 'package:jabwemate/main.dart';
+import 'package:jabwemate/e-commerce_module/Classes/Orders.dart';
+import 'package:jabwemate/e-commerce_module/Drawer/PrivacyPolicy.dart';
+import 'package:jabwemate/e-commerce_module/Drawer/support_page_main.dart';
+import 'package:jabwemate/e-commerce_module/LoginPages/WelcomeScreen.dart';
+import 'package:jabwemate/e-commerce_module/OtherPages/OrdersPage.dart';
+import 'package:jabwemate/e-commerce_module/OtherPages/ProfilePage.dart';
 
-class CustomDrawer extends StatefulWidget {
+class NavDrawer extends StatefulWidget {
+  List<Orders> pastOrders = [];
+  List<Orders> ongoingOrders = [];
+
+  NavDrawer({this.ongoingOrders, this.pastOrders});
   @override
-  _CustomDrawerState createState() => _CustomDrawerState();
+  _NavDrawerState createState() => _NavDrawerState();
 }
 
-class _CustomDrawerState extends State<CustomDrawer> {
+class _NavDrawerState extends State<NavDrawer> {
   Future<void> signOut() async {
     await FirebaseAuth.instance.signOut();
     print('out');
   }
 
+  List<Orders> pastOrders = [];
+  List<Orders> ongoingOrders = [];
   FirebaseAuth mAuth = FirebaseAuth.instance;
+
+  getOrders() async {
+    pastOrders.clear();
+    ongoingOrders.clear();
+    final FirebaseUser user = await mAuth.currentUser();
+    DatabaseReference orderRef =
+        FirebaseDatabase.instance.reference().child('Orders').child(user.uid);
+    orderRef.once().then((DataSnapshot snapshot) async {
+      Map<dynamic, dynamic> values = await snapshot.value;
+      values.forEach((key, values) async {
+        Orders newOrder = Orders();
+        newOrder.orderAmount = values['orderAmount'];
+        print(newOrder.orderAmount);
+        newOrder.itemsName = List<String>.from(values['itemsName']);
+        newOrder.itemsQty = List<int>.from(values['itemsQty']);
+        newOrder.dateTime = values['DateTime'];
+        print(newOrder.dateTime);
+        newOrder.completedTime = values['CompletedTime'];
+        print(newOrder.completedTime);
+        newOrder.shippedTime = values['ShippedTime'];
+        newOrder.status = values['Status'];
+        print(newOrder.status);
+        print(newOrder.shippedTime);
+        print(newOrder.itemsQty);
+        print(newOrder.itemsName);
+        if (values['isCompleted'] == false) {
+          print('Ongoing');
+          ongoingOrders.add(newOrder);
+        } else {
+          print('Past');
+          pastOrders.add(newOrder);
+        }
+      });
+    });
+
+    setState(() {
+      print('Orders fetched');
+    });
+
+    print(ongoingOrders.length);
+    print(pastOrders.length);
+  }
+
+  @override
+  void initState() {
+    getOrders();
+    setState(() {
+      print('Fetched again');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,19 +88,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
           SizedBox(
             height: 50,
             child: Container(
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [
-                Theme.MyColors.loginGradientStart,
-                Theme.MyColors.loginGradientEnd
-              ])),
+              color: Color(0xFF900c3f),
             ),
           ),
           Container(
-            decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [
-              Theme.MyColors.loginGradientStart,
-              Theme.MyColors.loginGradientEnd
-            ])),
+            color: Color(0xFF900c3f),
             height: 150,
             alignment: Alignment.center,
             child: Row(
@@ -58,8 +103,15 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   padding: const EdgeInsets.all(15.0),
                   child: GFAvatar(
                     size: 65,
-                    backgroundColor: Theme.MyColors.loginGradientStart,
-                    backgroundImage: AssetImage('assets/img/dog-2.png'),
+                    backgroundColor: Colors.white,
+                    child: Text(
+                      'GM',
+                      style: TextStyle(
+                          fontSize: 50,
+                          color: Colors.black,
+                          fontFamily: 'sf_pro',
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
                 Column(
@@ -67,7 +119,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      'JabWeMate',
+                      'Grocery Man',
                       style: TextStyle(
                           fontFamily: 'nunito',
                           color: Colors.white,
@@ -75,7 +127,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                           fontSize: 20),
                     ),
                     Text(
-                      'support@jwm.com',
+                      'support@groceryman.com',
                       style: TextStyle(
                           fontFamily: 'nunito',
                           fontSize: 12,
@@ -91,7 +143,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               padding:
                   const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
               child: Text(
-                'Home',
+                'Shop By Categories',
                 style: TextStyle(
                     fontSize: 24,
                     fontFamily: 'nunito',
@@ -112,7 +164,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               padding:
                   const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
               child: Text(
-                'Filtered Search',
+                'Your Orders',
                 style: TextStyle(
                     fontSize: 24,
                     fontFamily: 'nunito',
@@ -123,7 +175,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => FilteredSearch(),
+                    builder: (context) => OrdersPage(),
                   ));
             },
           ),
@@ -137,7 +189,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               padding:
                   const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
               child: Text(
-                'Your Dogs',
+                'Your Account',
                 style: TextStyle(
                     fontSize: 24,
                     fontFamily: 'nunito',
@@ -147,7 +199,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => YourDogs()),
+                MaterialPageRoute(builder: (context) => ProfilePage()),
               );
             },
           ),
@@ -161,7 +213,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               padding:
                   const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
               child: Text(
-                'Your Favourites',
+                'Support',
                 style: TextStyle(
                     fontSize: 24,
                     fontFamily: 'nunito',
@@ -171,7 +223,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Favourites()),
+                MaterialPageRoute(builder: (context) => ContactUsPage()),
               );
             },
           ),
@@ -185,7 +237,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               padding:
                   const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
               child: Text(
-                'Requests',
+                'Privacy Policy',
                 style: TextStyle(
                     fontSize: 24,
                     fontFamily: 'nunito',
@@ -195,7 +247,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Reqs()),
+                MaterialPageRoute(builder: (context) => PrivacyPolicy()),
               );
             },
           ),
@@ -221,7 +273,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => MyApp(),
+                    builder: (context) => WelcomeScreen(),
                   ));
             },
           ),
