@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as p;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -118,7 +119,7 @@ class _AddDogScreenState extends State<AddDogScreen> {
 
   Future filePicker(BuildContext context) async {
     try {
-      file = await FilePicker.getFile(type: FileType.any);
+      file = await ImagePicker.pickImage(source: ImageSource.camera);
       setState(() {
         fileName = p.basename(file.path);
       });
