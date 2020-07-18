@@ -79,6 +79,8 @@ class _MainHomeState extends State<MainHome> {
 
   @override
   Widget build(BuildContext context) {
+    final pHeight = MediaQuery.of(context).size.height;
+    final pWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       drawer: NavDrawer(),
       backgroundColor: Colors.white,
@@ -139,7 +141,7 @@ class _MainHomeState extends State<MainHome> {
                 ),
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.5,
+                height: MediaQuery.of(context).size.height * 0.45,
                 child: ListView.builder(
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
@@ -174,13 +176,16 @@ class _MainHomeState extends State<MainHome> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
-                              Image(
-                                image: NetworkImage(item.imageUrl),
-                                height: 60,
-                                width: 60,
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.15,
+                                child: Image(
+                                  image: NetworkImage(item.imageUrl),
+                                  height: pHeight * 0.058,
+                                  width: 60,
+                                ),
                               ),
                               SizedBox(
-                                width: 20.0,
+                                width: pWidth * 0.025,
                               ),
                               Container(
                                 width: MediaQuery.of(context).size.width * 0.40,
@@ -245,6 +250,7 @@ class _MainHomeState extends State<MainHome> {
                                   ? InkWell(
                                       onTap: null,
                                       child: Container(
+                                        width: pWidth * 0.21,
                                         decoration: BoxDecoration(
                                           color: Colors.blueGrey,
                                           borderRadius:

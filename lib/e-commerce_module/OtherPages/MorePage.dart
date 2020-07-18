@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jabwemate/Screens/FirstScreen.dart';
 import 'package:jabwemate/e-commerce_module/Classes/Constants.dart';
 import 'package:jabwemate/e-commerce_module/Classes/User.dart';
 import 'package:jabwemate/e-commerce_module/Drawer/support_page_main.dart';
@@ -184,6 +185,52 @@ class _MorePageState extends State<MorePage> {
                         ),
                         Text(
                           'Support',
+                          style: Theme.of(context).textTheme.title.copyWith(
+                              color: kPrimaryColor,
+                              fontSize: size.height * 0.036),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Spacer(),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: InkWell(
+                onTap: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => FirstScreen(),
+                    ),
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: kWhiteColor,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: kPrimaryColor, width: 1.0),
+                    boxShadow: [
+                      BoxShadow(
+                          color: kPrimaryColor,
+                          blurRadius: 2.0,
+                          spreadRadius: 0.1),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Icon(
+                          Icons.home,
+                          size: size.height * 0.036,
+                          color: kPrimaryColor,
+                        ),
+                        Text(
+                          'Main Home',
                           style: Theme.of(context).textTheme.title.copyWith(
                               color: kPrimaryColor,
                               fontSize: size.height * 0.036),
