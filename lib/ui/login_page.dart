@@ -6,6 +6,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:jabwemate/Screens/home_screen.dart';
+import 'package:jabwemate/e-commerce_module/LoginPages/PhoneLogin.dart';
+import 'package:jabwemate/e-commerce_module/OtherPages/SignedIn.dart';
 import 'package:jabwemate/style/theme.dart' as Theme;
 import 'package:jabwemate/ui/ForgotPassword.dart';
 import 'package:jabwemate/utils/bubble_indication_painter.dart';
@@ -24,6 +26,7 @@ class _LoginPageState extends State<LoginPage>
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   final FocusNode myFocusNodeEmailLogin = FocusNode();
+  final FocusNode myFocusNodePhoneLogin = FocusNode();
   final FocusNode myFocusNodePasswordLogin = FocusNode();
 
   final FocusNode myFocusNodePassword = FocusNode();
@@ -31,6 +34,7 @@ class _LoginPageState extends State<LoginPage>
 
   TextEditingController loginEmailController = new TextEditingController();
   TextEditingController loginPasswordController = new TextEditingController();
+  TextEditingController loginPhoneController = new TextEditingController();
 
   bool _obscureTextLogin = true;
   bool _obscureTextSignup = true;
@@ -38,6 +42,7 @@ class _LoginPageState extends State<LoginPage>
 
   TextEditingController signupEmailController = new TextEditingController();
   TextEditingController signupPasswordController = new TextEditingController();
+  TextEditingController signupPhoneController = new TextEditingController();
   TextEditingController signupConfirmPasswordController =
       new TextEditingController();
 
@@ -226,7 +231,7 @@ class _LoginPageState extends State<LoginPage>
                 ),
                 child: Container(
                   width: 300.0,
-                  height: 190.0,
+                  height: 270.0,
                   child: Column(
                     children: <Widget>[
                       Padding(
@@ -248,6 +253,35 @@ class _LoginPageState extends State<LoginPage>
                               size: 22.0,
                             ),
                             hintText: "Email Address",
+                            hintStyle: TextStyle(
+                                fontFamily: "WorkSansSemiBold", fontSize: 17.0),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 250.0,
+                        height: 1.0,
+                        color: Colors.grey[400],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
+                        child: TextField(
+                          focusNode: myFocusNodePhoneLogin,
+                          controller: loginPhoneController,
+                          keyboardType: TextInputType.phone,
+                          style: TextStyle(
+                              fontFamily: "WorkSansSemiBold",
+                              fontSize: 16.0,
+                              color: Colors.black),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            icon: Icon(
+                              Icons.phone,
+                              color: Colors.black,
+                              size: 24.0,
+                            ),
+                            hintText: "Phone Number",
                             hintStyle: TextStyle(
                                 fontFamily: "WorkSansSemiBold", fontSize: 17.0),
                           ),
@@ -297,7 +331,7 @@ class _LoginPageState extends State<LoginPage>
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 170.0),
+                margin: EdgeInsets.only(top: 255.0),
                 decoration: new BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   boxShadow: <BoxShadow>[
@@ -337,8 +371,10 @@ class _LoginPageState extends State<LoginPage>
                             fontFamily: "WorkSansBold"),
                       ),
                     ),
-                    onPressed: () => _signIn(loginEmailController.text,
-                        loginPasswordController.text)),
+                    onPressed: () => _signIn(
+                        loginEmailController.text,
+                        loginPasswordController.text,
+                        loginPhoneController.text)),
               ),
             ],
           ),
@@ -425,6 +461,33 @@ class _LoginPageState extends State<LoginPage>
                     ),
                     child: new Icon(
                       FontAwesomeIcons.google,
+                      color: Color(0xFF0084ff),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.1,
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 10.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PhoneLogin(),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(15.0),
+                    decoration: new BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white,
+                    ),
+                    child: new Icon(
+                      FontAwesomeIcons.mobile,
                       color: Color(0xFF0084ff),
                     ),
                   ),
@@ -655,23 +718,21 @@ class _LoginPageState extends State<LoginPage>
     });
   }
 
-  void _signIn(String email, String pw) {
+  void _signIn(String email, String pw, String phNo) {
     _auth
         .signInWithEmailAndPassword(email: email, password: pw)
         .then((authResult) async {
       FirebaseUser user = await FirebaseAuth.instance.currentUser();
 
       if (user.isEmailVerified) {
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) {
-          return new MaterialApp(
-            theme: ThemeData(
-              scaffoldBackgroundColor: Colors.white,
-              primaryColor: Colors.white,
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SignedIn(
+              phNo: phNo,
             ),
-            home: HomeScreen(),
-          );
-        }));
+          ),
+        );
       } else {
         Fluttertoast.showToast(
             msg: 'Please verify your email to sign in',
@@ -746,6 +807,10 @@ class _LoginPageState extends State<LoginPage>
         .then((authResult) async {
       FirebaseUser user = await FirebaseAuth.instance.currentUser();
       user.sendEmailVerification();
+
+      Fluttertoast.showToast(
+          msg: 'Verify your email and then sign in',
+          toastLength: Toast.LENGTH_SHORT);
 
       _pageController.animateToPage(0,
           duration: Duration(milliseconds: 500), curve: Curves.decelerate);

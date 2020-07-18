@@ -12,6 +12,7 @@ import 'package:jabwemate/adoption_sell_module/landing.dart';
 import 'package:jabwemate/style/theme.dart' as Theme;
 import 'package:jabwemate/adoption_sell_module/adopt.dart';
 import 'package:jabwemate/main.dart';
+import 'package:jabwemate/ui/login_page.dart';
 
 class CustomDrawer extends StatefulWidget {
   @override
@@ -221,7 +222,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => MyApp(),
+                    builder: (context) => LoginPage(),
                   ));
             },
           ),

@@ -151,7 +151,7 @@ class _FilteredSearchState extends State<FilteredSearch> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                height: height * 0.85,
+                height: height * 0.75,
                 child: ListView.builder(
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,

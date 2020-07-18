@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:jabwemate/Screens/FirstScreen.dart';
 import 'package:jabwemate/e-commerce_module/Classes/Constants.dart';
 import 'package:jabwemate/e-commerce_module/LoginPages/addressFrame.dart';
+import 'package:jabwemate/style/theme.dart' as Theme;
 
 import '../NavBar.dart';
 
@@ -48,7 +50,7 @@ class _SignedInState extends State<SignedIn> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => NavBar(),
+            builder: (context) => FirstScreen(),
           ),
         );
       } else {
@@ -67,10 +69,21 @@ class _SignedInState extends State<SignedIn> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: kPrimaryColor,
       body: Center(
         child: Container(
+          height: size.height,
+          width: size.width,
+          decoration: BoxDecoration(
+            gradient: new LinearGradient(
+              colors: [
+                Theme.MyColors.loginGradientStart,
+                Theme.MyColors.loginGradientEnd
+              ],
+            ),
+          ),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
