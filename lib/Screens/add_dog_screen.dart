@@ -148,8 +148,7 @@ class _AddDogScreenState extends State<AddDogScreen> {
   }
 
   List urls = new List();
-  void _uploadFileMultiple(
-      File file, String filename, String key, int i) async {
+  _uploadFileMultiple(File file, String filename, String key, int i) async {
     final FirebaseStorage _storage =
         FirebaseStorage(storageBucket: 'gs://jab-we-mate-ef838.appspot.com/');
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
@@ -158,6 +157,25 @@ class _AddDogScreenState extends State<AddDogScreen> {
     storageReference = _storage.ref().child("Dogs/$key/otherImages");
 
     final StorageUploadTask uploadTask = storageReference.putFile(file);
+    uploadTask.events.listen((event) {
+      setState(() {
+        _isLoading = true;
+        _progress = (event.snapshot.bytesTransferred.toDouble() /
+                event.snapshot.totalByteCount.toDouble()) *
+            100;
+        print('${_progress.toStringAsFixed(2)}%');
+        pr.update(
+          progress: double.parse(_progress.toStringAsFixed(2)),
+          maxProgress: 100.0,
+        );
+      });
+    }).onError((error) {
+      _scaffoldKey.currentState.showSnackBar(new SnackBar(
+        content: new Text(error.toString()),
+        backgroundColor: Colors.red,
+      ));
+    });
+
     final StorageTaskSnapshot downloadUrl = (await uploadTask.onComplete);
     urls.add(await downloadUrl.ref.getDownloadURL());
     print("URL is ${urls[i]}");
@@ -181,7 +199,31 @@ class _AddDogScreenState extends State<AddDogScreen> {
           fileName = p.basename(files[i].path);
         });
         print(fileName);
-        _uploadFileMultiple(files[i], fileName, key, i);
+        pr = ProgressDialog(
+          context,
+          type: ProgressDialogType.Download,
+          textDirection: TextDirection.rtl,
+          isDismissible: false,
+        );
+        pr.style(
+          message: 'Uploading photo...',
+          borderRadius: 10.0,
+          backgroundColor: Colors.white,
+          elevation: 10.0,
+          insetAnimCurve: Curves.easeInOut,
+          progress: 0.0,
+          progressWidgetAlignment: Alignment.center,
+          maxProgress: 100.0,
+          progressTextStyle: TextStyle(
+              color: Colors.black, fontSize: 13.0, fontWeight: FontWeight.w400),
+          messageTextStyle: TextStyle(
+              color: Colors.black, fontSize: 19.0, fontWeight: FontWeight.w600),
+        );
+        await pr.show();
+
+        await _uploadFileMultiple(files[i], fileName, key, i);
+
+        await pr.hide();
       }
     } on PlatformException catch (e) {
       showDialog(
