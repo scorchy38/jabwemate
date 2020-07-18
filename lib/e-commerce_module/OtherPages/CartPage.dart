@@ -9,7 +9,7 @@ import 'package:jabwemate/e-commerce_module/OtherPages/ProfilePage.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:intl/intl.dart';
-
+//TODO:Razor Used
 import 'OrdersPage.dart';
 
 class CartPage extends StatefulWidget {
@@ -22,7 +22,7 @@ class _CartPageState extends State<CartPage> {
   final dbHelper = DatabaseHelper.instance;
   final dbRef = FirebaseDatabase.instance.reference();
   FirebaseAuth mAuth = FirebaseAuth.instance;
-  Razorpay _razorpay;
+   Razorpay _razorpay;
 
   int newQty;
 
@@ -369,7 +369,7 @@ class _CartPageState extends State<CartPage> {
                               InkWell(
                                 onTap: () async {
                                   await onOrderPlaced();
-                                  openCheckout();
+                                  //   openCheckout();
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(

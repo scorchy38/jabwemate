@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -257,10 +258,22 @@ class _NewPullUpState extends State<NewPullUp> {
                             child: ClipRRect(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(5)),
-                              child: Image.network(
-                                widget.dp.iamgeURL,
-                                alignment: Alignment.center,
-                                fit: BoxFit.fill,
+                              child: CachedNetworkImage(
+                                imageUrl: widget.dp.iamgeURL,
+                                imageBuilder: (context, imageProvider) =>
+                                    Container(
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: imageProvider,
+                                        alignment: Alignment.center,
+                                        fit: BoxFit.fill),
+                                  ),
+                                ),
+                                placeholder: (context, url) => GFLoader(
+                                  type: GFLoaderType.ios,
+                                ),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
                               ),
                             ),
                           ),
@@ -319,10 +332,22 @@ class _NewPullUpState extends State<NewPullUp> {
                                 child: ClipRRect(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(5)),
-                                  child: Image.network(
-                                    widget.dp.otherImages[index],
-                                    alignment: Alignment.center,
-                                    fit: BoxFit.fill,
+                                  child: CachedNetworkImage(
+                                    imageUrl: widget.dp.otherImages[index],
+                                    imageBuilder: (context, imageProvider) =>
+                                        Container(
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image: imageProvider,
+                                            alignment: Alignment.center,
+                                            fit: BoxFit.fill),
+                                      ),
+                                    ),
+                                    placeholder: (context, url) => GFLoader(
+                                      type: GFLoaderType.ios,
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
                                   ),
                                 ),
                               ),

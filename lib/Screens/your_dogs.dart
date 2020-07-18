@@ -1,6 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:getflutter/components/loader/gf_loader.dart';
+import 'package:getflutter/types/gf_loader_type.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jabwemate/Classes/dog_profile.dart';
 import 'package:jabwemate/Screens/add_dog_screen.dart';
@@ -21,7 +24,9 @@ List<Widget> dogCardsList = [];
 
 FirebaseAuth mAuth;
 bool loading = true;
-Widget loader = CircularProgressIndicator();
+Widget loader = GFLoader(
+  type: GFLoaderType.ios,
+);
 final _scaffoldKey = GlobalKey<ScaffoldState>();
 
 class _YourDogsState extends State<YourDogs> {
@@ -123,11 +128,22 @@ class _YourDogsState extends State<YourDogs> {
                             ),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(25.0),
-                              child: Image.network(
-                                item.iamgeURL,
-                                height: 50,
-                                width: 50,
-                                fit: BoxFit.fill,
+                              child: CachedNetworkImage(
+                                imageUrl: item.iamgeURL,
+                                imageBuilder: (context, imageProvider) =>
+                                    Container(
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: imageProvider,
+                                        alignment: Alignment.center,
+                                        fit: BoxFit.fill),
+                                  ),
+                                ),
+                                placeholder: (context, url) => GFLoader(
+                                  type: GFLoaderType.ios,
+                                ),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
                               ),
                             ),
                           ),

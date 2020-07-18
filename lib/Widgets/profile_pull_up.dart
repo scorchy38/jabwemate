@@ -1,14 +1,16 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:getflutter/getflutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jabwemate/Classes/dog_profile.dart';
 import 'package:jabwemate/Screens/filtered_search_screen.dart';
 import 'package:jabwemate/style/theme.dart';
 import 'package:random_string/random_string.dart';
-import 'package:razorpay_flutter/razorpay_flutter.dart';
+
 
 import 'my_dog_card.dart';
 
@@ -91,10 +93,22 @@ class _ProfilePullUpState extends State<ProfilePullUp> {
                             child: ClipRRect(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(5)),
-                              child: Image.network(
-                                widget.dp.iamgeURL,
-                                alignment: Alignment.center,
-                                fit: BoxFit.fill,
+                              child: CachedNetworkImage(
+                                imageUrl: widget.dp.iamgeURL,
+                                imageBuilder: (context, imageProvider) =>
+                                    Container(
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: imageProvider,
+                                        alignment: Alignment.center,
+                                        fit: BoxFit.fill),
+                                  ),
+                                ),
+                                placeholder: (context, url) => GFLoader(
+                                  type: GFLoaderType.ios,
+                                ),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
                               ),
                             ),
                           ),
@@ -221,10 +235,22 @@ class _ProfilePullUpState extends State<ProfilePullUp> {
                                 child: ClipRRect(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(5)),
-                                  child: Image.network(
-                                    widget.dp.otherImages[index],
-                                    alignment: Alignment.center,
-                                    fit: BoxFit.fill,
+                                  child: CachedNetworkImage(
+                                    imageUrl: widget.dp.otherImages[index],
+                                    imageBuilder: (context, imageProvider) =>
+                                        Container(
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image: imageProvider,
+                                            alignment: Alignment.center,
+                                            fit: BoxFit.fill),
+                                      ),
+                                    ),
+                                    placeholder: (context, url) => GFLoader(
+                                      type: GFLoaderType.ios,
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
                                   ),
                                 ),
                               ),
@@ -303,11 +329,21 @@ class _PullUpState extends State<PullUp> {
                               ),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(25.0),
-                                child: Image.network(
-                                  item.iamgeURL,
-                                  height: 50,
-                                  width: 50,
-                                  fit: BoxFit.fill,
+                                child: CachedNetworkImage(
+                                  imageUrl: item.iamgeURL,
+                                  imageBuilder: (context, imageProvider) =>
+                                      Container(
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          image: imageProvider,
+                                          fit: BoxFit.fill),
+                                    ),
+                                  ),
+                                  placeholder: (context, url) => GFLoader(
+                                    type: GFLoaderType.ios,
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      Icon(Icons.error),
                                 ),
                               ),
                             ),
@@ -331,7 +367,10 @@ class _PullUpState extends State<PullUp> {
                 );
               },
             )
-          : Center(child: CircularProgressIndicator()),
+          : Center(
+              child: GFLoader(
+              type: GFLoaderType.ios,
+            )),
     );
   }
 

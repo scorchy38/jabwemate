@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -11,6 +12,7 @@ import 'package:jabwemate/style/theme.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'home_screen.dart';
 
+//TODO:Razor Used
 class Recents extends StatefulWidget {
   @override
   _RecentsState createState() => _RecentsState();
@@ -20,7 +22,7 @@ class _RecentsState extends State<Recents> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   double height, width;
-  Razorpay _razorpay;
+   Razorpay _razorpay;
   @override
   void initState() {
     getRequests();
@@ -35,7 +37,7 @@ class _RecentsState extends State<Recents> {
   @override
   void dispose() {
     super.dispose();
-    _razorpay.clear();
+    //   _razorpay.clear();
   }
 
   void openCheckout() async {
@@ -50,18 +52,18 @@ class _RecentsState extends State<Recents> {
     };
 
     try {
-      _razorpay.open(options);
+//      _razorpay.open(options);
     } catch (e) {
       debugPrint(e);
     }
   }
-
+  String status = "Loading";
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     Fluttertoast.showToast(
         msg: "SUCCESS: " + response.paymentId, timeInSecForIosWeb: 4);
   }
 
-  String status = "Loading";
+
   void _handlePaymentError(PaymentFailureResponse response) {
     Fluttertoast.showToast(
         msg: "ERROR: " + response.code.toString() + " - " + response.message,
@@ -492,10 +494,22 @@ class _NewPullUpState extends State<NewPullUp> {
                             child: ClipRRect(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(5)),
-                              child: Image.network(
-                                widget.dp.iamgeURL,
-                                alignment: Alignment.center,
-                                fit: BoxFit.fill,
+                              child: CachedNetworkImage(
+                                imageUrl: widget.dp.iamgeURL,
+                                imageBuilder: (context, imageProvider) =>
+                                    Container(
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: imageProvider,
+                                        alignment: Alignment.center,
+                                        fit: BoxFit.fill),
+                                  ),
+                                ),
+                                placeholder: (context, url) => GFLoader(
+                                  type: GFLoaderType.ios,
+                                ),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
                               ),
                             ),
                           ),

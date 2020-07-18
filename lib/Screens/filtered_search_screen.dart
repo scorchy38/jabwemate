@@ -1,5 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:getflutter/components/loader/gf_loader.dart';
+import 'package:getflutter/types/gf_loader_type.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jabwemate/Classes/dog_profile.dart';
 import 'package:jabwemate/Screens/home_screen.dart';
@@ -180,11 +183,23 @@ class _FilteredSearchState extends State<FilteredSearch> {
                                 ),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(25.0),
-                                  child: Image.network(
-                                    item.iamgeURL,
+                                  child: CachedNetworkImage(
                                     height: 50,
                                     width: 50,
-                                    fit: BoxFit.fill,
+                                    imageUrl: item.iamgeURL,
+                                    imageBuilder: (context, imageProvider) =>
+                                        Container(
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image: imageProvider,
+                                            fit: BoxFit.fill),
+                                      ),
+                                    ),
+                                    placeholder: (context, url) => GFLoader(
+                                      type: GFLoaderType.ios,
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
                                   ),
                                 ),
                               ),

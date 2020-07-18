@@ -1,5 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:getflutter/components/image/gf_image_overlay.dart';
+import 'package:getflutter/components/loader/gf_loader.dart';
+import 'package:getflutter/getflutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jabwemate/Classes/dog_profile.dart';
 import 'package:jabwemate/Widgets/profile_pull_up.dart';
@@ -45,7 +48,9 @@ class _ProfileCardState extends State<ProfileCard> {
           child: ClipRRect(
               borderRadius: BorderRadius.all(Radius.circular(15)),
               child: GFImageOverlay(
-                image: NetworkImage(widget.dp.iamgeURL),
+                image: CachedNetworkImageProvider(
+                  widget.dp.iamgeURL,
+                ),
                 child: Padding(
                   padding: const EdgeInsets.all(25.0),
                   child: Column(
