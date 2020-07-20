@@ -11,6 +11,7 @@ import 'package:jabwemate/main.dart';
 import 'package:jabwemate/style/theme.dart' as Theme;
 
 import 'home_screen.dart';
+import 'docMainScreen.dart';
 
 class FirstScreen extends StatefulWidget {
   @override
@@ -208,10 +209,16 @@ class _FirstScreenState extends State<FirstScreen> {
               ),
               InkWell(
                 onTap: () {
-                  Fluttertoast.showToast(
-                      msg: 'Coming Soon!',
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.CENTER);
+                  // Fluttertoast.showToast(
+                  //     msg: 'Coming Soon!',
+                  //     toastLength: Toast.LENGTH_SHORT,
+                  //     gravity: ToastGravity.CENTER);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DocMainScreen(),
+                    ),
+                  );
                 },
                 child: Card(
                   elevation: 6,
