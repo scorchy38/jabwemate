@@ -6,6 +6,7 @@ import 'package:jabwemate/Classes/Doc_data.dart';
 import 'package:jabwemate/Widgets/docCustomDrawer.dart';
 import 'package:jabwemate/Widgets/appbar.dart';
 import 'package:jabwemate/Screens/BookingScreen.dart';
+import 'package:jabwemate/Screens/BookingScreen.dart';
 
 class DocMainScreen extends StatefulWidget {
   @override
@@ -18,49 +19,27 @@ String uid;
 class _DocMainScreenState extends State<DocMainScreen> {
   int number = 0;
   int max = 10;
-  void getUser() async {
-    final FirebaseUser user = await auth.currentUser();
-    uid = user.uid;
-    print(uid);
-    // here you write the codes to input the data into firestore
-  }
 
-  final databaseReference = Firestore.instance;
+  final docdatabaseReference = Firestore.instance;
 
-  // void getData() async {
-  //   dogList.clear();
-  //   print('stsrted loading');
-  //   await databaseReference
-  //       .collection("Dogs")
-  //       .getDocuments()
-  //       .then((QuerySnapshot snapshot) {
-  //     snapshot.documents.forEach((f) async {
-  //       await dogList.add(DogProfile(
-  //           f['profileImage'],
-  //           f['name'],
-  //           f['city'],
-  //           f['age'],
-  //           f['breed'],
-  //           f['gender'],
-  //           f['owner'],
-  //           f['ownerID'],
-  //           f['address'],
-  //           f['phone'],
-  //           otherImages: f['imageLinks']));
-  //       print('Dog added');
-  //       print(f['imageLinks'].toString());
-  //     });
-  //   });
-  //   setState(() {
-  //     print(dogList.length.toString());
-  //   });
-  // }
-
-  @override
-  void initState() {
-    getUser();
-    //getData();
-    super.initState();
+  void getData() async {
+    docpros.clear();
+    await docdatabaseReference
+        .collection("Dogs")
+        .getDocuments()
+        .then((QuerySnapshot snapshot) {
+      snapshot.documents.forEach((doc) async {
+        Docpro newdp = Docpro(
+          address: doc['address'],
+          imageUrl: doc['ImgUrl'],
+          name: doc['name'],
+          specs: doc['specs'],
+          degr: doc['degr'],
+          cost: doc['cost'],
+        );
+        await docpros.add(newdp);
+      });
+    });
   }
 
   //function to return list of column of doctors
@@ -159,6 +138,7 @@ class _DocMainScreenState extends State<DocMainScreen> {
       backgroundColor: Color(0xFFEFF7F6),
       appBar: CustomAppBar(),
       body: ListView(
+        physics: BouncingScrollPhysics(),
         children: <Widget>[
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
