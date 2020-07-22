@@ -1,11 +1,11 @@
+//import 'dart:html';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:jabwemate/Classes/Doc_data.dart';
 import 'package:jabwemate/Widgets/docCustomDrawer.dart';
 import 'package:jabwemate/Widgets/appbar.dart';
-import 'package:jabwemate/Screens/BookingScreen.dart';
 import 'package:jabwemate/Screens/BookingScreen.dart';
 
 class DocMainScreen extends StatefulWidget {
@@ -15,6 +15,7 @@ class DocMainScreen extends StatefulWidget {
 
 final FirebaseAuth auth = FirebaseAuth.instance;
 String uid;
+List<Docpro> docpros = new List<Docpro>();
 
 class _DocMainScreenState extends State<DocMainScreen> {
   int number = 0;
@@ -25,21 +26,45 @@ class _DocMainScreenState extends State<DocMainScreen> {
   void getData() async {
     docpros.clear();
     await docdatabaseReference
-        .collection("Dogs")
+        .collection("Doctors")
         .getDocuments()
         .then((QuerySnapshot snapshot) {
       snapshot.documents.forEach((doc) async {
+        //Array of all TimeSlots
+        List<TimeSlots> timeArr = new List<TimeSlots>();
+
+        List.from(doc["TimeSlots"]).forEach((element) async {
+          TimeSlots newTime = TimeSlots(
+            from: element['From'],
+            to: element['To'],
+            available: element['Available'],
+          );
+          await timeArr.add(newTime);
+        });
+
         Docpro newdp = Docpro(
           address: doc['address'],
-          imageUrl: doc['ImgUrl'],
+          imageUrl: 'images/Doc2.png',
           name: doc['name'],
           specs: doc['specs'],
-          degr: doc['degr'],
+          degree: doc['degree'],
           cost: doc['cost'],
+          slots: timeArr,
         );
+
         await docpros.add(newdp);
+        print("doc added");
       });
     });
+    setState(() {
+      //print(docpros.length.toString());
+    });
+  }
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
   }
 
   //function to return list of column of doctors
@@ -52,7 +77,9 @@ class _DocMainScreenState extends State<DocMainScreen> {
         onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (_) => BookingScreen(), //sending data to BookingScreen
+            builder: (_) => BookingScreen(
+              docpro,
+            ), //sending data to BookingScreen
           ),
         ),
         child: Container(
@@ -101,7 +128,7 @@ class _DocMainScreenState extends State<DocMainScreen> {
                           ),
                           SizedBox(height: 4.0),
                           Text(
-                            docpro.degr,
+                            docpro.degree,
                             style: TextStyle(
                               fontSize: 16.0,
                               fontWeight: FontWeight.w600,
