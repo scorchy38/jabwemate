@@ -3,11 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jabwemate/Classes/Doc_data.dart';
-import 'package:jabwemate/Widgets/docCustomDrawer.dart';
-import 'package:jabwemate/Widgets/appbar.dart';
-import 'package:jabwemate/Screens/docMainScreen.dart';
 
 class BookingScreen extends StatefulWidget {
+  final Docpro docpro;
+  BookingScreen(this.docpro);
   @override
   _BookingScreenState createState() => _BookingScreenState();
 }
@@ -30,8 +29,11 @@ class _BookingScreenState extends State<BookingScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      
+    final pHeight = MediaQuery.of(context).size.height;
+    final pWidth = MediaQuery.of(context).size.width;
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Text(widget.docpro.name),
     );
   }
 }
