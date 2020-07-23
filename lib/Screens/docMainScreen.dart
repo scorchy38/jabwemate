@@ -96,57 +96,71 @@ class _DocMainScreenState extends State<DocMainScreen> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(15.0),
                   child: Image(
-                    height: 150.0,
-                    width: 150.0,
+                    height: 100.0,
+                    width: 100.0,
                     image: AssetImage(docpro.imageUrl),
                     fit: BoxFit.cover,
                   ),
                 ),
                 Expanded(
-                  child: Container(
-                      margin: EdgeInsets.all(12.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            docpro.name,
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            overflow: TextOverflow.ellipsis,
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Container(
+                        //margin: EdgeInsets.all(12.0),
+                        child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        SizedBox(height: 3.0),
+                        Text(
+                          docpro.name,
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
                           ),
-                          SizedBox(height: 4.0),
-                          Text(
-                            docpro.specs,
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            overflow: TextOverflow.ellipsis,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        SizedBox(height: 9.0),
+                        Text(
+                          'Degree:  ' + docpro.degree,
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w600,
                           ),
-                          SizedBox(height: 4.0),
-                          Text(
-                            docpro.degree,
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            overflow: TextOverflow.ellipsis,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        SizedBox(height: 3.0),
+                        Text(
+                          'Specialization: ' + docpro.specs,
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w500,
                           ),
-                          SizedBox(height: 4.0),
-                          Text(
-                            docpro.address,
-                            style: TextStyle(
-                              fontSize: 13.0,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            overflow: TextOverflow.ellipsis,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        SizedBox(height: 4.0),
+                        Text(
+                          'Address: ' + docpro.address,
+                          style: TextStyle(
+                            fontSize: 12.0,
+                            fontWeight: FontWeight.w500,
                           ),
-                          SizedBox(height: 4.0),
-                        ],
-                      )),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        SizedBox(height: 5.0),
+                        Text(
+                          'Cost: ₹' + '${docpro.cost}',
+                          style: TextStyle(
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.green,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        SizedBox(height: 4.0),
+                      ],
+                    )),
+                  ),
                 )
               ],
             )),
@@ -171,12 +185,12 @@ class _DocMainScreenState extends State<DocMainScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.0),
+                padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                 child: Text(
                   'Nearby Doctors',
                   style: TextStyle(
                     fontSize: 24.0,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.bold,
                     letterSpacing: 1.2,
                   ),
                 ),

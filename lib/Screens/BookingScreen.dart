@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:jabwemate/Classes/Doc_data.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 import 'package:jabwemate/Classes/Doc_data.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:jabwemate/Screens/docMainScreen.dart';
 
 class LoginFormBloc extends FormBloc<String, String> {
   final ownerName = TextFieldBloc(
@@ -61,8 +65,28 @@ class LoginFormBloc extends FormBloc<String, String> {
     );
   }
 
+  final appointmentdatabaseReference = Firestore.instance;
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   @override
   void onSubmitting() async {
+    FirebaseUser user = await _auth.currentUser();
+
+    appointmentdatabaseReference
+        .collection("DoctorAppointment")
+        .document()
+        .setData({
+      "ownerName": ownerName.value,
+      "dogName": dogName.value,
+      "dogBreed": dogBreed.value,
+      "dogAge": dogAge.value,
+      "ownerEmail": ownerEmail.value,
+      "ownerPhone": ownerPhone.value,
+      "customerUID": user.uid,
+      "docotrUID": "somethingrandom :)",
+    });
+
     print(ownerName.value);
     print(dogName.value);
     print(dogBreed.value);
@@ -159,9 +183,8 @@ class _BookingScreenState extends State<BookingScreen>
                 onSuccess: (context, state) {
                   LoadingDialog.hide(context);
                   print("Successfully Booked");
-
-                  //Navigator.of(context).pushReplacement(
-                  //    MaterialPageRoute(builder: (_) => SuccessScreen()));
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (_) => DocMainScreen()));
                 },
                 onFailure: (context, state) {
                   LoadingDialog.hide(context);
@@ -403,17 +426,20 @@ class _BookingScreenState extends State<BookingScreen>
                               .toList(),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 20),
-                        child: RaisedButton(
-                          padding: const EdgeInsets.fromLTRB(80, 15, 80, 15),
-                          textColor: Colors.white,
-                          color: Colors.blue,
-                          onPressed: loginFormBloc.submit,
-                          child: Text(
-                            "Book",
-                            style: TextStyle(
-                              fontSize: 15,
+                      GestureDetector(
+                        onTap: () => loginFormBloc.onSubmitting(),
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 10, 0, 20),
+                          child: RaisedButton(
+                            padding: const EdgeInsets.fromLTRB(80, 15, 80, 15),
+                            textColor: Colors.white,
+                            color: Colors.blue,
+                            onPressed: loginFormBloc.submit,
+                            child: Text(
+                              "Book",
+                              style: TextStyle(
+                                fontSize: 15,
+                              ),
                             ),
                           ),
                         ),
