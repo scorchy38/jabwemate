@@ -5,7 +5,20 @@ import 'package:jabwemate/Classes/Doc_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:jabwemate/Screens/docMainScreen.dart';
+
+//Making list for all time slots
+class TimeSlotDrop {
+  String from, to, available;
+  int index;
+  TimeSlotDrop({this.from, this.to, this.available, this.index});
+}
+
+TimeSlotDrop _selectedSlot;
+
+dynamic currentTime;
+
+String docName = "", docAddress = "";
+int selIndex = 0;
 
 class LoginFormBloc extends FormBloc<String, String> {
   final ownerName = TextFieldBloc(
@@ -72,6 +85,7 @@ class LoginFormBloc extends FormBloc<String, String> {
   @override
   void onSubmitting() async {
     FirebaseUser user = await _auth.currentUser();
+    currentTime = DateFormat.jm().format(DateTime.now());
 
     appointmentdatabaseReference
         .collection("DoctorAppointment")
@@ -83,9 +97,31 @@ class LoginFormBloc extends FormBloc<String, String> {
       "dogAge": dogAge.value,
       "ownerEmail": ownerEmail.value,
       "ownerPhone": ownerPhone.value,
-      "customerUID": user.uid,
-      "docotrUID": "somethingrandom :)",
+      "patientUID": user.uid,
+      "doctorUID": "Randomly Generate",
+      "timeSlot": _selectedSlot.from + " - " + _selectedSlot.to,
+      "bookingTime": currentTime,
     });
+
+    // Firestore.instance
+    //     .collection("Doctors")
+    //     .getDocuments()
+    //     .then((QuerySnapshot snapshot) {
+    //   snapshot.documents.forEach((doc) {
+    //     if (doc['name'] == docName && doc['address'] == docAddress) {
+    //       print(doc['ID']);
+    //       //print(doc['TimeSlots'][selIndex]['Available']);
+    //       //doc['TimeSlots'][selIndex]['Available'] = "No";
+    //       Firestore.instance
+    //           .collection("Doctors")
+    //           .document(doc['ID'])
+    //           .updateData({
+    //         'cost': 10
+    //         // "TimeSlots":FieldValue.arrayUnion({"Available": "No"})
+    //       });
+    //     }
+    //   });
+    // });
 
     print(ownerName.value);
     print(dogName.value);
@@ -94,19 +130,9 @@ class LoginFormBloc extends FormBloc<String, String> {
     print(ownerEmail.value);
     print(ownerPhone.value);
     print(ownerAddress.value);
-    //booking time
-    //doctor uid randomly generated
-    //patient uid
-    //time slot selected
+    print(_selectedSlot.from + " - " + _selectedSlot.to);
     await Future<void>.delayed(Duration(seconds: 1));
   }
-}
-
-//Making list for all time slots
-class TimeSlotRadio {
-  String from, to, available;
-  int index;
-  TimeSlotRadio({this.from, this.to, this.available, this.index});
 }
 
 class BookingScreen extends StatefulWidget {
@@ -120,30 +146,30 @@ class _BookingScreenState extends State<BookingScreen>
     with SingleTickerProviderStateMixin {
   AnimationController _controller;
 
-  List<TimeSlotRadio> radioArr = new List<TimeSlotRadio>();
-
   int index = 0;
-  // Default Radio Button Item
-  String radioItem = 'null';
 
-  // Group Value for Radio Button.
-  int id = 1;
+  List<DropdownMenuItem<TimeSlotDrop>> _dropdownMenuItems;
+  List<TimeSlotDrop> dropdownArr = new List<TimeSlotDrop>();
 
   void copyTimeList() {
     List.from(widget.docpro.slots).forEach((element) {
-      TimeSlotRadio newTime = TimeSlotRadio(
+      TimeSlotDrop newTime = TimeSlotDrop(
         from: element.from,
         to: element.to,
         available: element.available,
         index: index + 1,
       );
-      radioArr.add(newTime);
+      dropdownArr.add(newTime);
     });
   }
 
   @override
   void initState() {
     copyTimeList();
+    _dropdownMenuItems = buildDropdownMenuItems(dropdownArr);
+    _selectedSlot = _dropdownMenuItems[0].value;
+    docName = widget.docpro.name;
+    docAddress = widget.docpro.address;
     super.initState();
     _controller = AnimationController(vsync: this);
   }
@@ -152,6 +178,28 @@ class _BookingScreenState extends State<BookingScreen>
   void dispose() {
     super.dispose();
     _controller.dispose();
+  }
+
+  List<DropdownMenuItem<TimeSlotDrop>> buildDropdownMenuItems(List slots) {
+    List<DropdownMenuItem<TimeSlotDrop>> items = List();
+    for (TimeSlotDrop slot in slots) {
+      if (slot.available == "Yes") {
+        items.add(
+          DropdownMenuItem(
+            value: slot,
+            child: Text(slot.from + " - " + slot.to),
+          ),
+        );
+      }
+    }
+    return items;
+  }
+
+  onChangeDropdownItem(TimeSlotDrop selectedSlot) {
+    setState(() {
+      _selectedSlot = selectedSlot;
+      selIndex = selectedSlot.index;
+    });
   }
 
   @override
@@ -178,13 +226,12 @@ class _BookingScreenState extends State<BookingScreen>
               appBar: AppBar(title: Text('Book Appointment')),
               body: FormBlocListener<LoginFormBloc, String, String>(
                 onSubmitting: (context, state) {
-                  LoadingDialog.show(context);
+                  // Navigator.of(context)
+                  //     .push(MaterialPageRoute(builder: (_) => DocMainScreen()));
+                  Navigator.of(context).pop();
                 },
                 onSuccess: (context, state) {
-                  LoadingDialog.hide(context);
                   print("Successfully Booked");
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (_) => DocMainScreen()));
                 },
                 onFailure: (context, state) {
                   LoadingDialog.hide(context);
@@ -401,29 +448,36 @@ class _BookingScreenState extends State<BookingScreen>
                         padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
                         child: TextFieldBlocBuilder(
                           textFieldBloc: loginFormBloc.ownerAddress,
-                          keyboardType: TextInputType.number,
+                          keyboardType: TextInputType.text,
                           decoration: InputDecoration(
                             labelText: "Address",
                             prefixIcon: Icon(Icons.home),
                           ),
                         ),
                       ),
-                      Container(
-                        //height: 350.0,
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 18, 0, 18),
                         child: Column(
-                          children: radioArr
-                              .map((data) => RadioListTile(
-                                    title: Text("${data.from}"),
-                                    groupValue: id,
-                                    value: data.index,
-                                    onChanged: (val) {
-                                      setState(() {
-                                        radioItem = data.from;
-                                        id = data.index;
-                                      });
-                                    },
-                                  ))
-                              .toList(),
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              "Select a Slot",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            DropdownButton(
+                              value: _selectedSlot,
+                              items: _dropdownMenuItems,
+                              onChanged: onChangeDropdownItem,
+                            ),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            Text('Selected: ${_selectedSlot.from}'),
+                          ],
                         ),
                       ),
                       GestureDetector(
