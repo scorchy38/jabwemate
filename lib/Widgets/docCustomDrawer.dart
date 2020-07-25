@@ -6,6 +6,7 @@ import 'package:getflutter/components/drawer/gf_drawer.dart';
 import 'package:jabwemate/Screens/FirstScreen.dart';
 import 'package:jabwemate/style/theme.dart' as Theme;
 import 'package:jabwemate/ui/login_page.dart';
+import 'package:jabwemate/Screens/allAppointmentsMain.dart';
 
 class DocCustomDrawer extends StatefulWidget {
   @override
@@ -61,7 +62,7 @@ class _DocCustomDrawerState extends State<DocCustomDrawer> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      'JabWeMate',
+                      'Appointments',
                       style: TextStyle(
                           fontFamily: 'nunito',
                           color: Colors.white,
@@ -138,11 +139,11 @@ class _DocCustomDrawerState extends State<DocCustomDrawer> {
               ),
             ),
             onTap: () {
-              // Navigator.push(
-              //     context,
-              //     MaterialPageRoute(
-              //       builder: (context) => FilteredSearch(),
-              //     ));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AppointmentMainPage(),
+                  ));
             },
           ),
           Container(

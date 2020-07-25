@@ -17,7 +17,7 @@ TimeSlotDrop _selectedSlot;
 
 dynamic currentTime;
 
-String docName = "", docAddress = "";
+String docName = "", docDegree = "";
 int selIndex = 0;
 
 class LoginFormBloc extends FormBloc<String, String> {
@@ -99,6 +99,9 @@ class LoginFormBloc extends FormBloc<String, String> {
       "ownerPhone": ownerPhone.value,
       "patientUID": user.uid,
       "doctorUID": "Randomly Generate",
+      "docName": docName,
+      "status": "Booked",
+      "docDegree": docDegree,
       "timeSlot": _selectedSlot.from + " - " + _selectedSlot.to,
       "bookingTime": currentTime,
     });
@@ -169,7 +172,7 @@ class _BookingScreenState extends State<BookingScreen>
     _dropdownMenuItems = buildDropdownMenuItems(dropdownArr);
     _selectedSlot = _dropdownMenuItems[0].value;
     docName = widget.docpro.name;
-    docAddress = widget.docpro.address;
+    docDegree = widget.docpro.degree;
     super.initState();
     _controller = AnimationController(vsync: this);
   }
