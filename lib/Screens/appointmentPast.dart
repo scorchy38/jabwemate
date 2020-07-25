@@ -33,44 +33,42 @@ class _PastAppointmentState extends State<PastAppointment> {
         .getDocuments()
         .then((QuerySnapshot snapshot) {
       snapshot.documents.forEach((f) {
-        fuAppList.add(AppointmentData(
-          f['bookingTime'],
-          f['doctorUID'],
-          f['docName'],
-          f['docDegree'],
-          f['status'],
-          f['dogAge'],
-          f['dogBreed'],
-          f['dogName'],
-          f['ownerEmail'],
-          f['ownerName'],
-          f['ownerPhone'],
-          f['patientUID'],
-          f['timeSlot'],
-        ));
-        futAppointsList.add(MyAppointmentCard(
-            AppointmentData(
-              f['bookingTime'],
-              f['doctorUID'],
-              f['docName'],
-              f['docDegree'],
-              f['status'],
-              f['dogAge'],
-              f['dogBreed'],
-              f['dogName'],
-              f['ownerEmail'],
-              f['ownerName'],
-              f['ownerPhone'],
-              f['patientUID'],
-              f['timeSlot'],
-            ),
-            width,
-            height,
-            context: context));
-        // print('Dog added');
-        // print(f['imageLinks'].toString());
-        // print('Dog added');
-        // print(f['profileImage'].toString());
+        if (uid == f['patientUID'] && f['status'] == "Cancelled") {
+          fuAppList.add(AppointmentData(
+            f['bookingTime'],
+            f['doctorUID'],
+            f['docName'],
+            f['docDegree'],
+            f['status'],
+            f['dogAge'],
+            f['dogBreed'],
+            f['dogName'],
+            f['ownerEmail'],
+            f['ownerName'],
+            f['ownerPhone'],
+            f['patientUID'],
+            f['timeSlot'],
+          ));
+          futAppointsList.add(MyAppointmentCard(
+              AppointmentData(
+                f['bookingTime'],
+                f['doctorUID'],
+                f['docName'],
+                f['docDegree'],
+                f['status'],
+                f['dogAge'],
+                f['dogBreed'],
+                f['dogName'],
+                f['ownerEmail'],
+                f['ownerName'],
+                f['ownerPhone'],
+                f['patientUID'],
+                f['timeSlot'],
+              ),
+              width,
+              height,
+              context: context));
+        }
       });
     });
     setState(() {
@@ -104,7 +102,7 @@ class _PastAppointmentState extends State<PastAppointment> {
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
                     padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                    height: 250,
+                    height: 200,
                     width: double.maxFinite,
                     child: Card(
                       elevation: 5,
@@ -290,43 +288,6 @@ class _PastAppointmentState extends State<PastAppointment> {
                                                           //     ),
                                                           //   ),
                                                           // ],
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Align(
-                                                alignment:
-                                                    Alignment.bottomCenter,
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          right: 10.0),
-                                                  child: Column(
-                                                    children: <Widget>[
-                                                      Container(
-                                                        width: 150,
-                                                        child: RaisedButton(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .fromLTRB(
-                                                                  0, 0, 0, 0),
-                                                          textColor:
-                                                              Colors.white,
-                                                          color: Colors.red,
-                                                          onPressed: () {
-                                                            print("Hi");
-                                                          },
-                                                          child: Text(
-                                                            "Cancel",
-                                                            style: TextStyle(
-                                                              fontSize: 15,
-                                                            ),
-                                                          ),
                                                         ),
                                                       ),
                                                     ],

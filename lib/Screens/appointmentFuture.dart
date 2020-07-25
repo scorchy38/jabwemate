@@ -31,40 +31,43 @@ class _FutureAppointmentState extends State<FutureAppointment> {
         .getDocuments()
         .then((QuerySnapshot snapshot) {
       snapshot.documents.forEach((f) {
-        fuAppList.add(AppointmentData(
-          f['bookingTime'],
-          f['doctorUID'],
-          f['docName'],
-          f['docDegree'],
-          f['status'],
-          f['dogAge'],
-          f['dogBreed'],
-          f['dogName'],
-          f['ownerEmail'],
-          f['ownerName'],
-          f['ownerPhone'],
-          f['patientUID'],
-          f['timeSlot'],
-        ));
-        futAppointsList.add(MyAppointmentCard(
-            AppointmentData(
-              f['bookingTime'],
-              f['doctorUID'],
-              f['docName'],
-              f['docDegree'],
-              f['status'],
-              f['dogAge'],
-              f['dogBreed'],
-              f['dogName'],
-              f['ownerEmail'],
-              f['ownerName'],
-              f['ownerPhone'],
-              f['patientUID'],
-              f['timeSlot'],
-            ),
-            width,
-            height,
-            context: context));
+        if (uid == f['patientUID'] && f['status'] == "Booked") {
+          fuAppList.add(AppointmentData(
+            f['bookingTime'],
+            f['doctorUID'],
+            f['docName'],
+            f['docDegree'],
+            f['status'],
+            f['dogAge'],
+            f['dogBreed'],
+            f['dogName'],
+            f['ownerEmail'],
+            f['ownerName'],
+            f['ownerPhone'],
+            f['patientUID'],
+            f['timeSlot'],
+          ));
+
+          futAppointsList.add(MyAppointmentCard(
+              AppointmentData(
+                f['bookingTime'],
+                f['doctorUID'],
+                f['docName'],
+                f['docDegree'],
+                f['status'],
+                f['dogAge'],
+                f['dogBreed'],
+                f['dogName'],
+                f['ownerEmail'],
+                f['ownerName'],
+                f['ownerPhone'],
+                f['patientUID'],
+                f['timeSlot'],
+              ),
+              width,
+              height,
+              context: context));
+        }
       });
     });
     setState(() {
@@ -312,8 +315,35 @@ class _FutureAppointmentState extends State<FutureAppointment> {
                                                           textColor:
                                                               Colors.white,
                                                           color: Colors.red,
-                                                          onPressed: () {
-                                                            print("Hi");
+                                                          onPressed: () async {
+                                                            Firestore.instance
+                                                                .collection(
+                                                                    "DoctorAppointment")
+                                                                .getDocuments()
+                                                                .then((QuerySnapshot
+                                                                    snapshot) {
+                                                              snapshot.documents
+                                                                  .forEach(
+                                                                      (appo) {
+                                                                if (appo['docName'] ==
+                                                                        item
+                                                                            .docName &&
+                                                                    appo['dogName'] ==
+                                                                        item.dogName) {
+                                                                  Firestore
+                                                                      .instance
+                                                                      .collection(
+                                                                          "DoctorAppointment")
+                                                                      .document(
+                                                                          appo[
+                                                                              'doctorUID'])
+                                                                      .updateData({
+                                                                    'status':
+                                                                        "Cancelled"
+                                                                  });
+                                                                }
+                                                              });
+                                                            });
                                                           },
                                                           child: Text(
                                                             "Cancel",
