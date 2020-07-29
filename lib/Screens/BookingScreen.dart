@@ -84,6 +84,8 @@ class LoginFormBloc extends FormBloc<String, String> {
 
   @override
   void onSubmitting() async {
+    print('Document ID is ===== $docId');
+
     FirebaseUser user = await _auth.currentUser();
     currentTime = DateFormat.jm().format(DateTime.now());
 
@@ -98,12 +100,26 @@ class LoginFormBloc extends FormBloc<String, String> {
       "ownerEmail": ownerEmail.value,
       "ownerPhone": ownerPhone.value,
       "patientUID": user.uid,
-      "doctorUID": "Randomly Generate",
+      "doctorUID": docId,
       "docName": docName,
       "status": "Booked",
       "docDegree": docDegree,
-      "timeSlot": _selectedSlot.from + " - " + _selectedSlot.to,
+      "from": _selectedSlot.from,
+      'to': _selectedSlot.to,
       "bookingTime": currentTime,
+    });
+
+    print('Document ID is ===== $docId');
+
+    Firestore.instance.collection('Doctors').document(docId).updateData({
+      'TimeSlots': FieldValue.arrayRemove([
+        {'Available': 'Yes', 'From': _selectedSlot.from, 'To': _selectedSlot.to}
+      ])
+    });
+    Firestore.instance.collection('Doctors').document(docId).updateData({
+      'TimeSlots': FieldValue.arrayUnion([
+        {'Available': 'No', 'From': _selectedSlot.from, 'To': _selectedSlot.to}
+      ])
     });
 
     // Firestore.instance
@@ -137,6 +153,8 @@ class LoginFormBloc extends FormBloc<String, String> {
     await Future<void>.delayed(Duration(seconds: 1));
   }
 }
+
+String docId = '';
 
 class BookingScreen extends StatefulWidget {
   final Docpro docpro;
@@ -175,6 +193,9 @@ class _BookingScreenState extends State<BookingScreen>
     docDegree = widget.docpro.degree;
     super.initState();
     _controller = AnimationController(vsync: this);
+    print('DOCTOR ID AND DOCUMENT ID IS ${widget.docpro.docId}');
+    docId = widget.docpro.docId;
+    print(docId);
   }
 
   @override
@@ -185,6 +206,7 @@ class _BookingScreenState extends State<BookingScreen>
 
   List<DropdownMenuItem<TimeSlotDrop>> buildDropdownMenuItems(List slots) {
     List<DropdownMenuItem<TimeSlotDrop>> items = List();
+    items.clear();
     for (TimeSlotDrop slot in slots) {
       if (slot.available == "Yes") {
         items.add(

@@ -42,22 +42,23 @@ class _DocMainScreenState extends State<DocMainScreen> {
           await timeArr.add(newTime);
         });
 
-        Docpro newdp = Docpro(
-          address: doc['address'],
-          imageUrl: 'images/Doc2.png',
-          name: doc['name'],
-          specs: doc['specs'],
-          degree: doc['degree'],
-          cost: doc['cost'],
-          slots: timeArr,
-        );
+        Docpro newdp = Docpro();
+        newdp.address = await doc['address'];
+        newdp.imageUrl = 'images/Doc2.png';
+        newdp.name = await doc['name'];
+        newdp.specs = await doc['specs'];
+        newdp.degree = await doc['degree'];
+        newdp.cost = await doc['cost'];
+        newdp.slots = timeArr;
+        newdp.docId = await doc['ID'];
+        print('---------DOC ID ${newdp.docId}------------');
 
-        await docpros.add(newdp);
+        docpros.add(newdp);
         print("doc added");
       });
     });
     setState(() {
-      //print(docpros.length.toString());
+      print(docpros.length.toString());
     });
   }
 

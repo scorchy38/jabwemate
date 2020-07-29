@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jabwemate/Classes/appointment_data.dart';
+import 'package:jabwemate/Screens/BookingScreen.dart';
 import 'package:jabwemate/Screens/home_screen.dart';
 import 'package:jabwemate/Widgets/my_appointment_card.dart';
 import 'package:jabwemate/style/theme.dart';
@@ -33,38 +34,40 @@ class _PastAppointmentState extends State<PastAppointment> {
         .getDocuments()
         .then((QuerySnapshot snapshot) {
       snapshot.documents.forEach((f) {
-        if (uid == f['patientUID'] && f['status'] == "Cancelled") {
+        if (uid == f['patientUID'] && f['status'] != "Booked") {
           fuAppList.add(AppointmentData(
-            f['bookingTime'],
-            f['doctorUID'],
-            f['docName'],
-            f['docDegree'],
-            f['status'],
-            f['dogAge'],
-            f['dogBreed'],
-            f['dogName'],
-            f['ownerEmail'],
-            f['ownerName'],
-            f['ownerPhone'],
-            f['patientUID'],
-            f['timeSlot'],
-          ));
+              f['bookingTime'],
+              f['doctorUID'],
+              f['docName'],
+              f['docDegree'],
+              f['status'],
+              f['dogAge'],
+              f['dogBreed'],
+              f['dogName'],
+              f['ownerEmail'],
+              f['ownerName'],
+              f['ownerPhone'],
+              f['patientUID'],
+              f['from'],
+              f['to'],
+              f.documentID));
           futAppointsList.add(MyAppointmentCard(
               AppointmentData(
-                f['bookingTime'],
-                f['doctorUID'],
-                f['docName'],
-                f['docDegree'],
-                f['status'],
-                f['dogAge'],
-                f['dogBreed'],
-                f['dogName'],
-                f['ownerEmail'],
-                f['ownerName'],
-                f['ownerPhone'],
-                f['patientUID'],
-                f['timeSlot'],
-              ),
+                  f['bookingTime'],
+                  f['doctorUID'],
+                  f['docName'],
+                  f['docDegree'],
+                  f['status'],
+                  f['dogAge'],
+                  f['dogBreed'],
+                  f['dogName'],
+                  f['ownerEmail'],
+                  f['ownerName'],
+                  f['ownerPhone'],
+                  f['patientUID'],
+                  f['from'],
+                  f['to'],
+                  f.documentID),
               width,
               height,
               context: context));
@@ -221,7 +224,9 @@ class _PastAppointmentState extends State<PastAppointment> {
                                                             TextAlign.left,
                                                         text: TextSpan(
                                                           text: '\nSlot: ' +
-                                                              item.timeSlot,
+                                                              item.from +
+                                                              ' - ' +
+                                                              item.to,
                                                           style: TextStyle(
                                                               color: Colors
                                                                   .black87,
@@ -311,7 +316,9 @@ class _PastAppointmentState extends State<PastAppointment> {
                 );
               },
             )
-          : Center(child: CircularProgressIndicator()),
+          : Center(
+              child: Text('No appointments to show.'),
+            ),
     );
   }
 }
