@@ -40,11 +40,25 @@ class _SplashScreenState extends State<SplashScreen> {
     final pHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Center(
-        child: Image.asset(
-          'assets/images/splashscreen.png',
-          height: pHeight * 0.25,
-        ),
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            flex: 1,
+            child: Container(
+              color: Color(0xFFFCFFF3),
+            ),
+          ),
+          Image.asset(
+            'images/splashpic.png',
+            fit: BoxFit.cover,
+          ),
+          Expanded(
+            flex: 1,
+            child: Container(
+              color: Color(0xFFE9F4F3),
+            ),
+          ),
+        ],
       ),
     );
   }
