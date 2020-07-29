@@ -14,7 +14,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    new Future.delayed(Duration(seconds: 3), () async {
+    new Future.delayed(Duration(seconds: 5), () async {
       FirebaseUser user = await mAuth.currentUser();
       if (user != null) {
         print(user.uid);
