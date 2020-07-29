@@ -127,7 +127,9 @@ class _MyAppointmentCardState extends State<MyAppointmentCard> {
                                             textAlign: TextAlign.left,
                                             text: TextSpan(
                                               text: '\nSlot: ' +
-                                                  widget.dp.timeSlot,
+                                                  widget.dp.from +
+                                                  ' - ' +
+                                                  widget.dp.to,
                                               style: TextStyle(
                                                   color: Colors.black87,
                                                   fontSize: 17,
