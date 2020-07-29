@@ -1,18 +1,18 @@
 class Docpro {
-  final String name, specs, degree, address;
-  final int cost;
-  final String imageUrl;
-  final List<TimeSlots> slots;
+  String name, specs, degree, address, docId;
+  int cost;
+  String imageUrl;
+  List<TimeSlots> slots;
 
-  Docpro({
-    this.address,
-    this.imageUrl,
-    this.name,
-    this.specs,
-    this.degree,
-    this.cost,
-    this.slots,
-  });
+  Docpro(
+      {this.address,
+      this.imageUrl,
+      this.name,
+      this.specs,
+      this.degree,
+      this.cost,
+      this.slots,
+      this.docId});
 }
 
 class TimeSlots {

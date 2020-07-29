@@ -33,20 +33,21 @@ class _FutureAppointmentState extends State<FutureAppointment> {
       snapshot.documents.forEach((f) {
         if (uid == f['patientUID'] && f['status'] == "Booked") {
           fuAppList.add(AppointmentData(
-            f['bookingTime'],
-            f['doctorUID'],
-            f['docName'],
-            f['docDegree'],
-            f['status'],
-            f['dogAge'],
-            f['dogBreed'],
-            f['dogName'],
-            f['ownerEmail'],
-            f['ownerName'],
-            f['ownerPhone'],
-            f['patientUID'],
-            f['timeSlot'],
-          ));
+              f['bookingTime'],
+              f['doctorUID'],
+              f['docName'],
+              f['docDegree'],
+              f['status'],
+              f['dogAge'],
+              f['dogBreed'],
+              f['dogName'],
+              f['ownerEmail'],
+              f['ownerName'],
+              f['ownerPhone'],
+              f['patientUID'],
+              f['from'],
+              f['to'],
+              f.documentID));
 
           futAppointsList.add(MyAppointmentCard(
               AppointmentData(
@@ -62,7 +63,9 @@ class _FutureAppointmentState extends State<FutureAppointment> {
                 f['ownerName'],
                 f['ownerPhone'],
                 f['patientUID'],
-                f['timeSlot'],
+                f['from'],
+                f['to'],
+                f.documentID,
               ),
               width,
               height,
@@ -220,7 +223,9 @@ class _FutureAppointmentState extends State<FutureAppointment> {
                                                             TextAlign.left,
                                                         text: TextSpan(
                                                           text: '\nSlot: ' +
-                                                              item.timeSlot,
+                                                              item.from +
+                                                              ' - ' +
+                                                              item.to,
                                                           style: TextStyle(
                                                               color: Colors
                                                                   .black87,
@@ -319,31 +324,49 @@ class _FutureAppointmentState extends State<FutureAppointment> {
                                                             Firestore.instance
                                                                 .collection(
                                                                     "DoctorAppointment")
-                                                                .getDocuments()
-                                                                .then((QuerySnapshot
-                                                                    snapshot) {
-                                                              snapshot.documents
-                                                                  .forEach(
-                                                                      (appo) {
-                                                                if (appo['docName'] ==
-                                                                        item
-                                                                            .docName &&
-                                                                    appo['dogName'] ==
-                                                                        item.dogName) {
-                                                                  Firestore
-                                                                      .instance
-                                                                      .collection(
-                                                                          "DoctorAppointment")
-                                                                      .document(
-                                                                          appo[
-                                                                              'doctorUID'])
-                                                                      .updateData({
-                                                                    'status':
-                                                                        "Cancelled"
-                                                                  });
-                                                                }
-                                                              });
+                                                                .document(
+                                                                    item.docId)
+                                                                .updateData({
+                                                              'status':
+                                                                  'Cancelled'
                                                             });
+                                                            Firestore.instance
+                                                                .collection(
+                                                                    'Doctors')
+                                                                .document(item
+                                                                    .doctorUID)
+                                                                .updateData({
+                                                              'TimeSlots':
+                                                                  FieldValue
+                                                                      .arrayRemove([
+                                                                {
+                                                                  'Available':
+                                                                      'No',
+                                                                  'From':
+                                                                      item.from,
+                                                                  'To': item.to
+                                                                }
+                                                              ])
+                                                            });
+                                                            Firestore.instance
+                                                                .collection(
+                                                                    'Doctors')
+                                                                .document(item
+                                                                    .doctorUID)
+                                                                .updateData({
+                                                              'TimeSlots':
+                                                                  FieldValue
+                                                                      .arrayUnion([
+                                                                {
+                                                                  'Available':
+                                                                      'Yes',
+                                                                  'From':
+                                                                      item.from,
+                                                                  'To': item.to
+                                                                }
+                                                              ])
+                                                            });
+                                                            getData();
                                                           },
                                                           child: Text(
                                                             "Cancel",
@@ -374,7 +397,9 @@ class _FutureAppointmentState extends State<FutureAppointment> {
                 );
               },
             )
-          : Center(child: CircularProgressIndicator()),
+          : Center(
+              child: Text('No appointments to show.'),
+            ),
     );
   }
 }
