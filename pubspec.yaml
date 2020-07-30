@@ -29,7 +29,7 @@ dependencies:
   fluttertoast: ^4.0.0
   google_sign_in: ^4.5.1
   progress_dialog: ^1.2.4
-#  razorpay_flutter: ^1.2.2
+  razorpay_flutter: ^1.2.2
   getflutter: ^1.0.11
   diagonal: ^1.0.1
   rflutter_alert: ^1.0.3
