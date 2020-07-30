@@ -11,7 +11,6 @@ import 'package:jabwemate/Screens/filtered_search_screen.dart';
 import 'package:jabwemate/style/theme.dart';
 import 'package:random_string/random_string.dart';
 
-
 import 'my_dog_card.dart';
 
 class ProfilePullUp extends StatefulWidget {

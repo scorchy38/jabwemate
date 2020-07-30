@@ -2,12 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tindercard/flutter_tindercard.dart';
+
 import 'package:getflutter/getflutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jabwemate/Classes/dog_profile.dart';
 import 'package:jabwemate/Widgets/custom_drawer.dart';
 import 'package:jabwemate/Widgets/appbar.dart';
+import 'package:jabwemate/Widgets/my_dog_card.dart';
 import 'package:jabwemate/Widgets/profile_card.dart';
+import 'package:jabwemate/Widgets/profile_pull_up.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -17,8 +20,12 @@ class HomeScreen extends StatefulWidget {
 final FirebaseAuth auth = FirebaseAuth.instance;
 String uid;
 List<DogProfile> dogList = new List<DogProfile>();
+List dogList2 = new List();
+List dogCardsList2 = new List();
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+  final _scaffoldKey2 = GlobalKey<ScaffoldState>();
+
   int number = 0;
   int max = 10;
   void getUser() async {
@@ -72,6 +79,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     double height = MediaQuery.of(context).size.height;
 
     return new Scaffold(
+      key: _scaffoldKey2,
       drawer: CustomDrawer(),
       backgroundColor: Color(0xFFEFF7F6),
       appBar: CustomAppBar(),
@@ -100,6 +108,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       maxHeight: height * 0.65,
                       minWidth: width * 0.95,
                       minHeight: height * 0.60,
+                      animDuration: 100,
                       cardBuilder: (context, index) => ProfileCard(height,
                           width, index, Scaffold.of(context), dogList[index]),
                       cardController: CardController(),
@@ -113,11 +122,52 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         }
                       },
                       swipeCompleteCallback:
-                          (CardSwipeOrientation orientation, int index) {
+                          (CardSwipeOrientation orientation, int index) async {
                         /// Get orientation & index of swiped card!
-                        setState(() {
-                          number = index;
-                        });
+                        if (orientation == CardSwipeOrientation.RIGHT) {
+                          dogCardsList2.clear();
+                          dogList2.clear();
+                          print('started loading');
+                          await databaseReference
+                              .collection("Dogs")
+                              .getDocuments()
+                              .then((QuerySnapshot snapshot) {
+                            snapshot.documents.forEach((f) async {
+                              if (f['ownerID'] == uid) {
+                                DogProfile dp = DogProfile(
+                                    f['profileImage'],
+                                    f['name'],
+                                    f['city'],
+                                    f['age'],
+                                    f['breed'],
+                                    f['gender'],
+                                    f['owner'],
+                                    f['ownerID'],
+                                    f['address'],
+                                    f['phone'],
+                                    otherImages: f['imageLinks']);
+                                await dogList2.add(dp);
+                                await dogCardsList2.add(MyDogCard(
+                                    dp,
+                                    MediaQuery.of(context).size.width,
+                                    MediaQuery.of(context).size.height));
+                                print('Dog added');
+                                print(f['imageLinks'].toString());
+                              }
+                            });
+                          });
+                          setState(() {
+                            print(dogList2.length.toString());
+                            print(dogCardsList2.length.toString());
+                          });
+                          _scaffoldKey2.currentState.showBottomSheet((context) {
+                            return StatefulBuilder(
+                                builder: (context, StateSetter state) {
+                              return PullUp(dogList2, dogCardsList2,
+                                  dogList[index].name, dogList[index].ownerId);
+                            });
+                          });
+                        }
                         print(orientation.toString());
                         print(index.toString());
                       },

@@ -37,7 +37,7 @@ class _RecentsState extends State<Recents> {
   @override
   void dispose() {
     super.dispose();
-    //   _razorpay.clear();
+       _razorpay.clear();
   }
 
   void openCheckout() async {
@@ -52,17 +52,17 @@ class _RecentsState extends State<Recents> {
     };
 
     try {
-//      _razorpay.open(options);
+    _razorpay.open(options);
     } catch (e) {
       debugPrint(e);
     }
   }
+
   String status = "Loading";
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     Fluttertoast.showToast(
         msg: "SUCCESS: " + response.paymentId, timeInSecForIosWeb: 4);
   }
-
 
   void _handlePaymentError(PaymentFailureResponse response) {
     Fluttertoast.showToast(
