@@ -367,13 +367,9 @@ class _PullUpState extends State<PullUp> {
               },
             )
           : Center(
-              child: Text(
-                'You have not added any dogs yet',
-                style: GoogleFonts.k2d(
-                  textStyle: TextStyle(color: Colors.black, fontSize: 24),
-                ),
-              ),
-            ),
+              child: GFLoader(
+              type: GFLoaderType.ios,
+            )),
     );
   }
 

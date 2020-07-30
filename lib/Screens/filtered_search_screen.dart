@@ -225,10 +225,13 @@ class _FilteredSearchState extends State<FilteredSearch> {
                                     ),
                                   ),
                                 ),
-                                Icon(
-                                  Icons.info_outline,
-                                  color: Colors.black,
-                                ),
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(
+                                    Icons.info_outline,
+                                    color: Colors.black,
+                                  ),
+                                )
                               ],
                             ),
                           ),
