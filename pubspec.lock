@@ -14,7 +14,7 @@ packages:
       name: analyzer
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.39.15"
+    version: "0.39.14"
   archive:
     dependency: transitive
     description:
@@ -147,7 +147,7 @@ packages:
       name: csslib
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.16.2"
+    version: "0.16.1"
   cubit:
     dependency: transitive
     description:
@@ -182,7 +182,7 @@ packages:
       name: equatable
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.3"
+    version: "1.2.2"
   eventify:
     dependency: transitive
     description:
@@ -367,7 +367,7 @@ packages:
       name: flutter_tindercard
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.9"
+    version: "0.1.8"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -729,7 +729,7 @@ packages:
       name: razorpay_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.2"
+    version: "1.2.1"
   rflutter_alert:
     dependency: "direct main"
     description:
