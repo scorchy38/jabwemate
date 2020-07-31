@@ -107,7 +107,13 @@ class _OrdersPageState extends State<OrdersPage> {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: kPrimaryColor,
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: <Color>[kPrimaryColor, kSecondaryColor])),
+          ),
           bottom: TabBar(
             tabs: <Widget>[
               Tab(
@@ -154,7 +160,9 @@ class _OrdersPageState extends State<OrdersPage> {
                         child: Container(
                           height: 350,
                           decoration: BoxDecoration(
-                            color: kPrimaryColor,
+                            gradient: new LinearGradient(
+                              colors: [kPrimaryColor, kSecondaryColor],
+                            ),
                             borderRadius: BorderRadius.circular(15),
                           ),
                           child: Column(

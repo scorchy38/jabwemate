@@ -6,7 +6,7 @@ import 'package:jabwemate/e-commerce_module/Classes/Cart.dart';
 import 'package:jabwemate/e-commerce_module/Classes/Constants.dart';
 import 'package:jabwemate/e-commerce_module/Classes/DatabaseHelper.dart';
 import 'package:jabwemate/e-commerce_module/OtherPages/ProfilePage.dart';
-//import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:intl/intl.dart';
 //TODO:Razor Used
@@ -233,7 +233,9 @@ class _CartPageState extends State<CartPage> {
               Container(
                 height: MediaQuery.of(context).size.height / 4.8,
                 decoration: BoxDecoration(
-                  color: kPrimaryColor,
+                  gradient: new LinearGradient(
+                    colors: [kPrimaryColor, kSecondaryColor],
+                  ),
                   borderRadius: BorderRadius.only(
                     topRight: Radius.circular(15),
                     topLeft: Radius.circular(15),

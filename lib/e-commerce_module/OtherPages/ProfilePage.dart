@@ -49,11 +49,17 @@ class _ProfilePageState extends State<ProfilePage> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: kWhiteColor,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: <Color>[kPrimaryColor, kSecondaryColor])),
+        ),
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios,
-            color: kPrimaryColor,
+            color: Colors.white,
           ),
           onPressed: () => Navigator.pop(context),
         ),
@@ -73,7 +79,7 @@ class _ProfilePageState extends State<ProfilePage> {
               },
               child: Icon(
                 Icons.edit,
-                color: kPrimaryColor,
+                color: Colors.white,
               ),
             ),
           ),
@@ -89,12 +95,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     height: MediaQuery.of(context).size.height * 0.2629,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: kWhiteColor,
+                      gradient: new LinearGradient(
+                        colors: [kPrimaryColor, kSecondaryColor],
+                      ),
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(size.width * 0.5),
                         bottomRight: Radius.circular(size.width * 0.5),
                       ),
-                      border: Border.all(color: kPrimaryColor, width: 2.0),
                       boxShadow: [
                         BoxShadow(
                             color: kPrimaryColor,
@@ -108,7 +115,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         Container(
                           child: Icon(
                             Icons.account_circle,
-                            color: kPrimaryColor,
+                            color: Colors.white,
                             size: size.height * 0.15,
                           ),
                         ),
@@ -119,7 +126,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           child: Text(
                             'PROFILE',
                             style: TextStyle(
-                                color: kPrimaryColor,
+                                color: Colors.white,
                                 fontWeight: FontWeight.w600,
                                 fontSize: size.height * 0.028,
                                 fontFamily: 'Cabin',
@@ -143,7 +150,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               Container(
                                 width: size.width * 0.9,
                                 decoration: BoxDecoration(
-                                  color: kWhiteColor,
+                                  gradient: new LinearGradient(
+                                    colors: [kPrimaryColor, kSecondaryColor],
+                                  ),
                                   borderRadius: BorderRadius.circular(10),
                                   border: Border.all(
                                       color: kPrimaryColor, width: 1.0),
@@ -155,7 +164,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     children: <Widget>[
                                       Icon(
                                         Icons.person,
-                                        color: kPrimaryColor,
+                                        color: Colors.white,
                                         size: size.height * 0.032,
                                       ),
                                       SizedBox(
@@ -169,7 +178,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                               // ignore: deprecated_member_use
                                               .title
                                               .copyWith(
-                                                  color: kPrimaryColor,
+                                                  color: Colors.white,
                                                   fontSize:
                                                       size.height * 0.028),
                                         ),
@@ -184,7 +193,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               Container(
                                 width: size.width * 0.9,
                                 decoration: BoxDecoration(
-                                  color: kWhiteColor,
+                                  gradient: new LinearGradient(
+                                    colors: [kPrimaryColor, kSecondaryColor],
+                                  ),
                                   borderRadius: BorderRadius.circular(10),
                                   border: Border.all(
                                       color: kPrimaryColor, width: 1.0),
@@ -196,7 +207,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     children: <Widget>[
                                       Icon(
                                         Icons.phone,
-                                        color: kPrimaryColor,
+                                        color: Colors.white,
                                         size: size.height * 0.032,
                                       ),
                                       SizedBox(
@@ -210,7 +221,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                               // ignore: deprecated_member_use
                                               .title
                                               .copyWith(
-                                                  color: kPrimaryColor,
+                                                  color: Colors.white,
                                                   fontSize:
                                                       size.height * 0.028),
                                         ),
@@ -225,7 +236,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               Container(
                                 width: size.width * 0.9,
                                 decoration: BoxDecoration(
-                                  color: kWhiteColor,
+                                  gradient: new LinearGradient(
+                                    colors: [kPrimaryColor, kSecondaryColor],
+                                  ),
                                   borderRadius: BorderRadius.circular(10),
                                   border: Border.all(
                                       color: kPrimaryColor, width: 1.0),
@@ -237,7 +250,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     children: <Widget>[
                                       Icon(
                                         Icons.home,
-                                        color: kPrimaryColor,
+                                        color: Colors.white,
                                         size: size.height * 0.032,
                                       ),
                                       SizedBox(
@@ -254,7 +267,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                               // ignore: deprecated_member_use
                                               .title
                                               .copyWith(
-                                                  color: kPrimaryColor,
+                                                  color: Colors.white,
                                                   fontSize:
                                                       size.height * 0.028),
                                         ),
@@ -269,7 +282,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               Container(
                                 width: size.width * 0.9,
                                 decoration: BoxDecoration(
-                                  color: kWhiteColor,
+                                  gradient: new LinearGradient(
+                                    colors: [kPrimaryColor, kSecondaryColor],
+                                  ),
                                   borderRadius: BorderRadius.circular(10),
                                   border: Border.all(
                                       color: kPrimaryColor, width: 1.0),
@@ -281,7 +296,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     children: <Widget>[
                                       Icon(
                                         Icons.location_city,
-                                        color: kPrimaryColor,
+                                        color: Colors.white,
                                         size: size.height * 0.032,
                                       ),
                                       SizedBox(
@@ -295,7 +310,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                               // ignore: deprecated_member_use
                                               .title
                                               .copyWith(
-                                                  color: kPrimaryColor,
+                                                  color: Colors.white,
                                                   fontSize:
                                                       size.height * 0.028),
                                         ),
@@ -312,7 +327,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                     EdgeInsets.only(bottom: size.height * 0.1),
                                 width: size.width * 0.9,
                                 decoration: BoxDecoration(
-                                  color: kWhiteColor,
+                                  gradient: new LinearGradient(
+                                    colors: [kPrimaryColor, kSecondaryColor],
+                                  ),
                                   borderRadius: BorderRadius.circular(10),
                                   border: Border.all(
                                       color: kPrimaryColor, width: 1.0),
@@ -324,7 +341,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     children: <Widget>[
                                       Icon(
                                         Icons.location_on,
-                                        color: kPrimaryColor,
+                                        color: Colors.white,
                                         size: size.height * 0.032,
                                       ),
                                       SizedBox(
@@ -338,7 +355,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                               // ignore: deprecated_member_use
                                               .title
                                               .copyWith(
-                                                  color: kPrimaryColor,
+                                                  color: Colors.white,
                                                   fontSize:
                                                       size.height * 0.028),
                                         ),

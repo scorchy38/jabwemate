@@ -175,7 +175,9 @@ class _Address2State extends State<Address2> {
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 34.0),
                 decoration: BoxDecoration(
-                    color: kPrimaryColor,
+                    gradient: new LinearGradient(
+                      colors: [kPrimaryColor, kSecondaryColor],
+                    ),
                     borderRadius: BorderRadius.circular(15.0)),
                 child: Text(
                   'SAVE',

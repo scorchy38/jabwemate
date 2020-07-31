@@ -168,13 +168,10 @@ class _YourDogsState extends State<YourDogs> {
                                 ),
                               ),
                             ),
-                            IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.info_outline,
-                                color: Colors.black,
-                              ),
-                            )
+                            Icon(
+                              Icons.info_outline,
+                              color: Colors.black,
+                            ),
                           ],
                         ),
                       ),

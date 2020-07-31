@@ -170,7 +170,7 @@ class _OTPScreenState extends State<OTPScreen> {
       gravity: ToastGravity.BOTTOM,
       timeInSecForIosWeb: 2,
       backgroundColor: color,
-      textColor: Color(0xFF900c3f),
+      textColor: kPrimaryColor,
       fontSize: 16.0,
     );
   }
