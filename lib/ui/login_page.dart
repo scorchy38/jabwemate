@@ -935,7 +935,7 @@ class _LoginPageState extends State<LoginPage>
     if (user != null) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
+        MaterialPageRoute(builder: (context) => SignedIn(phNo: loginPhoneController.text,),),
       );
     }
     return user;
