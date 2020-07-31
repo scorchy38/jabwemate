@@ -49,7 +49,9 @@ class _IssuePageState extends State<IssuePage> {
                   Container(
                     height: pHeight * 0.35,
                     decoration: BoxDecoration(
-                      color: kPrimaryColor,
+                      gradient: new LinearGradient(
+                        colors: [kPrimaryColor, kSecondaryColor],
+                      ),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Padding(

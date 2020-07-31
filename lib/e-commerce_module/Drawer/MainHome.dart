@@ -284,7 +284,12 @@ class _MainHomeState extends State<MainHome> {
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(
-                                          color: kPrimaryColor,
+                                          gradient: new LinearGradient(
+                                            colors: [
+                                              kPrimaryColor,
+                                              kSecondaryColor
+                                            ],
+                                          ),
                                           borderRadius:
                                               BorderRadius.circular(5),
                                         ),

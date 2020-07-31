@@ -21,7 +21,15 @@ class AddDogAdopt extends StatefulWidget {
   _AddDogAdoptState createState() => _AddDogAdoptState();
 }
 
-TextEditingController name, city, age, breed, gender, owner, address1, address2, phone;
+TextEditingController name,
+    city,
+    age,
+    breed,
+    gender,
+    owner,
+    address1,
+    address2,
+    phone;
 
 class _AddDogAdoptState extends State<AddDogAdopt> {
   @override
@@ -257,7 +265,14 @@ class _AddDogAdoptState extends State<AddDogAdopt> {
           ),
           InkWell(
             onTap: () {
-              saveData();
+              if (url != null && urls.length != 0) {
+                print('URL IS $url');
+                print('URLs are $urls');
+                saveData();
+              } else {
+                Fluttertoast.showToast(
+                    msg: 'Please upload images to add your dog');
+              }
             },
             child: Container(
               alignment: Alignment.center,

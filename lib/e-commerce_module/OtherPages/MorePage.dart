@@ -66,7 +66,11 @@ class _MorePageState extends State<MorePage> {
               child: Container(
                 width: double.infinity,
                 height: MediaQuery.of(context).size.height * 0.3,
-                decoration: BoxDecoration(color: kPrimaryColor),
+                decoration: BoxDecoration(
+                  gradient: new LinearGradient(
+                    colors: [kPrimaryColor, kSecondaryColor],
+                  ),
+                ),
                 child: Padding(
                   padding: const EdgeInsets.only(left: 16.0, top: 40),
                   child: Column(
@@ -117,7 +121,9 @@ class _MorePageState extends State<MorePage> {
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                    color: kWhiteColor,
+                    gradient: new LinearGradient(
+                      colors: [kPrimaryColor, kSecondaryColor],
+                    ),
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(color: kPrimaryColor, width: 1.0),
                     boxShadow: [
@@ -135,12 +141,12 @@ class _MorePageState extends State<MorePage> {
                         Icon(
                           Icons.account_circle,
                           size: size.height * 0.036,
-                          color: kPrimaryColor,
+                          color: Colors.white,
                         ),
                         Text(
                           'Profile',
                           style: Theme.of(context).textTheme.title.copyWith(
-                              color: kPrimaryColor,
+                              color: Colors.white,
                               fontSize: size.height * 0.036),
                         ),
                       ],
@@ -163,7 +169,9 @@ class _MorePageState extends State<MorePage> {
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                    color: kWhiteColor,
+                    gradient: new LinearGradient(
+                      colors: [kPrimaryColor, kSecondaryColor],
+                    ),
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(color: kPrimaryColor, width: 1.0),
                     boxShadow: [
@@ -181,12 +189,12 @@ class _MorePageState extends State<MorePage> {
                         Icon(
                           Icons.supervisor_account,
                           size: size.height * 0.036,
-                          color: kPrimaryColor,
+                          color: Colors.white,
                         ),
                         Text(
                           'Support',
                           style: Theme.of(context).textTheme.title.copyWith(
-                              color: kPrimaryColor,
+                              color: Colors.white,
                               fontSize: size.height * 0.036),
                         ),
                       ],
@@ -209,7 +217,9 @@ class _MorePageState extends State<MorePage> {
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                    color: kWhiteColor,
+                    gradient: new LinearGradient(
+                      colors: [kPrimaryColor, kSecondaryColor],
+                    ),
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(color: kPrimaryColor, width: 1.0),
                     boxShadow: [
@@ -227,12 +237,12 @@ class _MorePageState extends State<MorePage> {
                         Icon(
                           Icons.home,
                           size: size.height * 0.036,
-                          color: kPrimaryColor,
+                          color: Colors.white,
                         ),
                         Text(
                           'Main Home',
                           style: Theme.of(context).textTheme.title.copyWith(
-                              color: kPrimaryColor,
+                              color: Colors.white,
                               fontSize: size.height * 0.036),
                         ),
                       ],
@@ -256,7 +266,9 @@ class _MorePageState extends State<MorePage> {
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          color: kWhiteColor,
+                          gradient: new LinearGradient(
+                            colors: [kPrimaryColor, kSecondaryColor],
+                          ),
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(color: kPrimaryColor, width: 1.0),
                           boxShadow: [
@@ -274,7 +286,7 @@ class _MorePageState extends State<MorePage> {
                               Icon(
                                 FontAwesomeIcons.signInAlt,
                                 size: size.height * 0.036,
-                                color: kPrimaryColor,
+                                color: Colors.white,
                               ),
                               Text(
                                 'Sign In',
@@ -282,7 +294,7 @@ class _MorePageState extends State<MorePage> {
                                     .textTheme
                                     .title
                                     .copyWith(
-                                        color: kPrimaryColor,
+                                        color: Colors.white,
                                         fontSize: size.height * 0.036),
                               ),
                             ],
@@ -299,7 +311,9 @@ class _MorePageState extends State<MorePage> {
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          color: kWhiteColor,
+                          gradient: new LinearGradient(
+                            colors: [kPrimaryColor, kSecondaryColor],
+                          ),
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(color: kPrimaryColor, width: 1.0),
                           boxShadow: [
@@ -317,7 +331,7 @@ class _MorePageState extends State<MorePage> {
                               Icon(
                                 FontAwesomeIcons.signOutAlt,
                                 size: size.height * 0.036,
-                                color: kPrimaryColor,
+                                color: Colors.white,
                               ),
                               Text(
                                 'Sign Out',
@@ -325,7 +339,7 @@ class _MorePageState extends State<MorePage> {
                                     .textTheme
                                     .title
                                     .copyWith(
-                                        color: kPrimaryColor,
+                                        color: Colors.white,
                                         fontSize: size.height * 0.036),
                               ),
                             ],

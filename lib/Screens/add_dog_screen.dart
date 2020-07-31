@@ -309,7 +309,14 @@ class _AddDogScreenState extends State<AddDogScreen> {
           ),
           InkWell(
             onTap: () {
-              saveData();
+              if (url != null && urls.length != 0) {
+                print('URL IS $url');
+                print('URLs are $urls');
+                saveData();
+              } else {
+                Fluttertoast.showToast(
+                    msg: 'Please upload images to add your dog');
+              }
             },
             child: Container(
               alignment: Alignment.center,

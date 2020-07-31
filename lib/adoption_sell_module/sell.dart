@@ -98,64 +98,74 @@ class _SellState extends State<Sell> {
               itemCount: dogList.length,
               itemBuilder: (BuildContext, index) {
                 var item = dogList[index];
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: MyColors.loginGradientStart.withOpacity(0.6),
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    width: width * 0.8,
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            height: 50,
-                            width: 50,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(25),
+                return InkWell(
+                  onTap: () {
+                    _scaffoldKey.currentState.showBottomSheet((context) {
+                      return StatefulBuilder(
+                          builder: (context, StateSetter state) {
+                        return ProfilePullUpAdoptSell(item, width, height);
+                      });
+                    });
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: MyColors.loginGradientStart.withOpacity(0.6),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      width: width * 0.8,
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              height: 50,
+                              width: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(25),
+                                ),
                               ),
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(25.0),
-                              child: Image.network(
-                                item.iamgeURL,
-                                height: 50,
-                                width: 50,
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Container(
-                                child: Text(
-                                  item.name,
-                                  style: GoogleFonts.k2d(fontSize: 24),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(25.0),
+                                child: Image.network(
+                                  item.iamgeURL,
+                                  height: 50,
+                                  width: 50,
+                                  fit: BoxFit.fill,
                                 ),
                               ),
                             ),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              _scaffoldKey.currentState
-                                  .showBottomSheet((context) {
-                                return StatefulBuilder(
-                                    builder: (context, StateSetter state) {
-                                  return ProfilePullUpAdoptSell(
-                                      item, width, height);
-                                });
-                              });
-                            },
-                            icon: Icon(
-                              Icons.info_outline,
-                              color: Colors.black,
+                            Expanded(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: Container(
+                                  child: Text(
+                                    item.name,
+                                    style: GoogleFonts.k2d(fontSize: 24),
+                                  ),
+                                ),
+                              ),
                             ),
-                          )
-                        ],
+                            IconButton(
+                              onPressed: () {
+                                _scaffoldKey.currentState
+                                    .showBottomSheet((context) {
+                                  return StatefulBuilder(
+                                      builder: (context, StateSetter state) {
+                                    return ProfilePullUpAdoptSell(
+                                        item, width, height);
+                                  });
+                                });
+                              },
+                              icon: Icon(
+                                Icons.info_outline,
+                                color: Colors.black,
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),

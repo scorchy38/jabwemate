@@ -16,10 +16,10 @@ class _NavBarState extends State<NavBar> {
   int selectedIndex = 1;
 
   final iconList = [
-    TabItemIcon(iconData: Icons.home, curveColor: Colors.orange),
-    TabItemIcon(iconData: Icons.shopping_cart, curveColor: Colors.green),
-    TabItemIcon(iconData: Icons.list, curveColor: Colors.orange),
-    TabItemIcon(iconData: Icons.settings, curveColor: Colors.green),
+    TabItemIcon(iconData: Icons.home, curveColor: kPrimaryColor),
+    TabItemIcon(iconData: Icons.shopping_cart, curveColor: kSecondaryColor),
+    TabItemIcon(iconData: Icons.list, curveColor: kPrimaryColor),
+    TabItemIcon(iconData: Icons.settings, curveColor: kSecondaryColor),
   ];
   void onChangeTab(int index) {
     selectedIndex = index;
