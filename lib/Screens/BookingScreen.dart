@@ -6,6 +6,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'docMainScreen.dart';
+
 //Making list for all time slots
 class TimeSlotDrop {
   String from, to, available;
@@ -168,20 +170,27 @@ class _BookingScreenState extends State<BookingScreen>
   AnimationController _controller;
 
   int index = 0;
+  int noSlots = 0;
 
   List<DropdownMenuItem<TimeSlotDrop>> _dropdownMenuItems;
   List<TimeSlotDrop> dropdownArr = new List<TimeSlotDrop>();
 
   void copyTimeList() {
-    List.from(widget.docpro.slots).forEach((element) {
-      TimeSlotDrop newTime = TimeSlotDrop(
-        from: element.from,
-        to: element.to,
-        available: element.available,
-        index: index + 1,
-      );
+    if (widget.docpro.slots == null) {
+      TimeSlotDrop newTime =
+          TimeSlotDrop(from: "No data", to: "No data", available: "No data");
       dropdownArr.add(newTime);
-    });
+    } else {
+      List.from(widget.docpro.slots).forEach((element) {
+        TimeSlotDrop newTime = TimeSlotDrop(
+          from: element.from,
+          to: element.to,
+          available: element.available,
+          index: index + 1,
+        );
+        dropdownArr.add(newTime);
+      });
+    }
   }
 
   @override
@@ -207,8 +216,10 @@ class _BookingScreenState extends State<BookingScreen>
   List<DropdownMenuItem<TimeSlotDrop>> buildDropdownMenuItems(List slots) {
     List<DropdownMenuItem<TimeSlotDrop>> items = List();
     items.clear();
+    int i = 0;
     for (TimeSlotDrop slot in slots) {
       if (slot.available == "Yes") {
+        i++;
         items.add(
           DropdownMenuItem(
             value: slot,
@@ -216,6 +227,19 @@ class _BookingScreenState extends State<BookingScreen>
           ),
         );
       }
+    }
+    if (i == 0) {
+      noSlots = 1;
+      items.add(
+        DropdownMenuItem(
+          child: Text("No slots"),
+          value: TimeSlotDrop(
+            from: "No data",
+            to: "No data",
+            available: "No data",
+          ),
+        ),
+      );
     }
     return items;
   }
@@ -246,284 +270,333 @@ class _BookingScreenState extends State<BookingScreen>
                 ),
               ),
             ),
-            child: Scaffold(
-              resizeToAvoidBottomInset: false,
-              appBar: AppBar(title: Text('Book Appointment')),
-              body: FormBlocListener<LoginFormBloc, String, String>(
-                onSubmitting: (context, state) {
-                  // Navigator.of(context)
-                  //     .push(MaterialPageRoute(builder: (_) => DocMainScreen()));
-                  Navigator.of(context).pop();
-                },
-                onSuccess: (context, state) {
-                  print("Successfully Booked");
-                },
-                onFailure: (context, state) {
-                  LoadingDialog.hide(context);
+            child: WillPopScope(
+              onWillPop: () {
+                int count = 0;
+                Navigator.popUntil(context, (route) {
+                  return count++ == 2;
+                });
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DocMainScreen(),
+                  ),
+                );
+              },
+              child: Scaffold(
+                resizeToAvoidBottomInset: false,
+                appBar: AppBar(title: Text('Book Appointment')),
+                body: FormBlocListener<LoginFormBloc, String, String>(
+                  onSubmitting: (context, state) {
+                    // Navigator.of(context)
+                    //     .push(MaterialPageRoute(builder: (_) => DocMainScreen()));
+                    //Navigator.of(context).pop();
+                    int count = 0;
+                    Navigator.popUntil(context, (route) {
+                      return count++ == 2;
+                    });
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DocMainScreen(),
+                      ),
+                    );
+                  },
+                  onSuccess: (context, state) {
+                    print("Successfully Booked");
+                  },
+                  onFailure: (context, state) {
+                    LoadingDialog.hide(context);
 
-                  Scaffold.of(context).showSnackBar(
-                      SnackBar(content: Text(state.failureResponse)));
-                },
-                child: SingleChildScrollView(
-                  physics: ClampingScrollPhysics(),
-                  child: Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(15, 15, 15, 4),
-                        child: Card(
-                          elevation: 5,
-                          child: Padding(
-                            padding: EdgeInsets.all(7),
-                            child: Stack(
-                              children: <Widget>[
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Stack(
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 15, top: 5),
-                                        child: Column(
-                                          children: <Widget>[
-                                            Row(
-                                              children: <Widget>[
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Align(
-                                                  alignment:
-                                                      Alignment.centerLeft,
-                                                  child: RichText(
-                                                    text: TextSpan(
-                                                      text: widget.docpro.name,
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.black,
-                                                          fontSize: 20),
-                                                      children: <TextSpan>[
-                                                        TextSpan(
-                                                            text: '\n' +
-                                                                widget.docpro
-                                                                    .degree,
-                                                            style: TextStyle(
+                    Scaffold.of(context).showSnackBar(
+                        SnackBar(content: Text(state.failureResponse)));
+                  },
+                  child: SingleChildScrollView(
+                    physics: ClampingScrollPhysics(),
+                    child: Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(15, 15, 15, 4),
+                          child: Card(
+                            elevation: 5,
+                            child: Padding(
+                              padding: EdgeInsets.all(7),
+                              child: Stack(
+                                children: <Widget>[
+                                  Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Stack(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 15, top: 5),
+                                          child: Column(
+                                            children: <Widget>[
+                                              Row(
+                                                children: <Widget>[
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Align(
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    child: RichText(
+                                                      text: TextSpan(
+                                                        text:
+                                                            widget.docpro.name,
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: Colors.black,
+                                                            fontSize: 20),
+                                                        children: <TextSpan>[
+                                                          TextSpan(
+                                                              text: '\n' +
+                                                                  widget.docpro
+                                                                      .degree,
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .grey,
+                                                                  fontSize: 15,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Spacer(),
+                                                  Align(
+                                                    alignment:
+                                                        Alignment.topRight,
+                                                    child: RichText(
+                                                      text: TextSpan(
+                                                        text: 'Rs. ' +
+                                                            widget.docpro.cost
+                                                                .toString(),
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: Colors.green,
+                                                            fontSize: 20),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 20,
+                                                  )
+                                                ],
+                                              ),
+                                              Row(
+                                                children: <Widget>[
+                                                  Align(
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              bottom: 10.0),
+                                                      child: Row(
+                                                        children: <Widget>[
+                                                          RichText(
+                                                            textAlign:
+                                                                TextAlign.left,
+                                                            text: TextSpan(
+                                                              text: '\n' +
+                                                                  widget.docpro
+                                                                      .specs,
+                                                              style: TextStyle(
                                                                 color:
                                                                     Colors.grey,
-                                                                fontSize: 15,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                Spacer(),
-                                                Align(
-                                                  alignment: Alignment.topRight,
-                                                  child: RichText(
-                                                    text: TextSpan(
-                                                      text: 'Rs. ' +
-                                                          widget.docpro.cost
-                                                              .toString(),
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.green,
-                                                          fontSize: 20),
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                SizedBox(
-                                                  width: 20,
-                                                )
-                                              ],
-                                            ),
-                                            Row(
-                                              children: <Widget>[
-                                                Align(
-                                                  alignment:
-                                                      Alignment.centerLeft,
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            bottom: 10.0),
-                                                    child: Row(
-                                                      children: <Widget>[
-                                                        RichText(
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          text: TextSpan(
-                                                            text: '\n' +
-                                                                widget.docpro
-                                                                    .specs,
-                                                            style: TextStyle(
-                                                              color:
-                                                                  Colors.grey,
-                                                              fontSize: 22,
-                                                            ),
-                                                            children: <
-                                                                TextSpan>[
-                                                              TextSpan(
-                                                                text: '\n' +
-                                                                    widget
-                                                                        .docpro
-                                                                        .address,
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .grey,
-                                                                    fontStyle:
-                                                                        FontStyle
-                                                                            .italic,
-                                                                    fontSize:
-                                                                        18,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold),
+                                                                fontSize: 22,
                                                               ),
-                                                            ],
+                                                              children: <
+                                                                  TextSpan>[
+                                                                TextSpan(
+                                                                  text: '\n' +
+                                                                      widget
+                                                                          .docpro
+                                                                          .address,
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .grey,
+                                                                      fontStyle:
+                                                                          FontStyle
+                                                                              .italic,
+                                                                      fontSize:
+                                                                          18,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ],
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
+                                                ],
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
-                        child: TextFieldBlocBuilder(
-                          textFieldBloc: loginFormBloc.ownerName,
-                          keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
-                            labelText: 'Your Name',
-                            prefixIcon: Icon(Icons.person),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
-                        child: TextFieldBlocBuilder(
-                          textFieldBloc: loginFormBloc.dogName,
-                          keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
-                            labelText: "Dog's Name",
-                            prefixIcon: Icon(Icons.pets),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
-                        child: TextFieldBlocBuilder(
-                          textFieldBloc: loginFormBloc.dogBreed,
-                          keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
-                            labelText: "Dog's Breed",
-                            prefixIcon: Icon(Icons.mood),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
-                        child: TextFieldBlocBuilder(
-                          textFieldBloc: loginFormBloc.dogAge,
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                            labelText: "Dog's Age",
-                            prefixIcon: Icon(Icons.looks_one),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
-                        child: TextFieldBlocBuilder(
-                          textFieldBloc: loginFormBloc.ownerEmail,
-                          keyboardType: TextInputType.emailAddress,
-                          decoration: InputDecoration(
-                            labelText: 'Email',
-                            prefixIcon: Icon(Icons.email),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
-                        child: TextFieldBlocBuilder(
-                          textFieldBloc: loginFormBloc.ownerPhone,
-                          keyboardType: TextInputType.phone,
-                          decoration: InputDecoration(
-                            labelText: "Phone Number",
-                            prefixIcon: Icon(Icons.phone),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
-                        child: TextFieldBlocBuilder(
-                          textFieldBloc: loginFormBloc.ownerAddress,
-                          keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
-                            labelText: "Address",
-                            prefixIcon: Icon(Icons.home),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 18, 0, 18),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              "Select a Slot",
-                              style: TextStyle(fontSize: 20),
-                            ),
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                            DropdownButton(
-                              value: _selectedSlot,
-                              items: _dropdownMenuItems,
-                              onChanged: onChangeDropdownItem,
-                            ),
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                            Text('Selected: ${_selectedSlot.from}'),
-                          ],
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () => loginFormBloc.onSubmitting(),
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 10, 0, 20),
-                          child: RaisedButton(
-                            padding: const EdgeInsets.fromLTRB(80, 15, 80, 15),
-                            textColor: Colors.white,
-                            color: Colors.blue,
-                            onPressed: loginFormBloc.submit,
-                            child: Text(
-                              "Book",
-                              style: TextStyle(
-                                fontSize: 15,
+                                ],
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
+                          child: TextFieldBlocBuilder(
+                            textFieldBloc: loginFormBloc.ownerName,
+                            keyboardType: TextInputType.text,
+                            decoration: InputDecoration(
+                              labelText: 'Your Name',
+                              prefixIcon: Icon(Icons.person),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+                          child: TextFieldBlocBuilder(
+                            textFieldBloc: loginFormBloc.dogName,
+                            keyboardType: TextInputType.text,
+                            decoration: InputDecoration(
+                              labelText: "Dog's Name",
+                              prefixIcon: Icon(Icons.pets),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+                          child: TextFieldBlocBuilder(
+                            textFieldBloc: loginFormBloc.dogBreed,
+                            keyboardType: TextInputType.text,
+                            decoration: InputDecoration(
+                              labelText: "Dog's Breed",
+                              prefixIcon: Icon(Icons.mood),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+                          child: TextFieldBlocBuilder(
+                            textFieldBloc: loginFormBloc.dogAge,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              labelText: "Dog's Age",
+                              prefixIcon: Icon(Icons.looks_one),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+                          child: TextFieldBlocBuilder(
+                            textFieldBloc: loginFormBloc.ownerEmail,
+                            keyboardType: TextInputType.emailAddress,
+                            decoration: InputDecoration(
+                              labelText: 'Email',
+                              prefixIcon: Icon(Icons.email),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+                          child: TextFieldBlocBuilder(
+                            textFieldBloc: loginFormBloc.ownerPhone,
+                            keyboardType: TextInputType.phone,
+                            decoration: InputDecoration(
+                              labelText: "Phone Number",
+                              prefixIcon: Icon(Icons.phone),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+                          child: TextFieldBlocBuilder(
+                            textFieldBloc: loginFormBloc.ownerAddress,
+                            keyboardType: TextInputType.text,
+                            decoration: InputDecoration(
+                              labelText: "Address",
+                              prefixIcon: Icon(Icons.home),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 18, 0, 18),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                "Select a Slot",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              SizedBox(
+                                height: 10.0,
+                              ),
+                              DropdownButton(
+                                value: _selectedSlot,
+                                items: _dropdownMenuItems,
+                                onChanged: onChangeDropdownItem,
+                              ),
+                              SizedBox(
+                                height: 10.0,
+                              ),
+                              Text('Selected: ${_selectedSlot.from}'),
+                            ],
+                          ),
+                        ),
+                        (noSlots == 1)
+                            ? GestureDetector(
+                                onTap: null,
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 10, 0, 20),
+                                  child: RaisedButton(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        80, 15, 80, 15),
+                                    textColor: Colors.white,
+                                    color: Colors.blue,
+                                    onPressed: null,
+                                    child: Text(
+                                      "Book",
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : GestureDetector(
+                                onTap: () => loginFormBloc.onSubmitting(),
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 10, 0, 20),
+                                  child: RaisedButton(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        80, 15, 80, 15),
+                                    textColor: Colors.white,
+                                    color: Colors.blue,
+                                    onPressed: loginFormBloc.submit,
+                                    child: Text(
+                                      "Book",
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                      ],
+                    ),
                   ),
                 ),
               ),
