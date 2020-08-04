@@ -19,6 +19,8 @@ TimeSlotDrop _selectedSlot;
 
 dynamic currentTime;
 
+DateTime selectedDate = DateTime.now();
+
 String docName = "", docDegree = "";
 int selIndex = 0;
 
@@ -109,6 +111,8 @@ class LoginFormBloc extends FormBloc<String, String> {
       "from": _selectedSlot.from,
       'to': _selectedSlot.to,
       "bookingTime": currentTime,
+      "bookingDate": DateFormat("dd-MM-yyyy").format(DateTime.now()),
+      "appointmentDate": DateFormat("dd-MM-yyyy").format(selectedDate),
     });
 
     print('Document ID is ===== $docId');
@@ -171,6 +175,7 @@ class _BookingScreenState extends State<BookingScreen>
 
   int index = 0;
   int noSlots = 0;
+  int se = 0;
 
   List<DropdownMenuItem<TimeSlotDrop>> _dropdownMenuItems;
   List<TimeSlotDrop> dropdownArr = new List<TimeSlotDrop>();
@@ -249,6 +254,18 @@ class _BookingScreenState extends State<BookingScreen>
       _selectedSlot = selectedSlot;
       selIndex = selectedSlot.index;
     });
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != selectedDate)
+      setState(() {
+        selectedDate = picked;
+      });
   }
 
   @override
@@ -528,6 +545,25 @@ class _BookingScreenState extends State<BookingScreen>
                               prefixIcon: Icon(Icons.home),
                             ),
                           ),
+                        ),
+                        (se == 1)
+                            ? Text("${selectedDate.toLocal()}".split(' ')[0])
+                            : Text(" "),
+                        SizedBox(
+                          height: 20.0,
+                        ),
+                        RaisedButton(
+                          onPressed: () {
+                            se = 1;
+                            _selectDate(context);
+                            print(selectedDate
+                                .toLocal()
+                                .toString()
+                                .split(' ')[0]);
+                          },
+                          color: Colors.blue,
+                          textColor: Colors.white,
+                          child: Text('Select date'),
                         ),
                         Padding(
                           padding: const EdgeInsets.fromLTRB(0, 18, 0, 18),
