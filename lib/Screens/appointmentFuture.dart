@@ -42,14 +42,15 @@ class _FutureAppointmentState extends State<FutureAppointment> {
     });
   }
 
-  updatePayment(id) async {
+  updatePayment() async {
     await databaseReference
         .collection("DoctorAppointment")
-        .document(id)
+        .document(paymentId)
         .updateData({'isPaid': true});
     setState(() {
-      print(id);
+      print(paymentId);
     });
+    getData();
   }
 
   void getData() async {
@@ -127,7 +128,10 @@ class _FutureAppointmentState extends State<FutureAppointment> {
     _razorpay.clear();
   }
 
-  openCheckout(price) async {
+  String paymentId = '';
+
+  openCheckout(String uid) async {
+    await getPrice(uid);
     var options = {
       'key': 'rzp_test_uqORQiidCVwzWI',
       'amount': price * 100,
@@ -143,6 +147,10 @@ class _FutureAppointmentState extends State<FutureAppointment> {
     } catch (e) {
       debugPrint(e);
     }
+
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
   }
 
   String res = 'no';
@@ -150,6 +158,10 @@ class _FutureAppointmentState extends State<FutureAppointment> {
   String status = "Loading";
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     res = response.paymentId;
+    setState(() {
+      print('RESPONSE IS $response');
+    });
+    updatePayment();
     Fluttertoast.showToast(
         msg: "SUCCESS: " + response.paymentId, timeInSecForIosWeb: 4);
   }
@@ -170,9 +182,6 @@ class _FutureAppointmentState extends State<FutureAppointment> {
     getUser();
     getData();
     _razorpay = Razorpay();
-    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
-    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
-    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
     super.initState();
   }
 
@@ -452,16 +461,16 @@ class _FutureAppointmentState extends State<FutureAppointment> {
                                                                       .green,
                                                                   onPressed:
                                                                       () async {
-                                                                    await getPrice(
+//                                                                    await getPrice(
+//                                                                        );
+                                                                    setState(
+                                                                        () {
+                                                                      paymentId =
+                                                                          item.docId;
+                                                                    });
+                                                                    await openCheckout(
                                                                         fuAppList[index]
                                                                             .doctorUID);
-                                                                    await openCheckout(
-                                                                        price);
-                                                                    if (res !=
-                                                                        'no') {
-                                                                      updatePayment(
-                                                                          item.docId);
-                                                                    }
                                                                   },
                                                                   child: Text(
                                                                     "Pay fees",
