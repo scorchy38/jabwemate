@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jabwemate/Classes/appointment_data.dart';
+import 'package:jabwemate/Screens/BookingScreen.dart';
 import 'package:jabwemate/Screens/home_screen.dart';
 import 'package:jabwemate/Widgets/my_appointment_card.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class FutureAppointment extends StatefulWidget {
   @override
@@ -24,6 +27,31 @@ class _FutureAppointmentState extends State<FutureAppointment> {
   double width, height;
   List<Widget> futAppointsList = [];
   List fuAppList = [];
+  int price;
+  getPrice(id) async {
+    print(id);
+    await databaseReference
+        .collection("Doctors")
+        .document(id)
+        .get()
+        .then((value) async {
+      price = await value['cost'];
+    });
+    setState(() {
+      print(price);
+    });
+  }
+
+  updatePayment(id) async {
+    await databaseReference
+        .collection("DoctorAppointment")
+        .document(id)
+        .updateData({'isPaid': true});
+    setState(() {
+      print(id);
+    });
+  }
+
   void getData() async {
     fuAppList.clear();
     await databaseReference
@@ -91,10 +119,60 @@ class _FutureAppointmentState extends State<FutureAppointment> {
     });
   }
 
+  Razorpay _razorpay;
+
+  @override
+  void dispose() {
+    super.dispose();
+    _razorpay.clear();
+  }
+
+  openCheckout(price) async {
+    var options = {
+      'key': 'rzp_test_uqORQiidCVwzWI',
+      'amount': price * 100,
+      'name': 'Jab We Mate',
+      'description': 'Make Request',
+      'external': {
+        'wallets': ['paytm']
+      }
+    };
+
+    try {
+      _razorpay.open(options);
+    } catch (e) {
+      debugPrint(e);
+    }
+  }
+
+  String res = 'no';
+
+  String status = "Loading";
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    res = response.paymentId;
+    Fluttertoast.showToast(
+        msg: "SUCCESS: " + response.paymentId, timeInSecForIosWeb: 4);
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    Fluttertoast.showToast(
+        msg: "ERROR: " + response.code.toString() + " - " + response.message,
+        timeInSecForIosWeb: 4);
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    Fluttertoast.showToast(
+        msg: "EXTERNAL_WALLET: " + response.walletName, timeInSecForIosWeb: 4);
+  }
+
   @override
   void initState() {
     getUser();
     getData();
+    _razorpay = Razorpay();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
     super.initState();
   }
 
@@ -373,7 +451,18 @@ class _FutureAppointmentState extends State<FutureAppointment> {
                                                                   color: Colors
                                                                       .green,
                                                                   onPressed:
-                                                                      () async {},
+                                                                      () async {
+                                                                    await getPrice(
+                                                                        fuAppList[index]
+                                                                            .doctorUID);
+                                                                    await openCheckout(
+                                                                        price);
+                                                                    if (res !=
+                                                                        'no') {
+                                                                      updatePayment(
+                                                                          item.docId);
+                                                                    }
+                                                                  },
                                                                   child: Text(
                                                                     "Pay fees",
                                                                     style:

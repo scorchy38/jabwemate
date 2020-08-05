@@ -16,6 +16,7 @@ class _AppointmentMainPageState extends State<AppointmentMainPage> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
+      // ignore: missing_return
       onWillPop: () {
         int count = 0;
         Navigator.popUntil(context, (route) {
