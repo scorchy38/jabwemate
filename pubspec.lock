@@ -729,7 +729,7 @@ packages:
       name: razorpay_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.2"
+    version: "1.1.0"
   rflutter_alert:
     dependency: "direct main"
     description:
