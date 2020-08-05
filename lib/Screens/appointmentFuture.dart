@@ -116,7 +116,7 @@ class _FutureAppointmentState extends State<FutureAppointment> {
                 return Padding(
                   padding: const EdgeInsets.all(6.0),
                   child: Container(
-                    height: height * 0.38,
+                    height: height * 0.4,
                     width: double.maxFinite,
                     child: Card(
                       elevation: 5,
