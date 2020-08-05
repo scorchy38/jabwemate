@@ -113,6 +113,8 @@ class LoginFormBloc extends FormBloc<String, String> {
       "bookingTime": currentTime,
       "bookingDate": DateFormat("dd-MM-yyyy").format(DateTime.now()),
       "appointmentDate": DateFormat("dd-MM-yyyy").format(selectedDate),
+      "isConfirmed": false,
+      "isPaid": false,
     });
 
     print('Document ID is ===== $docId');
