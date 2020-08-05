@@ -119,17 +119,6 @@ class LoginFormBloc extends FormBloc<String, String> {
 
     print('Document ID is ===== $docId');
 
-    Firestore.instance.collection('Doctors').document(docId).updateData({
-      'TimeSlots': FieldValue.arrayRemove([
-        {'Available': 'Yes', 'From': _selectedSlot.from, 'To': _selectedSlot.to}
-      ])
-    });
-    Firestore.instance.collection('Doctors').document(docId).updateData({
-      'TimeSlots': FieldValue.arrayUnion([
-        {'Available': 'No', 'From': _selectedSlot.from, 'To': _selectedSlot.to}
-      ])
-    });
-
     // Firestore.instance
     //     .collection("Doctors")
     //     .getDocuments()

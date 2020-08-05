@@ -429,42 +429,6 @@ class _FutureAppointmentState extends State<FutureAppointment> {
                                                             'status':
                                                                 'Cancelled'
                                                           });
-                                                          Firestore.instance
-                                                              .collection(
-                                                                  'Doctors')
-                                                              .document(item
-                                                                  .doctorUID)
-                                                              .updateData({
-                                                            'TimeSlots':
-                                                                FieldValue
-                                                                    .arrayRemove([
-                                                              {
-                                                                'Available':
-                                                                    'No',
-                                                                'From':
-                                                                    item.from,
-                                                                'To': item.to
-                                                              }
-                                                            ])
-                                                          });
-                                                          Firestore.instance
-                                                              .collection(
-                                                                  'Doctors')
-                                                              .document(item
-                                                                  .doctorUID)
-                                                              .updateData({
-                                                            'TimeSlots':
-                                                                FieldValue
-                                                                    .arrayUnion([
-                                                              {
-                                                                'Available':
-                                                                    'Yes',
-                                                                'From':
-                                                                    item.from,
-                                                                'To': item.to
-                                                              }
-                                                            ])
-                                                          });
                                                           getData();
                                                         },
                                                         child: Text(
