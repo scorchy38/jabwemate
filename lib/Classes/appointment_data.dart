@@ -13,7 +13,11 @@ class AppointmentData {
       patientUID,
       from,
       to,
-      docId;
+      docId,
+      bookingDate,
+      appDate;
+
+  bool isConfirmed, isPaid;
 
   AppointmentData(
       this.bookingTime,
@@ -30,5 +34,9 @@ class AppointmentData {
       this.patientUID,
       this.from,
       this.to,
-      this.docId);
+      this.docId,
+      this.appDate,
+      this.bookingDate,
+      this.isConfirmed,
+      this.isPaid);
 }
