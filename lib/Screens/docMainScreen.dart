@@ -8,6 +8,7 @@ import 'package:jabwemate/Classes/Doc_data.dart';
 import 'package:jabwemate/Widgets/docCustomDrawer.dart';
 import 'package:jabwemate/Widgets/appbar.dart';
 import 'package:jabwemate/Screens/BookingScreen.dart';
+import 'package:jabwemate/adoption_sell_module/AdoptFirstScreen.dart';
 import 'package:jabwemate/adoption_sell_module/landing.dart';
 import 'package:jabwemate/e-commerce_module/NavBar.dart';
 import 'package:jabwemate/style/theme.dart';
@@ -252,7 +253,7 @@ class _DocMainScreenState extends State<DocMainScreen> {
                       Navigator.pushReplacement(
                         context,
                         CupertinoPageRoute(
-                          builder: (context) => IdeasPage(),
+                          builder: (context) => AdoptFirstScreen(),
                         ),
                       );
                     },
