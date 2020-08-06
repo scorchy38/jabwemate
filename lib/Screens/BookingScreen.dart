@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:jabwemate/Classes/Doc_data.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 import 'package:jabwemate/Classes/Doc_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:jabwemate/style/theme.dart';
 
 import 'docMainScreen.dart';
 
@@ -293,7 +295,25 @@ class _BookingScreenState extends State<BookingScreen>
               },
               child: Scaffold(
                 resizeToAvoidBottomInset: false,
-                appBar: AppBar(title: Text('Book Appointment')),
+                appBar: AppBar(
+                  title: Text(
+                    'Book Appointment',
+                    style: GoogleFonts.k2d(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                        color: Colors.white),
+                  ),
+                  flexibleSpace: Container(
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: <Color>[
+                          MyColors.loginGradientStart,
+                          MyColors.loginGradientEnd
+                        ])),
+                  ),
+                ),
                 body: FormBlocListener<LoginFormBloc, String, String>(
                   onSubmitting: (context, state) {
                     // Navigator.of(context)

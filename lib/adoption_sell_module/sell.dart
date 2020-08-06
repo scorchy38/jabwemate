@@ -89,6 +89,32 @@ class _SellState extends State<Sell> {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
     return Scaffold(
+      appBar: CustomAppBar(
+        action: IconButton(
+          onPressed: () {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text("Add a dog"),
+                    actions: [
+                      FlatButton(
+                        child: Text("For sale"),
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (BuildContext context) => AddDogSell()));
+                        },
+                      )
+                    ],
+                  );
+                });
+          },
+          icon: Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
+        ),
+      ),
       key: _scaffoldKey,
       backgroundColor: Colors.white,
       body: dogCardsList.length != 0

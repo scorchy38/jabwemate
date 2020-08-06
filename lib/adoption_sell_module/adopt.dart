@@ -12,6 +12,8 @@ import 'package:jabwemate/Widgets/profile_pull_up.dart';
 import 'package:jabwemate/adoption_sell_module/add_adoption.dart';
 import 'package:jabwemate/style/theme.dart';
 
+import 'add_sell.dart';
+
 class Adoption extends StatefulWidget {
   @override
   _AdoptionState createState() => _AdoptionState();
@@ -90,6 +92,33 @@ class _AdoptionState extends State<Adoption> {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
     return Scaffold(
+      appBar: CustomAppBar(
+        action: IconButton(
+          onPressed: () {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text("Add a dog"),
+                    actions: [
+                      FlatButton(
+                        child: Text("For Adoption"),
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  AddDogAdopt()));
+                        },
+                      ),
+                    ],
+                  );
+                });
+          },
+          icon: Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
+        ),
+      ),
       key: _scaffoldKey,
       backgroundColor: Colors.white,
       body: dogCardsList.length != 0
