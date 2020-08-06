@@ -9,6 +9,7 @@ import 'package:jabwemate/adoption_sell_module/add_adoption.dart';
 import 'package:jabwemate/adoption_sell_module/add_sell.dart';
 import 'package:jabwemate/adoption_sell_module/adopt.dart';
 import 'package:jabwemate/adoption_sell_module/sell.dart';
+import 'package:jabwemate/style/theme.dart';
 
 class Reqs extends StatefulWidget {
   @override
@@ -25,7 +26,7 @@ class _ReqsState extends State<Reqs> {
           child: Container(
         height: double.infinity,
         child: GFTabs(
-          tabBarColor: Color(0xFFf7418c),
+          tabBarColor: MyColors.loginGradientEnd,
           tabBarHeight: 70,
           indicatorColor: Colors.white,
 

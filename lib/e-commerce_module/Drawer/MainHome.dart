@@ -1,12 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:getflutter/components/carousel/gf_carousel.dart';
+import 'package:jabwemate/Screens/docMainScreen.dart';
+import 'package:jabwemate/Screens/home_screen.dart';
+import 'package:jabwemate/adoption_sell_module/landing.dart';
 import 'package:jabwemate/e-commerce_module/Classes/Cart.dart';
 import 'package:jabwemate/e-commerce_module/Classes/Constants.dart';
 import 'package:jabwemate/e-commerce_module/Classes/DatabaseHelper.dart';
 import 'package:jabwemate/e-commerce_module/Classes/ItemsClass.dart';
+import 'package:jabwemate/style/theme.dart';
 
 import 'navDrawer.dart';
 
@@ -88,6 +93,95 @@ class _MainHomeState extends State<MainHome> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              SizedBox(
+                height: pHeight * 0.01,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushReplacement(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) => HomeScreen(),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(pHeight * 0.15),
+                        border: Border.all(
+                          color: Colors.black.withOpacity(0.5),
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset(
+                          'assets/img/mating.png',
+                          height: pHeight * 0.04,
+                        ),
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushReplacement(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) => IdeasPage(),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(pHeight * 0.15),
+                        border: Border.all(
+                          color: Colors.black.withOpacity(0.5),
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset(
+                          'assets/img/adoption.png',
+                          height: pHeight * 0.04,
+                        ),
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushReplacement(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) => DocMainScreen(),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(pHeight * 0.15),
+                        border: Border.all(
+                          color: Colors.black.withOpacity(0.5),
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset(
+                          'assets/img/health.png',
+                          height: pHeight * 0.04,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                width: pWidth * 0.95,
+                child: Divider(
+                  color: MyColors.loginGradientEnd,
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
@@ -141,7 +235,7 @@ class _MainHomeState extends State<MainHome> {
                 ),
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.45,
+                height: MediaQuery.of(context).size.height * 0.41,
                 child: ListView.builder(
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
@@ -286,8 +380,8 @@ class _MainHomeState extends State<MainHome> {
                                         decoration: BoxDecoration(
                                           gradient: new LinearGradient(
                                             colors: [
-                                              kPrimaryColor,
-                                              kSecondaryColor
+                                              MyColors.loginGradientStart,
+                                              MyColors.loginGradientEnd
                                             ],
                                           ),
                                           borderRadius:

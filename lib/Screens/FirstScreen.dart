@@ -2,6 +2,7 @@ import 'package:diagonal/diagonal.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jabwemate/adoption_sell_module/AdoptFirstScreen.dart';
 import 'package:jabwemate/adoption_sell_module/landing.dart';
 import 'package:jabwemate/delayed_animation.dart';
 import 'package:jabwemate/e-commerce_module/Drawer/MainHome.dart';
@@ -173,7 +174,7 @@ class _FirstScreenState extends State<FirstScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => IdeasPage(),
+                      builder: (context) => AdoptFirstScreen(),
                     ),
                   );
                 },
@@ -194,7 +195,7 @@ class _FirstScreenState extends State<FirstScreen> {
                         Padding(
                           padding: const EdgeInsets.all(6.0),
                           child: Text(
-                            'Adopt a Dog',
+                            'Adopt or Sell Dogs',
                             style: GoogleFonts.k2d(
                                 textStyle: TextStyle(
                               fontSize: pHeight * 0.025,

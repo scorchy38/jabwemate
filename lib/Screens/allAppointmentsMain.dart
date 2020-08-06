@@ -4,6 +4,7 @@ import 'package:getflutter/getflutter.dart';
 import 'package:jabwemate/Screens/appointmentPast.dart';
 import 'package:jabwemate/Widgets/appbar.dart';
 import 'package:jabwemate/Screens/appointmentFuture.dart';
+import 'package:jabwemate/style/theme.dart';
 
 import 'docMainScreen.dart';
 
@@ -69,7 +70,7 @@ class _AppointmentMainPageState extends State<AppointmentMainPage> {
             child: Container(
           height: double.infinity,
           child: GFTabs(
-            tabBarColor: Color(0xFFf7418c),
+            tabBarColor: MyColors.loginGradientEnd,
             tabBarHeight: 70,
             indicatorColor: Colors.white,
 
