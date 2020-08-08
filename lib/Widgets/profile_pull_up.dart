@@ -294,86 +294,118 @@ class _PullUpState extends State<PullUp> {
     height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
-      body: widget.dogs.length != 0
-          ? ListView.builder(
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              itemCount: widget.dogList1.length,
-              itemBuilder: (BuildContext, index) {
-                var item = widget.dogList1[index];
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          SizedBox(
+            height: height * 0.005,
+          ),
+          Text(
+            'Your Dogs',
+            style: GoogleFonts.k2d(
+                textStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold)),
+          ),
+          SizedBox(
+            height: height * 0.005,
+          ),
+          Text(
+            'Select your dog',
+            style: GoogleFonts.k2d(
+                textStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold)),
+          ),
+          SizedBox(
+            height: height * 0.005,
+          ),
+          widget.dogs.length != 0
+              ? ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  itemCount: widget.dogList1.length,
+                  itemBuilder: (BuildContext, index) {
+                    var item = widget.dogList1[index];
 
-                return InkWell(
-                  onTap: () {
-                    makeRequest(item.name, item.ownerId, widget.receiveDog,
-                        widget.receiveID);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: MyColors.loginGradientStart.withOpacity(0.6),
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      width: width * 0.8,
+                    return InkWell(
+                      onTap: () {
+                        makeRequest(item.name, item.ownerId, widget.receiveDog,
+                            widget.receiveID);
+                      },
                       child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Row(
-                          children: <Widget>[
-                            Container(
-                              height: 50,
-                              width: 50,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(25),
-                                ),
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(25.0),
-                                child: CachedNetworkImage(
-                                  imageUrl: item.iamgeURL,
-                                  imageBuilder: (context, imageProvider) =>
-                                      Container(
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          image: imageProvider,
-                                          fit: BoxFit.fill),
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color:
+                                  MyColors.loginGradientStart.withOpacity(0.6),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                          width: width * 0.8,
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  height: 50,
+                                  width: 50,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(25),
                                     ),
                                   ),
-                                  placeholder: (context, url) => GFLoader(
-                                    type: GFLoaderType.ios,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(25.0),
+                                    child: CachedNetworkImage(
+                                      imageUrl: item.iamgeURL,
+                                      imageBuilder: (context, imageProvider) =>
+                                          Container(
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              image: imageProvider,
+                                              fit: BoxFit.fill),
+                                        ),
+                                      ),
+                                      placeholder: (context, url) => GFLoader(
+                                        type: GFLoaderType.ios,
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          Icon(Icons.error),
+                                    ),
                                   ),
-                                  errorWidget: (context, url, error) =>
-                                      Icon(Icons.error),
                                 ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
-                                child: Container(
-                                  child: Text(
-                                    item.name,
-                                    style: GoogleFonts.k2d(fontSize: 24),
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20),
+                                    child: Container(
+                                      child: Text(
+                                        item.name,
+                                        style: GoogleFonts.k2d(fontSize: 24),
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
                       ),
+                    );
+                  },
+                )
+              : Center(
+                  child: Text(
+                    'You have not added any dogs yet',
+                    style: GoogleFonts.k2d(
+                      textStyle: TextStyle(fontSize: 24),
                     ),
                   ),
-                );
-              },
-            )
-          : Center(
-              child: Text(
-                'You have not added any dogs yet',
-                style: GoogleFonts.k2d(
-                  textStyle: TextStyle(fontSize: 24),
                 ),
-              ),
-            ),
+        ],
+      ),
     );
   }
 

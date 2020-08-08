@@ -100,87 +100,102 @@ class _YourDogsState extends State<YourDogs> {
           ),
         ),
       ),
-      body: dogCardsList.length != 0
-          ? ListView.builder(
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              itemCount: dogList.length,
-              itemBuilder: (BuildContext, index) {
-                var item = dogList[index];
-                return InkWell(
-                  onTap: () {
-                    _scaffoldKey.currentState.showBottomSheet((context) {
-                      return StatefulBuilder(
-                          builder: (context, StateSetter state) {
-                        return ProfilePullUp(item, width, height);
-                      });
-                    });
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: MyColors.loginGradientStart.withOpacity(0.6),
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      width: width * 0.8,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            'Your Dogs',
+            style: GoogleFonts.k2d(
+                textStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold)),
+          ),
+          dogCardsList.length != 0
+              ? ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  itemCount: dogList.length,
+                  itemBuilder: (BuildContext, index) {
+                    var item = dogList[index];
+                    return InkWell(
+                      onTap: () {
+                        _scaffoldKey.currentState.showBottomSheet((context) {
+                          return StatefulBuilder(
+                              builder: (context, StateSetter state) {
+                            return ProfilePullUp(item, width, height);
+                          });
+                        });
+                      },
                       child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Row(
-                          children: <Widget>[
-                            Container(
-                              height: 50,
-                              width: 50,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(25),
-                                ),
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(25.0),
-                                child: CachedNetworkImage(
-                                  imageUrl: item.iamgeURL,
-                                  imageBuilder: (context, imageProvider) =>
-                                      Container(
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          image: imageProvider,
-                                          alignment: Alignment.center,
-                                          fit: BoxFit.fill),
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color:
+                                  MyColors.loginGradientStart.withOpacity(0.6),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                          width: width * 0.8,
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  height: 50,
+                                  width: 50,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(25),
                                     ),
                                   ),
-                                  placeholder: (context, url) => GFLoader(
-                                    type: GFLoaderType.ios,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(25.0),
+                                    child: CachedNetworkImage(
+                                      imageUrl: item.iamgeURL,
+                                      imageBuilder: (context, imageProvider) =>
+                                          Container(
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              image: imageProvider,
+                                              alignment: Alignment.center,
+                                              fit: BoxFit.fill),
+                                        ),
+                                      ),
+                                      placeholder: (context, url) => GFLoader(
+                                        type: GFLoaderType.ios,
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          Icon(Icons.error),
+                                    ),
                                   ),
-                                  errorWidget: (context, url, error) =>
-                                      Icon(Icons.error),
                                 ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
-                                child: Container(
-                                  child: Text(
-                                    item.name,
-                                    style: GoogleFonts.k2d(fontSize: 24),
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20),
+                                    child: Container(
+                                      child: Text(
+                                        item.name,
+                                        style: GoogleFonts.k2d(fontSize: 24),
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
+                                Icon(
+                                  Icons.info_outline,
+                                  color: Colors.black,
+                                ),
+                              ],
                             ),
-                            Icon(
-                              Icons.info_outline,
-                              color: Colors.black,
-                            ),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                );
-              },
-            )
-          : Center(child: loader),
+                    );
+                  },
+                )
+              : Center(child: loader),
+        ],
+      ),
     );
   }
 }
