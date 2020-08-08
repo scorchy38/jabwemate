@@ -58,11 +58,13 @@ class _MainHomeState extends State<MainHome> {
             isCart: false);
         items.add(c);
       }
-      setState(() {
-        length;
-        items;
-        print(items.length);
-      });
+      if (this.mounted) {
+        setState(() {
+          length;
+          items;
+          print(items.length);
+        });
+      }
     });
   }
 
@@ -71,9 +73,11 @@ class _MainHomeState extends State<MainHome> {
   getCartLength() async {
     int x = await dbHelper.queryRowCount();
     length = x;
-    setState(() {
-      length;
-    });
+    if (this.mounted) {
+      setState(() {
+        length;
+      });
+    }
   }
 
   @override
@@ -203,10 +207,12 @@ class _MainHomeState extends State<MainHome> {
                       },
                     ).toList(),
                     onPageChanged: (index) {
-                      setState(() {
-                        length;
-                        index;
-                      });
+                      if (this.mounted) {
+                        setState(() {
+                          length;
+                          index;
+                        });
+                      }
                     },
                     autoPlay: true,
                     enlargeMainPage: true,
@@ -243,11 +249,13 @@ class _MainHomeState extends State<MainHome> {
                   itemCount: items.length,
                   itemBuilder: (context, index) {
                     var item = items[index];
-                    _query(item.name).then((value) {
-                      item.isCart = value;
-                      setState(() {
-                        item.isCart;
-                      });
+                    _query(item.name).then((value) async {
+                      item.isCart = await value;
+                      if (this.mounted) {
+                        setState(() {
+                          item.isCart;
+                        });
+                      }
                     });
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -373,9 +381,12 @@ class _MainHomeState extends State<MainHome> {
                                             imgUrl: item.imageUrl.toString(),
                                             price: item.price.toString(),
                                             qty: 1);
-                                        setState(() {
-                                          item.isCart = true;
-                                        });
+
+                                        if (this.mounted) {
+                                          setState(() {
+                                            item.isCart = true;
+                                          });
+                                        }
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(
@@ -423,11 +434,13 @@ class _MainHomeState extends State<MainHome> {
   Widget categoryCard(name, image) {
     return InkWell(
       onTap: () {
-        setState(() {
-          category = name;
-        });
-        getCartLength();
-        getItemsRef();
+        if (this.mounted) {
+          setState(() {
+            category = name;
+          });
+          getCartLength();
+          getItemsRef();
+        }
       },
       child: Card(
         elevation: 2,
@@ -489,19 +502,23 @@ class _MainHomeState extends State<MainHome> {
     Cart item = Cart(id, name, imgUrl, price, qty);
     final rowsAffected = await dbHelper.update(item);
     _query(name);
-    setState(() {
-      _query(item.productName);
-      print('Updated');
-    });
-    getCartLength();
+    if (this.mounted) {
+      setState(() {
+        _query(item.productName);
+        print('Updated');
+      });
+      getCartLength();
+    }
   }
 
   void removeItem(String name) async {
     // Assuming that the number of rows is the id for the last row.
     final rowsDeleted = await dbHelper.delete(name);
-    setState(() {
-      print('Updated');
-    });
-    getCartLength();
+    if (this.mounted) {
+      setState(() {
+        print('Updated');
+      });
+      getCartLength();
+    }
   }
 }

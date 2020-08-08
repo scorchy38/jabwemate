@@ -11,6 +11,7 @@ import 'delayed_animation.dart';
 import 'e-commerce_module/Classes/Constants.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIOverlays([]);
   runApp(MyHome());
 }
