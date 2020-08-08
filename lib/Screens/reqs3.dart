@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -22,7 +23,7 @@ class _RecentsState extends State<Recents> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   double height, width;
-   Razorpay _razorpay;
+  Razorpay _razorpay;
   @override
   void initState() {
     getRequests();
@@ -37,7 +38,7 @@ class _RecentsState extends State<Recents> {
   @override
   void dispose() {
     super.dispose();
-       _razorpay.clear();
+    _razorpay.clear();
   }
 
   void openCheckout() async {
@@ -52,7 +53,7 @@ class _RecentsState extends State<Recents> {
     };
 
     try {
-    _razorpay.open(options);
+      _razorpay.open(options);
     } catch (e) {
       debugPrint(e);
     }
@@ -322,6 +323,7 @@ class _RecentsState extends State<Recents> {
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: <Widget>[
@@ -380,7 +382,7 @@ class _RecentsState extends State<Recents> {
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: Container(
                             child: Text(
-                              '${item.address}, ${item.city}, ${item.phone}',
+                              'Address : ${item.address}\nCity : ${item.city}\nPhone Number : ${item.phone}',
                               style: GoogleFonts.k2d(
                                   textStyle: TextStyle(
                                     color: Colors.blue,
