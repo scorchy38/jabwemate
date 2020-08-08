@@ -31,20 +31,20 @@ class _SignedInState extends State<SignedIn> {
       if (DATA == null) {
         setState(() {
           isStored = false;
+          print('DATA STORED NAHI HAI');
         });
       } else {
         setState(() {
           isStored = true;
+          print('DATA STORED HAI');
         });
       }
     });
   }
 
-  bool isStored = false;
+  navigation() async {
+    await getDatabaseRef();
 
-  @override
-  void initState() {
-    getDatabaseRef();
     new Future.delayed(Duration(seconds: 3), () {
       if (isStored) {
         Navigator.pushReplacement(
@@ -65,6 +65,13 @@ class _SignedInState extends State<SignedIn> {
         );
       }
     });
+  }
+
+  bool isStored = false;
+
+  @override
+  void initState() {
+    navigation();
   }
 
   @override

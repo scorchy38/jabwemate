@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jabwemate/e-commerce_module/Classes/Cart.dart';
 import 'package:jabwemate/e-commerce_module/Classes/Constants.dart';
 import 'package:jabwemate/e-commerce_module/Classes/DatabaseHelper.dart';
+import 'package:jabwemate/e-commerce_module/Drawer/Checkout.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:intl/intl.dart';
@@ -35,7 +36,9 @@ class _CartPageState extends State<CartPage> {
     final allRows = await dbHelper.queryAllRows();
     cartItems.clear();
     allRows.forEach((row) => cartItems.add(Cart.fromMap(row)));
-    setState(() {});
+    if (this.mounted) {
+      setState(() {});
+    }
   }
 
   void updateItem(
@@ -66,6 +69,7 @@ class _CartPageState extends State<CartPage> {
 
   @override
   Widget build(BuildContext context) {
+    BuildContext cxt = this.context;
     double pWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SafeArea(
@@ -416,7 +420,242 @@ class _CartPageState extends State<CartPage> {
                       ),
                       InkWell(
                         onTap: () async {
-                          await order(context, pWidth);
+//                          Alert(
+//                              context: context,
+//                              title: "PROCEED TO CHECKOUT",
+//                              content: Form(
+//                                key: formKey,
+//                                child: Column(
+//                                  children: <Widget>[
+//                                    TextField(
+//                                      controller: nameController,
+//                                      decoration: InputDecoration(
+//                                        icon: Icon(Icons.account_circle),
+//                                        labelText: 'Name',
+//                                      ),
+//                                    ),
+//                                    TextField(
+//                                      controller: numberController,
+//                                      decoration: InputDecoration(
+//                                        icon: Icon(Icons.phone_iphone),
+//                                        labelText: 'Contact Number',
+//                                      ),
+//                                    ),
+//                                    TextField(
+//                                      controller: addressController,
+//                                      decoration: InputDecoration(
+//                                        icon: Icon(Icons.home),
+//                                        labelText: 'Address',
+//                                      ),
+//                                    ),
+//                                    TextField(
+//                                      controller: zipController,
+//                                      decoration: InputDecoration(
+//                                        icon: Icon(Icons.location_on),
+//                                        labelText: 'PIN Code',
+//                                      ),
+//                                    ),
+//                                    SizedBox(
+//                                      height: pWidth * 0.05,
+//                                    ),
+//                                    Text(
+//                                      "Order Total : Rs. ${(totalAmount() + (0.18 * totalAmount()) + 00).toStringAsFixed(2)}",
+//                                      textAlign: TextAlign.center,
+//                                      style: TextStyle(
+//                                          fontWeight: FontWeight.bold,
+//                                          fontFamily: 'Cabin',
+//                                          fontSize: MediaQuery.of(context)
+//                                                  .size
+//                                                  .height /
+//                                              50,
+//                                          color: kPrimaryColor),
+//                                    )
+//                                  ],
+//                                ),
+//                              ),
+//                              buttons: [
+//                                DialogButton(
+//                                  onPressed: () {
+//                                    Navigator.pop(context);
+//                                    onOrderPlaced();
+//                                  },
+//                                  color: kPrimaryColor,
+//                                  child: Text(
+//                                    "PROCEED FOR COD",
+//                                    textAlign: TextAlign.center,
+//                                    style: TextStyle(
+//                                        fontWeight: FontWeight.bold,
+//                                        fontFamily: 'Cabin',
+//                                        fontSize:
+//                                            MediaQuery.of(context).size.height /
+//                                                70,
+//                                        color: Colors.white),
+//                                  ),
+//                                ),
+//                                DialogButton(
+//                                  onPressed: () async {
+//                                    if (formKey.currentState.validate()) {
+//                                      //openCheckout();
+//                                      Navigator.pop(context);
+//                                      onOrderPlaced();
+//                                    }
+//                                  },
+//                                  color: kPrimaryColor,
+//                                  child: Text(
+//                                    "PAY ONLINE",
+//                                    textAlign: TextAlign.center,
+//                                    style: TextStyle(
+//                                        fontWeight: FontWeight.bold,
+//                                        fontFamily: 'Cabin',
+//                                        fontSize:
+//                                            MediaQuery.of(context).size.height /
+//                                                70,
+//                                        color: Colors.white),
+//                                  ),
+//                                )
+//                              ]).show();
+//                          return showDialog(
+//                            context: context,
+//                            builder: (BuildContext context) {
+//                              return AlertDialog(
+//                                shape: RoundedRectangleBorder(
+//                                  borderRadius: BorderRadius.circular(10),
+//                                ),
+//                                title: Text('PROCEED TO CHECKOUT'),
+//                                content: Form(
+//                                  key: formKey,
+//                                  child: Column(
+//                                    mainAxisSize: MainAxisSize.min,
+//                                    children: <Widget>[
+//                                      TextField(
+//                                        controller: nameController,
+//                                        decoration: InputDecoration(
+//                                          icon: Icon(Icons.account_circle),
+//                                          labelText: 'Name',
+//                                        ),
+//                                      ),
+//                                      TextField(
+//                                        controller: numberController,
+//                                        decoration: InputDecoration(
+//                                          icon: Icon(Icons.phone_iphone),
+//                                          labelText: 'Contact Number',
+//                                        ),
+//                                      ),
+//                                      TextField(
+//                                        controller: addressController,
+//                                        decoration: InputDecoration(
+//                                          icon: Icon(Icons.home),
+//                                          labelText: 'Address',
+//                                        ),
+//                                      ),
+//                                      TextField(
+//                                        controller: zipController,
+//                                        decoration: InputDecoration(
+//                                          icon: Icon(Icons.location_on),
+//                                          labelText: 'PIN Code',
+//                                        ),
+//                                      ),
+//                                      SizedBox(
+//                                        height: pWidth * 0.05,
+//                                      ),
+//                                      Text(
+//                                        "Order Total : Rs. ${(totalAmount() + (0.18 * totalAmount()) + 00).toStringAsFixed(2)}",
+//                                        textAlign: TextAlign.center,
+//                                        style: TextStyle(
+//                                            fontWeight: FontWeight.bold,
+//                                            fontFamily: 'Cabin',
+//                                            fontSize: MediaQuery.of(context)
+//                                                    .size
+//                                                    .height /
+//                                                50,
+//                                            color: kPrimaryColor),
+//                                      )
+//                                    ],
+//                                  ),
+//                                ),
+//                                actions: <Widget>[
+//                                  Column(
+//                                    children: <Widget>[
+//                                      Row(
+//                                        mainAxisAlignment:
+//                                            MainAxisAlignment.center,
+//                                        children: <Widget>[
+//                                          DialogButton(
+//                                            onPressed: () {
+//                                              Navigator.pop(context);
+//                                              onOrderPlaced();
+//                                            },
+//                                            color: kPrimaryColor,
+//                                            child: Padding(
+//                                              padding:
+//                                                  const EdgeInsets.all(6.0),
+//                                              child: Text(
+//                                                "PROCEED FOR COD",
+//                                                textAlign: TextAlign.center,
+//                                                style: TextStyle(
+//                                                    fontWeight: FontWeight.bold,
+//                                                    fontFamily: 'Cabin',
+//                                                    fontSize:
+//                                                        MediaQuery.of(context)
+//                                                                .size
+//                                                                .height /
+//                                                            70,
+//                                                    color: Colors.white),
+//                                              ),
+//                                            ),
+//                                          ),
+//                                          SizedBox(
+//                                            width: pWidth * 0.05,
+//                                          ),
+//                                          DialogButton(
+//                                            onPressed: () async {
+//                                              if (formKey.currentState
+//                                                  .validate()) {
+//                                                //openCheckout();
+//                                                Navigator.pop(context);
+//                                                onOrderPlaced();
+//                                              }
+//                                            },
+//                                            color: kPrimaryColor,
+//                                            child: Padding(
+//                                              padding:
+//                                                  const EdgeInsets.all(6.0),
+//                                              child: Text(
+//                                                "PAY ONLINE",
+//                                                textAlign: TextAlign.center,
+//                                                style: TextStyle(
+//                                                    fontWeight: FontWeight.bold,
+//                                                    fontFamily: 'Cabin',
+//                                                    fontSize:
+//                                                        MediaQuery.of(context)
+//                                                                .size
+//                                                                .height /
+//                                                            70,
+//                                                    color: Colors.white),
+//                                              ),
+//                                            ),
+//                                          ),
+//                                          SizedBox(
+//                                            width: pWidth * 0.1,
+//                                          ),
+//                                        ],
+//                                      ),
+//                                      SizedBox(
+//                                        height: pWidth * 0.05,
+//                                      ),
+//                                    ],
+//                                  )
+//                                ],
+//                              );
+//                            },
+//                          )
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  CheckOut(cartItems: cartItems),
+                            ),
+                          );
                         },
                         child: Container(
                           width: MediaQuery.of(context).size.height - 20,
@@ -568,125 +807,5 @@ class _CartPageState extends State<CartPage> {
   void _handleExternalWallet(ExternalWalletResponse response) {
     Fluttertoast.showToast(
         msg: "EXTERNAL_WALLET: " + response.walletName, timeInSecForIosWeb: 4);
-  }
-
-  void order(BuildContext context, double pWidth) {
-    Alert(
-        context: context,
-        title: "PROCEED TO CHECKOUT",
-        content: Form(
-          key: formKey,
-          child: Column(
-            children: <Widget>[
-              TextFormField(
-                validator: (value) {
-                  if (value.length == 0) {
-                    return 'Please enter your name';
-                  } else {
-                    return null;
-                  }
-                },
-                controller: nameController,
-                decoration: InputDecoration(
-                  icon: Icon(Icons.account_circle),
-                  labelText: 'Name',
-                ),
-              ),
-              TextFormField(
-                validator: (value) {
-                  if (value.length < 10) {
-                    return 'Please enter a valid phone number';
-                  } else {
-                    return null;
-                  }
-                },
-                controller: numberController,
-                decoration: InputDecoration(
-                  icon: Icon(Icons.phone_iphone),
-                  labelText: 'Contact Number',
-                ),
-              ),
-              TextFormField(
-                validator: (value) {
-                  if (value.length == 0) {
-                    return 'Please enter your address';
-                  } else {
-                    return null;
-                  }
-                },
-                controller: addressController,
-                decoration: InputDecoration(
-                  icon: Icon(Icons.home),
-                  labelText: 'Address',
-                ),
-              ),
-              TextFormField(
-                validator: (value) {
-                  if (value.length < 6) {
-                    return 'Please enter a valid pin code';
-                  } else {
-                    return null;
-                  }
-                },
-                controller: zipController,
-                decoration: InputDecoration(
-                  icon: Icon(Icons.location_on),
-                  labelText: 'PIN Code',
-                ),
-              ),
-              SizedBox(
-                height: pWidth * 0.05,
-              ),
-              Text(
-                "Order Total : Rs. ${(totalAmount() + (0.18 * totalAmount()) + 00).toStringAsFixed(2)}",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Cabin',
-                    fontSize: MediaQuery.of(context).size.height / 50,
-                    color: kPrimaryColor),
-              )
-            ],
-          ),
-        ),
-        buttons: [
-          DialogButton(
-            onPressed: () {
-              if (formKey.currentState.validate()) {
-                Navigator.pop(context);
-                onOrderPlaced();
-              }
-            },
-            color: kPrimaryColor,
-            child: Text(
-              "PROCEED FOR COD",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Cabin',
-                  fontSize: MediaQuery.of(context).size.height / 70,
-                  color: Colors.white),
-            ),
-          ),
-          DialogButton(
-            onPressed: () async {
-              if (formKey.currentState.validate()) {
-                //openCheckout();
-                Navigator.pop(context);
-                onOrderPlaced();
-              }
-            },
-            color: kPrimaryColor,
-            child: Text(
-              "PAY ONLINE",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Cabin',
-                  fontSize: MediaQuery.of(context).size.height / 70,
-                  color: Colors.white),
-            ),
-          )
-        ]).show();
   }
 }
