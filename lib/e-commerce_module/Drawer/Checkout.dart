@@ -22,6 +22,8 @@ class _CheckOutState extends State<CheckOut> {
   TextEditingController nameController = new TextEditingController(text: '');
   TextEditingController numberController = new TextEditingController(text: '');
   TextEditingController addressController = new TextEditingController(text: '');
+  TextEditingController addressController2 =
+      new TextEditingController(text: '');
   TextEditingController zipController = new TextEditingController(text: '');
   final formKey = GlobalKey<FormState>();
   final dbRef = FirebaseDatabase.instance.reference();
@@ -72,10 +74,14 @@ class _CheckOutState extends State<CheckOut> {
       'ShippedTime': 'Not yet shipped',
       'Status': 'Placed',
       'orderLength': item.length,
-      'userName': nameController.text,
-      'userAddress': addressController.text,
-      'userPhone': numberController.text,
-      'pinCode': zipController.text
+    });
+
+    dbRef.child('Users').child(user.uid).set({
+      "Name": nameController.text,
+      "Add1": addressController.text,
+      'Add2': addressController2.text,
+      'Zip': zipController.text,
+      'phNo': numberController.text
     });
 
     numberController.clear();
@@ -100,12 +106,15 @@ class _CheckOutState extends State<CheckOut> {
             "OK",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
-          onPressed: () => Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (BuildContext context) => OrdersPage(),
-            ),
-          ),
+          onPressed: () {
+            Navigator.pop(context);
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => OrdersPage(),
+              ),
+            );
+          },
           width: 120,
         )
       ],
@@ -116,6 +125,7 @@ class _CheckOutState extends State<CheckOut> {
   Widget build(BuildContext context) {
     double pWidth = MediaQuery.of(context).size.width;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Form(
@@ -172,7 +182,7 @@ class _CheckOutState extends State<CheckOut> {
               TextFormField(
                 validator: (value) {
                   if (value.length == 0) {
-                    return 'Please enter a valid name';
+                    return 'Please enter a valid address';
                   } else {
                     return null;
                   }
@@ -180,7 +190,24 @@ class _CheckOutState extends State<CheckOut> {
                 controller: addressController,
                 decoration: InputDecoration(
                   icon: Icon(Icons.home),
-                  labelText: 'Address',
+                  labelText: 'Address Line 1',
+                ),
+              ),
+              SizedBox(
+                height: pWidth * 0.05,
+              ),
+              TextFormField(
+                validator: (value) {
+                  if (value.length == 0) {
+                    return 'Please enter a valid address';
+                  } else {
+                    return null;
+                  }
+                },
+                controller: addressController2,
+                decoration: InputDecoration(
+                  icon: Icon(Icons.location_city),
+                  labelText: 'Address Line 2',
                 ),
               ),
               SizedBox(

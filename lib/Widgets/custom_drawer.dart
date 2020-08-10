@@ -3,15 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:getflutter/components/avatar/gf_avatar.dart';
 import 'package:getflutter/components/drawer/gf_drawer.dart';
-import 'package:jabwemate/Screens/favourites_screen.dart';
 import 'package:jabwemate/Screens/filtered_search_screen.dart';
 import 'package:jabwemate/Screens/request_landing.dart';
-import 'package:jabwemate/Screens/requests_screen.dart';
 import 'package:jabwemate/Screens/your_dogs.dart';
-import 'package:jabwemate/adoption_sell_module/landing.dart';
 import 'package:jabwemate/style/theme.dart' as Theme;
-import 'package:jabwemate/adoption_sell_module/adopt.dart';
-import 'package:jabwemate/main.dart';
 import 'package:jabwemate/ui/login_page.dart';
 
 class CustomDrawer extends StatefulWidget {

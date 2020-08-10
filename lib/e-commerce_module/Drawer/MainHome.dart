@@ -7,7 +7,6 @@ import 'package:getflutter/components/carousel/gf_carousel.dart';
 import 'package:jabwemate/Screens/docMainScreen.dart';
 import 'package:jabwemate/Screens/home_screen.dart';
 import 'package:jabwemate/adoption_sell_module/AdoptFirstScreen.dart';
-import 'package:jabwemate/adoption_sell_module/landing.dart';
 import 'package:jabwemate/e-commerce_module/Classes/Cart.dart';
 import 'package:jabwemate/e-commerce_module/Classes/Constants.dart';
 import 'package:jabwemate/e-commerce_module/Classes/DatabaseHelper.dart';

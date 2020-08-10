@@ -1,8 +1,6 @@
-import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jabwemate/Classes/dog_profile.dart';
-import 'package:jabwemate/Widgets/profile_pull_up.dart';
 import 'package:jabwemate/style/theme.dart';
 
 class MyDogCard extends StatefulWidget {

@@ -1,14 +1,9 @@
 import 'package:diagonal/diagonal.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jabwemate/adoption_sell_module/AdoptFirstScreen.dart';
-import 'package:jabwemate/adoption_sell_module/landing.dart';
 import 'package:jabwemate/delayed_animation.dart';
-import 'package:jabwemate/e-commerce_module/Drawer/MainHome.dart';
-import 'package:jabwemate/e-commerce_module/LoginPages/WelcomeScreen.dart';
 import 'package:jabwemate/e-commerce_module/NavBar.dart';
-import 'package:jabwemate/main.dart';
 import 'package:jabwemate/style/theme.dart' as Theme;
 
 import 'home_screen.dart';

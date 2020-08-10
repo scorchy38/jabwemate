@@ -14,7 +14,6 @@ import 'package:jabwemate/Widgets/my_dog_card.dart';
 import 'package:jabwemate/Widgets/profile_card.dart';
 import 'package:jabwemate/Widgets/profile_pull_up.dart';
 import 'package:jabwemate/adoption_sell_module/AdoptFirstScreen.dart';
-import 'package:jabwemate/adoption_sell_module/landing.dart';
 import 'package:jabwemate/e-commerce_module/NavBar.dart';
 import 'package:jabwemate/style/theme.dart';
 

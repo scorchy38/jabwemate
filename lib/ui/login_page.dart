@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:jabwemate/Screens/home_screen.dart';
 import 'package:jabwemate/e-commerce_module/LoginPages/PhoneLogin.dart';
 import 'package:jabwemate/e-commerce_module/OtherPages/SignedIn.dart';
 import 'package:jabwemate/style/theme.dart' as Theme;
@@ -935,7 +934,11 @@ class _LoginPageState extends State<LoginPage>
     if (user != null) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => SignedIn(phNo: loginPhoneController.text,),),
+        MaterialPageRoute(
+          builder: (context) => SignedIn(
+            phNo: loginPhoneController.text,
+          ),
+        ),
       );
     }
     return user;

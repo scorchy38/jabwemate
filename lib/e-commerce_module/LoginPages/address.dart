@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:jabwemate/Screens/FirstScreen.dart';
 import 'package:jabwemate/e-commerce_module/Classes/Constants.dart';
 
-import '../NavBar.dart';
-
 class Address extends StatefulWidget {
   final String phno;
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:jabwemate/Widgets/custom_drawer.dart';
 import 'package:jabwemate/Widgets/appbar.dart';
 
 class Favourites extends StatefulWidget {

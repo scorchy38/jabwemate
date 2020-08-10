@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jabwemate/Classes/Doc_data.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
-import 'package:jabwemate/Classes/Doc_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:jabwemate/style/theme.dart';
 
