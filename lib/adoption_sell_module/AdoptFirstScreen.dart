@@ -9,8 +9,6 @@ import 'package:jabwemate/adoption_sell_module/sell.dart';
 import 'package:jabwemate/e-commerce_module/NavBar.dart';
 import 'package:jabwemate/style/theme.dart';
 
-import 'landing.dart';
-
 class AdoptFirstScreen extends StatefulWidget {
   @override
   _AdoptFirstScreenState createState() => _AdoptFirstScreenState();

@@ -5,10 +5,6 @@ import 'package:jabwemate/Screens/reqs2.dart';
 import 'package:jabwemate/Screens/reqs3.dart';
 import 'package:jabwemate/Screens/requests_screen.dart';
 import 'package:jabwemate/Widgets/appbar.dart';
-import 'package:jabwemate/adoption_sell_module/add_adoption.dart';
-import 'package:jabwemate/adoption_sell_module/add_sell.dart';
-import 'package:jabwemate/adoption_sell_module/adopt.dart';
-import 'package:jabwemate/adoption_sell_module/sell.dart';
 import 'package:jabwemate/style/theme.dart';
 
 class Reqs extends StatefulWidget {

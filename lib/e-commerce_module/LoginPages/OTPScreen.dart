@@ -193,37 +193,6 @@ class _OTPScreenState extends State<OTPScreen> {
             ),
           ),
         );
-//        if (value.user != null) {
-//          FirebaseUser user = await FirebaseAuth.instance.currentUser();
-//          DatabaseReference useraddressref = FirebaseDatabase
-//              .instance //Used the UID of the user to check if record exists in the database or not
-//              .reference()
-//              .child('Users')
-//              .child(user.uid);
-//          useraddressref.once().then((DataSnapshot snap) {
-//            // ignore: non_constant_identifier_names
-//            var DATA = snap.value;
-//            if (DATA == null) {
-//              Navigator.pushAndRemoveUntil(
-//                  context,
-//                  MaterialPageRoute(
-//                    builder: (context) => AddressFrame(
-//                      phno: widget.mobileNumber,
-//                    ),
-//                  ),
-//                  (Route<dynamic> route) => false);
-//            } else {
-//              Navigator.pushAndRemoveUntil(
-//                  context,
-//                  MaterialPageRoute(
-//                    builder: (context) => null,
-//                  ),
-//                  (Route<dynamic> route) => false);
-//            }
-//          });
-//        } else {
-//          showToast("Error validating OTP, try again", Colors.white);
-//        }
       }).catchError((error) {
         showToast("Try again in sometime", Colors.white);
       });
@@ -278,38 +247,6 @@ class _OTPScreenState extends State<OTPScreen> {
           ),
         ),
       );
-
-//      if (value.user != null) {
-//        FirebaseUser user = await FirebaseAuth.instance.currentUser();
-//        DatabaseReference useraddressref = FirebaseDatabase
-//            .instance //Used the UID of the user to check if record exists in the database or not
-//            .reference()
-//            .child('Users')
-//            .child(user.uid);
-//        useraddressref.once().then((DataSnapshot snap) {
-//          // ignore: non_constant_identifier_names
-//          var DATA = snap.value;
-//          if (DATA == null) {
-//            Navigator.pushAndRemoveUntil(
-//                context,
-//                MaterialPageRoute(
-//                  builder: (context) => AddressFrame(
-//                    phno: widget.mobileNumber,
-//                  ),
-//                ),
-//                (Route<dynamic> route) => false);
-//          } else {
-//            Navigator.pushAndRemoveUntil(
-//                context,
-//                MaterialPageRoute(
-//                  builder: (context) => null,
-//                ),
-//                (Route<dynamic> route) => false);
-//          }
-//        });
-//      } else {
-//        showToast("Error validating OTP, try again", Colors.white);
-//      }
     }).catchError((error) {
       showToast("Something went wrong", Colors.white);
     });

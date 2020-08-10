@@ -1,12 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:jabwemate/Classes/appointment_data.dart';
-import 'package:jabwemate/Screens/BookingScreen.dart';
 import 'package:jabwemate/Screens/home_screen.dart';
 import 'package:jabwemate/Widgets/my_appointment_card.dart';
-import 'package:jabwemate/style/theme.dart';
 
 class PastAppointment extends StatefulWidget {
   @override

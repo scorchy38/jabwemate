@@ -6,10 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:jabwemate/Classes/dog_profile.dart';
 import 'package:jabwemate/Screens/home_screen.dart';
 import 'package:jabwemate/Widgets/appbar.dart';
-import 'package:jabwemate/Widgets/custom_drawer.dart';
 import 'package:jabwemate/Widgets/my_dog_card.dart';
-import 'package:jabwemate/Widgets/profile_pull_up.dart';
-import 'package:jabwemate/adoption_sell_module/add_adoption.dart';
 import 'package:jabwemate/adoption_sell_module/add_sell.dart';
 import 'package:jabwemate/style/theme.dart';
 
