@@ -301,29 +301,7 @@ class _NewPullUpState extends State<NewPullUp> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          Container(
-                            child: ClipRRect(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5)),
-                              child: CachedNetworkImage(
-                                imageUrl: widget.dp.iamgeURL,
-                                imageBuilder: (context, imageProvider) =>
-                                    Container(
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: imageProvider,
-                                        alignment: Alignment.center,
-                                        fit: BoxFit.fill),
-                                  ),
-                                ),
-                                placeholder: (context, url) => GFLoader(
-                                  type: GFLoaderType.ios,
-                                ),
-                                errorWidget: (context, url, error) =>
-                                    Icon(Icons.error),
-                              ),
-                            ),
-                          ),
+                          Image.network(widget.dp.iamgeURL),
                           SizedBox(
                             height: 15,
                           ),
