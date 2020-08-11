@@ -8,6 +8,7 @@ import 'package:jabwemate/e-commerce_module/Classes/Constants.dart';
 import 'package:jabwemate/e-commerce_module/Classes/DatabaseHelper.dart';
 import 'package:jabwemate/e-commerce_module/OtherPages/OrdersPage.dart';
 import 'package:jabwemate/style/theme.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class CheckOut extends StatefulWidget {
@@ -28,6 +29,7 @@ class _CheckOutState extends State<CheckOut> {
   final formKey = GlobalKey<FormState>();
   final dbRef = FirebaseDatabase.instance.reference();
   final dbHelper = DatabaseHelper.instance;
+  Razorpay _razorpay;
 
   double totalAmount() {
     double sum = 0;
@@ -119,6 +121,15 @@ class _CheckOutState extends State<CheckOut> {
         )
       ],
     ).show();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _razorpay = Razorpay();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
   }
 
   @override
@@ -271,8 +282,7 @@ class _CheckOutState extends State<CheckOut> {
                   DialogButton(
                     onPressed: () async {
                       if (formKey.currentState.validate()) {
-                        //openCheckout();
-                        onOrderPlaced(context);
+                        openCheckout();
                       }
                     },
                     color: kPrimaryColor,
@@ -296,5 +306,41 @@ class _CheckOutState extends State<CheckOut> {
         ),
       ),
     );
+  }
+
+  void openCheckout() async {
+    var options = {
+      'key': 'rzp_test_uqORQiidCVwzWI',
+      'amount': ((totalAmount() + 0.18 * totalAmount() + 40) * 100),
+      'name': 'Axact Studios',
+      'description': 'Bill',
+      'prefill': {'contact': '', '': 'test@razorpay.com'},
+      'external': {
+        'wallets': ['paytm']
+      }
+    };
+
+    try {
+      _razorpay.open(options);
+    } catch (e) {
+      debugPrint(e);
+    }
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) async {
+    Fluttertoast.showToast(
+        msg: "SUCCESS: " + response.paymentId, timeInSecForIosWeb: 4);
+    onOrderPlaced(context);
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    Fluttertoast.showToast(
+        msg: "ERROR: " + response.code.toString() + " - " + response.message,
+        timeInSecForIosWeb: 4);
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    Fluttertoast.showToast(
+        msg: "EXTERNAL_WALLET: " + response.walletName, timeInSecForIosWeb: 4);
   }
 }
