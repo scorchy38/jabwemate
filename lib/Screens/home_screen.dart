@@ -14,6 +14,8 @@ import 'package:jabwemate/Widgets/my_dog_card.dart';
 import 'package:jabwemate/Widgets/profile_card.dart';
 import 'package:jabwemate/Widgets/profile_pull_up.dart';
 import 'package:jabwemate/adoption_sell_module/AdoptFirstScreen.dart';
+import 'package:jabwemate/adoption_sell_module/adopt.dart';
+import 'package:jabwemate/adoption_sell_module/sell.dart';
 import 'package:jabwemate/e-commerce_module/NavBar.dart';
 import 'package:jabwemate/style/theme.dart';
 
@@ -127,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   Navigator.pushReplacement(
                     context,
                     CupertinoPageRoute(
-                      builder: (context) => AdoptFirstScreen(),
+                      builder: (context) => Adoption(),
                     ),
                   );
                 },
@@ -142,6 +144,31 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     padding: const EdgeInsets.all(8.0),
                     child: Image.asset(
                       'assets/img/adoption.png',
+                      height: height * 0.04,
+                    ),
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.pushReplacement(
+                    context,
+                    CupertinoPageRoute(
+                      builder: (context) => Sell(),
+                    ),
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(height * 0.15),
+                    border: Border.all(
+                      color: Colors.black.withOpacity(0.5),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image.asset(
+                      'assets/img/resetdog.png',
                       height: height * 0.04,
                     ),
                   ),
