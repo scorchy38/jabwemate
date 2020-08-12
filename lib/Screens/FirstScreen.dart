@@ -2,6 +2,8 @@ import 'package:diagonal/diagonal.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jabwemate/adoption_sell_module/AdoptFirstScreen.dart';
+import 'package:jabwemate/adoption_sell_module/adopt.dart';
+import 'package:jabwemate/adoption_sell_module/sell.dart';
 import 'package:jabwemate/delayed_animation.dart';
 import 'package:jabwemate/e-commerce_module/NavBar.dart';
 import 'package:jabwemate/style/theme.dart' as Theme;
@@ -27,7 +29,7 @@ class _FirstScreenState extends State<FirstScreen> {
         children: <Widget>[
           Diagonal(
             child: Container(
-              height: pHeight * 0.25,
+              height: pHeight * 0.22,
               width: pWidth,
               decoration: BoxDecoration(
                 gradient: new LinearGradient(
@@ -49,7 +51,7 @@ class _FirstScreenState extends State<FirstScreen> {
                           style: GoogleFonts.k2d(
                             textStyle: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 30.0,
+                                fontSize: 25.0,
                                 color: Colors.white),
                           )),
                       delay: delayedAmount + 500,
@@ -71,7 +73,7 @@ class _FirstScreenState extends State<FirstScreen> {
               textAlign: TextAlign.center,
               style: GoogleFonts.k2d(
                   textStyle: TextStyle(
-                fontSize: 24,
+                fontSize: 22,
                 color: Colors.black.withOpacity(0.7),
               )),
             ),
@@ -92,7 +94,7 @@ class _FirstScreenState extends State<FirstScreen> {
                 child: Card(
                   elevation: 6,
                   child: Container(
-                    height: pHeight * 0.3,
+                    height: pHeight * 0.2,
                     width: pWidth * 0.45,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -100,7 +102,7 @@ class _FirstScreenState extends State<FirstScreen> {
                       children: <Widget>[
                         Image.asset(
                           'assets/img/mating.png',
-                          height: pHeight * 0.2,
+                          height: pHeight * 0.15,
                           width: pWidth * 0.4,
                         ),
                         Padding(
@@ -109,7 +111,7 @@ class _FirstScreenState extends State<FirstScreen> {
                             'Find a mate',
                             style: GoogleFonts.k2d(
                                 textStyle: TextStyle(
-                              fontSize: pHeight * 0.025,
+                              fontSize: pHeight * 0.02,
                               color: Colors.black.withOpacity(0.6),
                             )),
                           ),
@@ -131,7 +133,7 @@ class _FirstScreenState extends State<FirstScreen> {
                 child: Card(
                   elevation: 6,
                   child: Container(
-                    height: pHeight * 0.3,
+                    height: pHeight * 0.2,
                     width: pWidth * 0.45,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -139,7 +141,7 @@ class _FirstScreenState extends State<FirstScreen> {
                       children: <Widget>[
                         Image.asset(
                           'assets/img/essentials.png',
-                          height: pHeight * 0.2,
+                          height: pHeight * 0.15,
                           width: pWidth * 0.4,
                         ),
                         Padding(
@@ -148,7 +150,7 @@ class _FirstScreenState extends State<FirstScreen> {
                             'Buy essentials',
                             style: GoogleFonts.k2d(
                                 textStyle: TextStyle(
-                              fontSize: pHeight * 0.025,
+                              fontSize: pHeight * 0.02,
                               color: Colors.black.withOpacity(0.6),
                             )),
                           ),
@@ -169,14 +171,14 @@ class _FirstScreenState extends State<FirstScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => AdoptFirstScreen(),
+                      builder: (context) => Adoption(),
                     ),
                   );
                 },
                 child: Card(
                   elevation: 6,
                   child: Container(
-                    height: pHeight * 0.3,
+                    height: pHeight * 0.2,
                     width: pWidth * 0.45,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -184,16 +186,16 @@ class _FirstScreenState extends State<FirstScreen> {
                       children: <Widget>[
                         Image.asset(
                           'assets/img/adoption.png',
-                          height: pHeight * 0.2,
+                          height: pHeight * 0.15,
                           width: pWidth * 0.4,
                         ),
                         Padding(
                           padding: const EdgeInsets.all(6.0),
                           child: Text(
-                            'Adopt or Sell Dogs',
+                            'Adopt Dogs',
                             style: GoogleFonts.k2d(
                                 textStyle: TextStyle(
-                              fontSize: pHeight * 0.025,
+                              fontSize: pHeight * 0.02,
                               color: Colors.black.withOpacity(0.6),
                             )),
                           ),
@@ -219,7 +221,7 @@ class _FirstScreenState extends State<FirstScreen> {
                 child: Card(
                   elevation: 6,
                   child: Container(
-                    height: pHeight * 0.3,
+                    height: pHeight * 0.2,
                     width: pWidth * 0.45,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -227,7 +229,7 @@ class _FirstScreenState extends State<FirstScreen> {
                       children: <Widget>[
                         Image.asset(
                           'assets/img/health.png',
-                          height: pHeight * 0.2,
+                          height: pHeight * 0.15,
                           width: pWidth * 0.4,
                         ),
                         Padding(
@@ -236,7 +238,52 @@ class _FirstScreenState extends State<FirstScreen> {
                             'Doctor appointment',
                             style: GoogleFonts.k2d(
                                 textStyle: TextStyle(
-                              fontSize: pHeight * 0.025,
+                              fontSize: pHeight * 0.02,
+                              color: Colors.black.withOpacity(0.6),
+                            )),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Sell(),
+                    ),
+                  );
+                },
+                child: Card(
+                  elevation: 6,
+                  child: Container(
+                    height: pHeight * 0.2,
+                    width: pWidth * 0.45,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Image.asset(
+                          'assets/img/resetdog.png',
+                          height: pHeight * 0.15,
+                          width: pWidth * 0.4,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(6.0),
+                          child: Text(
+                            'Sell or Buy Dogs',
+                            style: GoogleFonts.k2d(
+                                textStyle: TextStyle(
+                              fontSize: pHeight * 0.02,
                               color: Colors.black.withOpacity(0.6),
                             )),
                           ),
