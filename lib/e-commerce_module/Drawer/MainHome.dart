@@ -7,6 +7,8 @@ import 'package:getflutter/components/carousel/gf_carousel.dart';
 import 'package:jabwemate/Screens/docMainScreen.dart';
 import 'package:jabwemate/Screens/home_screen.dart';
 import 'package:jabwemate/adoption_sell_module/AdoptFirstScreen.dart';
+import 'package:jabwemate/adoption_sell_module/adopt.dart';
+import 'package:jabwemate/adoption_sell_module/sell.dart';
 import 'package:jabwemate/e-commerce_module/Classes/Cart.dart';
 import 'package:jabwemate/e-commerce_module/Classes/Constants.dart';
 import 'package:jabwemate/e-commerce_module/Classes/DatabaseHelper.dart';
@@ -133,7 +135,7 @@ class _MainHomeState extends State<MainHome> {
                       Navigator.pushReplacement(
                         context,
                         CupertinoPageRoute(
-                          builder: (context) => AdoptFirstScreen(),
+                          builder: (context) => Adoption(),
                         ),
                       );
                     },
@@ -148,6 +150,31 @@ class _MainHomeState extends State<MainHome> {
                         padding: const EdgeInsets.all(8.0),
                         child: Image.asset(
                           'assets/img/adoption.png',
+                          height: pHeight * 0.04,
+                        ),
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushReplacement(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) => Sell(),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(pHeight * 0.15),
+                        border: Border.all(
+                          color: Colors.black.withOpacity(0.5),
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset(
+                          'assets/img/resetdog.png',
                           height: pHeight * 0.04,
                         ),
                       ),
