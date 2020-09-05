@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jabwemate/Classes/dog_profile.dart';
+import 'package:jabwemate/FeedbackOrQuery.dart';
+import 'package:jabwemate/Abuse.dart';
 import 'package:jabwemate/Screens/docMainScreen.dart';
 import 'package:jabwemate/Screens/home_screen.dart';
 import 'package:jabwemate/Widgets/appbar.dart';
@@ -241,7 +243,7 @@ class _AdoptionState extends State<Adoption> {
           ),
           dogCardsList.length != 0
               ? Container(
-                  height: height * 0.842,
+                  height: height * 0.77,
                   child: ListView.builder(
                     shrinkWrap: true,
                     scrollDirection: Axis.vertical,
@@ -327,6 +329,75 @@ class _AdoptionState extends State<Adoption> {
                   ),
                 )
               : Center(child: CircularProgressIndicator()),
+          SizedBox(
+            height: height * 0.01,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              InkWell(
+                onTap: () {
+                  Navigator.pushReplacement(
+                    context,
+                    CupertinoPageRoute(
+                      builder: (context) => FeedbackQuery(),
+                    ),
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(colors: [
+                      MyColors.loginGradientEnd,
+                      MyColors.loginGradientStart
+                    ]),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: MyColors.loginGradientEnd,
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Send Feedback',
+                      style: GoogleFonts.k2d(fontSize: 24, color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.pushReplacement(
+                    context,
+                    CupertinoPageRoute(
+                      builder: (context) => Abuse(),
+                    ),
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(colors: [
+                      MyColors.loginGradientEnd,
+                      MyColors.loginGradientStart
+                    ]),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: MyColors.loginGradientEnd,
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Report Abuse',
+                      style: GoogleFonts.k2d(fontSize: 24, color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: height * 0.01,
+          ),
         ],
       ),
     );

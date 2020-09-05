@@ -13,6 +13,8 @@ import 'package:jabwemate/adoption_sell_module/add_sell.dart';
 import 'package:jabwemate/adoption_sell_module/adopt.dart';
 import 'package:jabwemate/e-commerce_module/NavBar.dart';
 import 'package:jabwemate/style/theme.dart';
+import '../Abuse.dart';
+import '../FeedbackOrQuery.dart';
 
 class Sell extends StatefulWidget {
   @override
@@ -238,7 +240,7 @@ class _SellState extends State<Sell> {
           ),
           dogCardsList.length != 0
               ? Container(
-                  height: height * 0.842,
+                  height: height * 0.77,
                   child: ListView.builder(
                     shrinkWrap: true,
                     scrollDirection: Axis.vertical,
@@ -324,6 +326,72 @@ class _SellState extends State<Sell> {
                   ),
                 )
               : Center(child: CircularProgressIndicator()),
+          SizedBox(
+            height: height * 0.01,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              InkWell(
+                onTap: () {
+                  Navigator.pushReplacement(
+                    context,
+                    CupertinoPageRoute(
+                      builder: (context) => FeedbackQuery(),
+                    ),
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(colors: [
+                      MyColors.loginGradientEnd,
+                      MyColors.loginGradientStart
+                    ]),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: MyColors.loginGradientEnd,
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Send Feedback',
+                      style: GoogleFonts.k2d(fontSize: 24, color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.pushReplacement(
+                    context,
+                    CupertinoPageRoute(
+                      builder: (context) => Abuse(),
+                    ),
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(colors: [
+                      MyColors.loginGradientEnd,
+                      MyColors.loginGradientStart
+                    ]),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: MyColors.loginGradientEnd,
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Report Abuse',
+                      style: GoogleFonts.k2d(fontSize: 24, color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );

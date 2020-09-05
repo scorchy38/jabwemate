@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tindercard/flutter_tindercard.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:getflutter/getflutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,6 +19,8 @@ import 'package:jabwemate/adoption_sell_module/adopt.dart';
 import 'package:jabwemate/adoption_sell_module/sell.dart';
 import 'package:jabwemate/e-commerce_module/NavBar.dart';
 import 'package:jabwemate/style/theme.dart';
+
+import 'add_dog_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -89,7 +92,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       key: _scaffoldKey2,
       drawer: CustomDrawer(),
       backgroundColor: Color(0xFFEFF7F6),
-      appBar: CustomAppBar(),
+      appBar: CustomAppBar(
+        action: IconButton(
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) => AddDogScreen(),
+              ),
+            );
+          },
+          icon: Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
+        ),
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
@@ -246,6 +263,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           (CardSwipeOrientation orientation, int index) async {
                         /// Get orientation & index of swiped card!
                         if (orientation == CardSwipeOrientation.RIGHT) {
+                          Fluttertoast.showToast(
+                              msg: 'Please select a dog to continue.');
                           dogCardsList2.clear();
                           dogList2.clear();
                           print('started loading');

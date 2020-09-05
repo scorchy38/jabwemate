@@ -364,11 +364,14 @@ class _PullUpState extends State<PullUp> {
                     );
                   },
                 )
-              : Center(
-                  child: Text(
-                    'You have not added any dogs yet',
-                    style: GoogleFonts.k2d(
-                      textStyle: TextStyle(fontSize: 24),
+              : Expanded(
+                  child: Center(
+                    child: Text(
+                      'You have not added any dogs yet.\nPlease add a dog to continue.',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.k2d(
+                        textStyle: TextStyle(fontSize: 24),
+                      ),
                     ),
                   ),
                 ),

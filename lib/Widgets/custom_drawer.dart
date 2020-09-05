@@ -8,6 +8,8 @@ import 'package:jabwemate/Screens/request_landing.dart';
 import 'package:jabwemate/Screens/your_dogs.dart';
 import 'package:jabwemate/style/theme.dart' as Theme;
 import 'package:jabwemate/ui/login_page.dart';
+import 'package:jabwemate/FeedbackOrQuery.dart';
+import 'package:jabwemate/Abuse.dart';
 
 class CustomDrawer extends StatefulWidget {
   @override
@@ -168,6 +170,58 @@ class _CustomDrawerState extends State<CustomDrawer> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => Reqs()),
+              );
+            },
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            height: 0.5,
+            color: Colors.black26,
+          ),
+          ListTile(
+            title: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
+              child: Text(
+                'Send Feedback Or Query',
+                style: TextStyle(
+                    fontSize: 24,
+                    fontFamily: 'nunito',
+                    fontWeight: FontWeight.w600),
+              ),
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => FeedbackQuery(),
+                ),
+              );
+            },
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            height: 0.5,
+            color: Colors.black26,
+          ),
+          ListTile(
+            title: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
+              child: Text(
+                'Report Abuse',
+                style: TextStyle(
+                    fontSize: 24,
+                    fontFamily: 'nunito',
+                    fontWeight: FontWeight.w600),
+              ),
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Abuse(),
+                ),
               );
             },
           ),
