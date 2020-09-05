@@ -3,12 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jabwemate/FeedbackOrQuery.dart';
 import 'package:jabwemate/Screens/FirstScreen.dart';
 import 'package:jabwemate/e-commerce_module/Classes/Constants.dart';
 import 'package:jabwemate/e-commerce_module/Classes/User.dart';
 import 'package:jabwemate/e-commerce_module/Drawer/support_page_main.dart';
 import 'package:jabwemate/ui/login_page.dart';
-
+import 'package:jabwemate/Abuse.dart';
 import '../NavBar.dart';
 import 'ProfilePage.dart';
 
@@ -65,7 +66,7 @@ class _MorePageState extends State<MorePage> {
             Diagonal(
               child: Container(
                 width: double.infinity,
-                height: MediaQuery.of(context).size.height * 0.3,
+                height: MediaQuery.of(context).size.height * 0.225,
                 decoration: BoxDecoration(
                   gradient: new LinearGradient(
                     colors: [kPrimaryColor, kSecondaryColor],
@@ -136,12 +137,15 @@ class _MorePageState extends State<MorePage> {
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Icon(
                           Icons.account_circle,
                           size: size.height * 0.036,
                           color: Colors.white,
+                        ),
+                        SizedBox(
+                          width: size.width * 0.1,
                         ),
                         Text(
                           'Profile',
@@ -184,12 +188,15 @@ class _MorePageState extends State<MorePage> {
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Icon(
                           Icons.supervisor_account,
                           size: size.height * 0.036,
                           color: Colors.white,
+                        ),
+                        SizedBox(
+                          width: size.width * 0.1,
                         ),
                         Text(
                           'Support',
@@ -232,15 +239,120 @@ class _MorePageState extends State<MorePage> {
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Icon(
                           Icons.home,
                           size: size.height * 0.036,
                           color: Colors.white,
                         ),
+                        SizedBox(
+                          width: size.width * 0.1,
+                        ),
                         Text(
                           'Main Home',
+                          style: Theme.of(context).textTheme.title.copyWith(
+                              color: Colors.white,
+                              fontSize: size.height * 0.036),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Spacer(),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => FeedbackQuery(),
+                    ),
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: new LinearGradient(
+                      colors: [kPrimaryColor, kSecondaryColor],
+                    ),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: kPrimaryColor, width: 1.0),
+                    boxShadow: [
+                      BoxShadow(
+                          color: kPrimaryColor,
+                          blurRadius: 2.0,
+                          spreadRadius: 0.1),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Icon(
+                          Icons.feedback,
+                          size: size.height * 0.036,
+                          color: Colors.white,
+                        ),
+                        SizedBox(
+                          width: size.width * 0.1,
+                        ),
+                        Text(
+                          'Feedback',
+                          style: Theme.of(context).textTheme.title.copyWith(
+                              color: Colors.white,
+                              fontSize: size.height * 0.036),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Spacer(),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Abuse(),
+                    ),
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: new LinearGradient(
+                      colors: [kPrimaryColor, kSecondaryColor],
+                    ),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: kPrimaryColor, width: 1.0),
+                    boxShadow: [
+                      BoxShadow(
+                          color: kPrimaryColor,
+                          blurRadius: 2.0,
+                          spreadRadius: 0.1),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Icon(
+                          Icons.error,
+                          size: size.height * 0.036,
+                          color: Colors.white,
+                        ),
+                        SizedBox(
+                          width: size.width * 0.1,
+                        ),
+                        Text(
+                          'Report Abuse',
                           style: Theme.of(context).textTheme.title.copyWith(
                               color: Colors.white,
                               fontSize: size.height * 0.036),
@@ -281,12 +393,15 @@ class _MorePageState extends State<MorePage> {
                         child: Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
                               Icon(
                                 FontAwesomeIcons.signInAlt,
                                 size: size.height * 0.036,
                                 color: Colors.white,
+                              ),
+                              SizedBox(
+                                width: size.width * 0.1,
                               ),
                               Text(
                                 'Sign In',
@@ -326,12 +441,15 @@ class _MorePageState extends State<MorePage> {
                         child: Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
                               Icon(
                                 FontAwesomeIcons.signOutAlt,
                                 size: size.height * 0.036,
                                 color: Colors.white,
+                              ),
+                              SizedBox(
+                                width: size.width * 0.1,
                               ),
                               Text(
                                 'Sign Out',

@@ -20,6 +20,7 @@ class MyHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Jab we mate',
       theme: ThemeData(
         fontFamily: 'Cabin',
