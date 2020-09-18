@@ -206,94 +206,96 @@ class _AddDogAdoptState extends State<AddDogAdopt> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: CustomAppBar(),
-      body: Column(
-        children: <Widget>[
-          CustomTextField('Enter Name', name),
-          CustomTextField('Enter City', city),
-          CustomTextField('Enter Age', age),
-          CustomTextField('Address line 1', address1),
-          CustomTextField('Address line 2', address2),
-          CustomTextField('Active Phone Number', phone),
-          CustomTextField('Enter Breed', breed),
-          CustomTextField('Enter Gender', gender),
-          CustomTextField('Enter Owner', owner),
-          InkWell(
-            onTap: () {
-              filePicker(context);
-            },
-            child: Container(
-              alignment: Alignment.center,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: Color(0xFF2E294E),
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-              margin: EdgeInsets.fromLTRB(20, 20, 20, 5),
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Text(
-                  'Upload Profile Image',
-                  style: GoogleFonts.k2d(
-                    color: Colors.white,
-                    fontSize: 18,
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            CustomTextField('Enter Name', name),
+            CustomTextField('Enter City', city),
+            CustomTextField('Enter Age', age),
+            CustomTextField('Address line 1', address1),
+            CustomTextField('Address line 2', address2),
+            CustomTextField('Active Phone Number', phone),
+            CustomTextField('Enter Breed', breed),
+            CustomTextField('Enter Gender', gender),
+            CustomTextField('Enter Owner', owner),
+            InkWell(
+              onTap: () {
+                filePicker(context);
+              },
+              child: Container(
+                alignment: Alignment.center,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    color: Color(0xFF2E294E),
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                margin: EdgeInsets.fromLTRB(20, 20, 20, 5),
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text(
+                    'Upload Profile Image',
+                    style: GoogleFonts.k2d(
+                      color: Colors.white,
+                      fontSize: 18,
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          InkWell(
-            onTap: () {
-              filePickerMultiple(context);
-            },
-            child: Container(
-              alignment: Alignment.center,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: Color(0xFF2E294E),
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-              margin: EdgeInsets.fromLTRB(20, 20, 20, 5),
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Text(
-                  'Upload other images',
-                  style: GoogleFonts.k2d(
-                    color: Colors.white,
-                    fontSize: 18,
+            InkWell(
+              onTap: () {
+                filePickerMultiple(context);
+              },
+              child: Container(
+                alignment: Alignment.center,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    color: Color(0xFF2E294E),
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                margin: EdgeInsets.fromLTRB(20, 20, 20, 5),
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text(
+                    'Upload other images',
+                    style: GoogleFonts.k2d(
+                      color: Colors.white,
+                      fontSize: 18,
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          InkWell(
-            onTap: () {
-              if (url != null && urls.length != 0) {
-                print('URL IS $url');
-                print('URLs are $urls');
-                saveData();
-              } else {
-                Fluttertoast.showToast(
-                    msg: 'Please upload images to add your dog');
-              }
-            },
-            child: Container(
-              alignment: Alignment.center,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: Color(0xFF2E294E),
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-              margin: EdgeInsets.fromLTRB(20, 20, 20, 5),
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Text(
-                  'Save',
-                  style: GoogleFonts.k2d(
-                    color: Colors.white,
-                    fontSize: 18,
+            InkWell(
+              onTap: () {
+                if (url != null && urls.length != 0) {
+                  print('URL IS $url');
+                  print('URLs are $urls');
+                  saveData();
+                } else {
+                  Fluttertoast.showToast(
+                      msg: 'Please upload images to add your dog');
+                }
+              },
+              child: Container(
+                alignment: Alignment.center,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    color: Color(0xFF2E294E),
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                margin: EdgeInsets.fromLTRB(20, 20, 20, 5),
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text(
+                    'Save',
+                    style: GoogleFonts.k2d(
+                      color: Colors.white,
+                      fontSize: 18,
+                    ),
                   ),
                 ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

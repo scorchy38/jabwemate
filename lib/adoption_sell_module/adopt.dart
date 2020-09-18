@@ -125,280 +125,287 @@ class _AdoptionState extends State<Adoption> {
       ),
       key: _scaffoldKey,
       backgroundColor: Colors.white,
-      body: Column(
-        children: <Widget>[
-          SizedBox(
-            height: height * 0.01,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              InkWell(
-                onTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    CupertinoPageRoute(
-                      builder: (context) => HomeScreen(),
-                    ),
-                  );
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(height * 0.15),
-                    border: Border.all(
-                      color: Colors.black.withOpacity(0.5),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.asset(
-                      'assets/img/mating.png',
-                      height: height * 0.04,
-                    ),
-                  ),
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    CupertinoPageRoute(
-                      builder: (context) => NavBar(),
-                    ),
-                  );
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(height * 0.15),
-                    border: Border.all(
-                      color: Colors.black.withOpacity(0.5),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.asset(
-                      'assets/img/essentials.png',
-                      height: height * 0.04,
-                    ),
-                  ),
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    CupertinoPageRoute(
-                      builder: (context) => Sell(),
-                    ),
-                  );
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(height * 0.15),
-                    border: Border.all(
-                      color: Colors.black.withOpacity(0.5),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.asset(
-                      'assets/img/resetdog.png',
-                      height: height * 0.04,
-                    ),
-                  ),
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    CupertinoPageRoute(
-                      builder: (context) => DocMainScreen(),
-                    ),
-                  );
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(height * 0.15),
-                    border: Border.all(
-                      color: Colors.black.withOpacity(0.5),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.asset(
-                      'assets/img/health.png',
-                      height: height * 0.04,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            width: width * 0.95,
-            child: Divider(
-              color: MyColors.loginGradientEnd,
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            SizedBox(
+              height: height * 0.01,
             ),
-          ),
-          dogCardsList.length != 0
-              ? Container(
-                  height: height * 0.77,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
-                    itemCount: dogList.length,
-                    itemBuilder: (BuildContext, index) {
-                      var item = dogList[index];
-                      return InkWell(
-                        onTap: () {
-                          _scaffoldKey.currentState.showBottomSheet((context) {
-                            return StatefulBuilder(
-                                builder: (context, StateSetter state) {
-                              return ProfilePullUpAdoptSell(
-                                  item, width, height);
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                InkWell(
+                  onTap: () {
+                    Navigator.pushReplacement(
+                      context,
+                      CupertinoPageRoute(
+                        builder: (context) => HomeScreen(),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(height * 0.15),
+                      border: Border.all(
+                        color: Colors.black.withOpacity(0.5),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Image.asset(
+                        'assets/img/mating.png',
+                        height: height * 0.04,
+                      ),
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.pushReplacement(
+                      context,
+                      CupertinoPageRoute(
+                        builder: (context) => NavBar(),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(height * 0.15),
+                      border: Border.all(
+                        color: Colors.black.withOpacity(0.5),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Image.asset(
+                        'assets/img/essentials.png',
+                        height: height * 0.04,
+                      ),
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.pushReplacement(
+                      context,
+                      CupertinoPageRoute(
+                        builder: (context) => Sell(),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(height * 0.15),
+                      border: Border.all(
+                        color: Colors.black.withOpacity(0.5),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Image.asset(
+                        'assets/img/resetdog.png',
+                        height: height * 0.04,
+                      ),
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.pushReplacement(
+                      context,
+                      CupertinoPageRoute(
+                        builder: (context) => DocMainScreen(),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(height * 0.15),
+                      border: Border.all(
+                        color: Colors.black.withOpacity(0.5),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Image.asset(
+                        'assets/img/health.png',
+                        height: height * 0.04,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              width: width * 0.95,
+              child: Divider(
+                color: MyColors.loginGradientEnd,
+              ),
+            ),
+            dogCardsList.length != 0
+                ? Container(
+                    height: height * 0.69,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      itemCount: dogList.length,
+                      itemBuilder: (BuildContext, index) {
+                        var item = dogList[index];
+                        return InkWell(
+                          onTap: () {
+                            _scaffoldKey.currentState
+                                .showBottomSheet((context) {
+                              return StatefulBuilder(
+                                  builder: (context, StateSetter state) {
+                                return ProfilePullUpAdoptSell(
+                                    item, width, height);
+                              });
                             });
-                          });
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: MyColors.loginGradientStart
-                                    .withOpacity(0.6),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10))),
-                            width: width * 0.8,
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Row(
-                                children: <Widget>[
-                                  Container(
-                                    height: 50,
-                                    width: 50,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(25),
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: MyColors.loginGradientStart
+                                      .withOpacity(0.6),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10))),
+                              width: width * 0.8,
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Row(
+                                  children: <Widget>[
+                                    Container(
+                                      height: 50,
+                                      width: 50,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(25),
+                                        ),
                                       ),
-                                    ),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(25.0),
-                                      child: Image.network(
-                                        item.iamgeURL,
-                                        height: 50,
-                                        width: 50,
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20),
-                                      child: Container(
-                                        child: Text(
-                                          item.name,
-                                          style: GoogleFonts.k2d(fontSize: 24),
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(25.0),
+                                        child: Image.network(
+                                          item.iamgeURL,
+                                          height: 50,
+                                          width: 50,
+                                          fit: BoxFit.fill,
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  IconButton(
-                                    onPressed: () {
-                                      _scaffoldKey.currentState
-                                          .showBottomSheet((context) {
-                                        return StatefulBuilder(builder:
-                                            (context, StateSetter state) {
-                                          return ProfilePullUpAdoptSell(
-                                              item, width, height);
-                                        });
-                                      });
-                                    },
-                                    icon: Icon(
-                                      Icons.info_outline,
-                                      color: Colors.black,
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 20),
+                                        child: Container(
+                                          child: Text(
+                                            item.name,
+                                            style:
+                                                GoogleFonts.k2d(fontSize: 24),
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                  )
-                                ],
+                                    IconButton(
+                                      onPressed: () {
+                                        _scaffoldKey.currentState
+                                            .showBottomSheet((context) {
+                                          return StatefulBuilder(builder:
+                                              (context, StateSetter state) {
+                                            return ProfilePullUpAdoptSell(
+                                                item, width, height);
+                                          });
+                                        });
+                                      },
+                                      icon: Icon(
+                                        Icons.info_outline,
+                                        color: Colors.black,
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      );
-                    },
-                  ),
-                )
-              : Center(child: CircularProgressIndicator()),
-          SizedBox(
-            height: height * 0.01,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              InkWell(
-                onTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    CupertinoPageRoute(
-                      builder: (context) => FeedbackQuery(),
+                        );
+                      },
                     ),
-                  );
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(colors: [
-                      MyColors.loginGradientEnd,
-                      MyColors.loginGradientStart
-                    ]),
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: MyColors.loginGradientEnd,
+                  )
+                : Center(child: CircularProgressIndicator()),
+            SizedBox(
+              height: height * 0.01,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                InkWell(
+                  onTap: () {
+                    Navigator.pushReplacement(
+                      context,
+                      CupertinoPageRoute(
+                        builder: (context) => FeedbackQuery(),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(colors: [
+                        MyColors.loginGradientEnd,
+                        MyColors.loginGradientStart
+                      ]),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: MyColors.loginGradientEnd,
+                      ),
                     ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Send Feedback',
-                      style: GoogleFonts.k2d(fontSize: 24, color: Colors.white),
-                    ),
-                  ),
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    CupertinoPageRoute(
-                      builder: (context) => Abuse(),
-                    ),
-                  );
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(colors: [
-                      MyColors.loginGradientEnd,
-                      MyColors.loginGradientStart
-                    ]),
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: MyColors.loginGradientEnd,
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Report Abuse',
-                      style: GoogleFonts.k2d(fontSize: 24, color: Colors.white),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'Send Feedback',
+                        style:
+                            GoogleFonts.k2d(fontSize: 24, color: Colors.white),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: height * 0.01,
-          ),
-        ],
+                InkWell(
+                  onTap: () {
+                    Navigator.pushReplacement(
+                      context,
+                      CupertinoPageRoute(
+                        builder: (context) => Abuse(),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(colors: [
+                        MyColors.loginGradientEnd,
+                        MyColors.loginGradientStart
+                      ]),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: MyColors.loginGradientEnd,
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'Report Abuse',
+                        style:
+                            GoogleFonts.k2d(fontSize: 24, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: height * 0.01,
+            ),
+          ],
+        ),
       ),
     );
   }

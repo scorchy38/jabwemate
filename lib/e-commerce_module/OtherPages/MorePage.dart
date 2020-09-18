@@ -61,7 +61,7 @@ class _MorePageState extends State<MorePage> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
-        child: Column(
+        child: ListView(
           children: <Widget>[
             Diagonal(
               child: Container(

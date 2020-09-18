@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jabwemate/e-commerce_module/Classes/Constants.dart';
 import 'package:jabwemate/e-commerce_module/Drawer/support_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ContactUsPage extends StatefulWidget {
   @override
@@ -15,22 +15,6 @@ class _ContactUsPageState extends State<ContactUsPage> {
   @override
   void initState() {
     super.initState();
-    initPlatformState();
-  }
-
-  Future<void> initPlatformState() async {
-    String platformVersion;
-    try {
-      platformVersion = await FlutterOpenWhatsapp.platformVersion;
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
-
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
-    });
   }
 
   double pWidth, pHeight;
@@ -94,8 +78,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
             children: <Widget>[
               FlatButton(
                 onPressed: () {
-                  FlutterOpenWhatsapp.sendSingleMessage(
-                      "919027553376", "Hello");
+                  launch('https://api.whatsapp.com/send?phone=919027553376');
                 },
                 child: SizedBox(
                   height: pHeight / 6.5,
